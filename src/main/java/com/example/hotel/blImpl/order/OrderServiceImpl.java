@@ -1,6 +1,7 @@
 package com.example.hotel.blImpl.order;
 
 import com.example.hotel.bl.hotel.HotelService;
+import com.example.hotel.bl.hotel.RoomService;
 import com.example.hotel.bl.order.OrderService;
 import com.example.hotel.bl.user.AccountService;
 import com.example.hotel.data.order.OrderMapper;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @Author: chenyizong
@@ -30,6 +32,10 @@ public class OrderServiceImpl implements OrderService {
     HotelService hotelService;
     @Autowired
     AccountService accountService;
+    @Autowired
+    OrderService orderService;
+    @Autowired
+    RoomService roomService;
 
     @Override
     public ResponseVO addOrder(OrderVO orderVO) {
@@ -55,7 +61,7 @@ public class OrderServiceImpl implements OrderService {
             System.out.println(e.getMessage());
             return ResponseVO.buildFailure(RESERVE_ERROR);
         }
-       return ResponseVO.buildSuccess(true);
+        return ResponseVO.buildSuccess(true);
     }
 
     @Override
@@ -71,7 +77,31 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public ResponseVO annulOrder(int orderid) {
         //取消订单逻辑的具体实现（注意可能有和别的业务类之间的交互）
+        Order order=orderMapper.getOrderById(orderid);
+        //房间数
+        int roomNum=order.getRoomNum();
+        //酒店编号
+        int hotelId=order.getHotelId();
+        //房间类型
+        String roomType=order.getRoomType();
+
+        //删除订单
+        orderMapper.annulOrder(orderid);
+
+        //更新相应酒店客房信息
+        roomService.updateRoomInfo(hotelId,roomType,roomNum);
 
         return ResponseVO.buildSuccess(true);
     }
+
+    /**
+     * @param hotelId
+     * @return
+     */
+    @Override
+    public List<Order> getHotelOrders(Integer hotelId) {
+        List<Order> orders = orderService.getAllOrders();
+        return orders.stream().filter(order -> order.getHotelId().equals(hotelId)).collect(Collectors.toList());
+    }
+
 }

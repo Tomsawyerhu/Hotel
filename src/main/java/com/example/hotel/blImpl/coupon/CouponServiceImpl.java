@@ -4,9 +4,7 @@ import com.example.hotel.bl.coupon.CouponService;
 import com.example.hotel.bl.coupon.CouponMatchStrategy;
 import com.example.hotel.data.coupon.CouponMapper;
 import com.example.hotel.po.Coupon;
-import com.example.hotel.vo.CouponVO;
-import com.example.hotel.vo.HotelTargetMoneyCouponVO;
-import com.example.hotel.vo.OrderVO;
+import com.example.hotel.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,17 +19,21 @@ public class CouponServiceImpl implements CouponService {
     private final  TargetMoneyCouponStrategyImpl targetMoneyCouponStrategy;
 
     private final  TimeCouponStrategyImpl timeCouponStrategy;
+
+    private final MultiRoomsCouponStrategyimpl multiRoomsCouponStrategyimpl;
+
     private final CouponMapper couponMapper;
 
     private static List<CouponMatchStrategy> strategyList = new ArrayList<>();
 
     @Autowired
     public CouponServiceImpl(TargetMoneyCouponStrategyImpl targetMoneyCouponStrategy,
-                             TimeCouponStrategyImpl timeCouponStrategy,
+                             TimeCouponStrategyImpl timeCouponStrategy, MultiRoomsCouponStrategyimpl multiRoomsCouponStrategyimpl,
                              CouponMapper couponMapper) {
         this.couponMapper = couponMapper;
         this.targetMoneyCouponStrategy = targetMoneyCouponStrategy;
         this.timeCouponStrategy = timeCouponStrategy;
+        this.multiRoomsCouponStrategyimpl = multiRoomsCouponStrategyimpl;
         strategyList.add(targetMoneyCouponStrategy);
         strategyList.add(timeCouponStrategy);
     }
@@ -72,6 +74,40 @@ public class CouponServiceImpl implements CouponService {
         coupon.setHotelId(couponVO.getHotelId());
         coupon.setDiscountMoney(couponVO.getDiscountMoney());
         coupon.setStatus(1);
+        /*coupon.setStartTime(couponVO.getStartTime());
+        coupon.setEndTime(couponVO.getEndTime());*/
+        int result = couponMapper.insertCoupon(coupon);
+        couponVO.setId(result);
+        return couponVO;
+    }
+
+    public CouponVO addTimeCoupon(TimeCouponVO couponVO){
+        Coupon coupon = new Coupon();
+        coupon.setCouponName(couponVO.getName());
+        coupon.setDescription(couponVO.getDescription());
+        coupon.setCouponType(couponVO.getType());
+        coupon.setHotelId(couponVO.getHotelId());
+        coupon.setDiscountMoney(couponVO.getDiscountMoney());
+        coupon.setStatus(1);
+        coupon.setStartTime(couponVO.getStartTime());
+        coupon.setEndTime(couponVO.getEndTime());
+        coupon.setDiscount(couponVO.getDiscount());
+        int result = couponMapper.insertCoupon(coupon);
+        couponVO.setId(result);
+        return couponVO;
+    }
+
+    public CouponVO addMultiRoomsCoupon(MultiRoomsCouponVO couponVO){
+        Coupon coupon = new Coupon();
+        coupon.setCouponName(couponVO.getName());
+        coupon.setDescription(couponVO.getDescription());
+        coupon.setCouponType(couponVO.getType());
+        coupon.setHotelId(couponVO.getHotelId());
+        coupon.setDiscountMoney(couponVO.getDiscountMoney());
+        coupon.setStatus(1);
+        coupon.setStartTime(couponVO.getStartTime());
+        coupon.setEndTime(couponVO.getEndTime());
+        coupon.setTargetRoomNum(couponVO.getTargetRoomNum());
         int result = couponMapper.insertCoupon(coupon);
         couponVO.setId(result);
         return couponVO;

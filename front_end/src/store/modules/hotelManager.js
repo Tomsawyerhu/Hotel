@@ -1,15 +1,7 @@
-import {
-    addRoomAPI,
-    addHotelAPI,
-} from '@/api/hotelManager'
-import {
-    getAllOrdersAPI,
-} from '@/api/order'
-import {
-    hotelAllCouponsAPI,
-    hotelTargetMoneyAPI,
-} from '@/api/coupon'
-import { message } from 'ant-design-vue'
+import {addHotelAPI, addRoomAPI,deleteHotelAPI} from '@/api/hotelManager'
+import {getAllOrdersAPI,cancelOrderAPI} from '@/api/order'
+import {hotelAllCouponsAPI, hotelTargetMoneyAPI,} from '@/api/coupon'
+import {message} from 'ant-design-vue'
 
 const hotelManager = {
     state: {
@@ -78,12 +70,13 @@ const hotelManager = {
             const res = await getAllOrdersAPI()
             if(res){
                 commit('set_orderList', res)
+                //console.log(state.orderList[1])
             }
         },
         addHotel: async({ state, dispatch, commit }) => {
             const res = await addHotelAPI(state.addHotelParams)
             if(res){
-                dispatch('getHotelList')
+                dispatch('getHotelList');
                 commit('set_addHotelParams', {
                     name: '',
                     address: '',
@@ -102,6 +95,7 @@ const hotelManager = {
         },
         addRoom: async({ state, dispatch, commit }) => {
             const res = await addRoomAPI(state.addRoomParams)
+            //console.log(res)
             if(res){
                 commit('set_addRoomModalVisible', false)
                 commit('set_addRoomParams', {
@@ -120,16 +114,45 @@ const hotelManager = {
             const res = await hotelAllCouponsAPI(state.activeHotelId)
             if(res) {
                 // 获取到酒店策略之后的操作（将获取到的数组赋值给couponList）
+                commit('set_couponList',res);
             }
         },
-        addHotelCoupon: async({ commit, dispatch }, data) => {
+        addHotelCoupon: async({state,dispatch ,commit}, data) => {
+
             const res = await hotelTargetMoneyAPI(data)
             if(res){
                 // 添加成功后的操作（提示文案、modal框显示与关闭，调用优惠列表策略等）
+                dispatch('getHotelCoupon')
+                commit('set_addCouponVisible', false)
+                commit('set_couponVisible',true)
+                message.success('添加策略成功')
             }else{
                 // 添加失败后的操作
+                message.error('添加失败');
             }
-        }
+        },
+        /* deleteHotelById:async({state,commit})=>{
+             const res = await deleteHotelAPI(state.activeHotelId)
+             //console.log(state.activeHotelId)
+             if(res){
+                 //刷新页面
+                 location.reload();
+                 message.success('删除成功')
+             }else{
+                 message.error("删除失败")
+             }
+         },
+         deleteOrderById:async({state,commit},id)=>{
+             const res = await cancelOrderAPI(id)
+             //console.log(state.activeHotelId)
+             if(res){
+                //刷新页面
+                location.reload();
+                message.success('删除成功')
+             }else{
+                 message.error('删除失败')
+             }
+         }*/
     }
-}
+};
 export default hotelManager

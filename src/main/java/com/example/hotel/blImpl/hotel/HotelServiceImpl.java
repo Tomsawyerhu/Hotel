@@ -68,10 +68,15 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public List<HotelVO> retrieveHotels() {
+    public int deleteHotel(Integer hotelId) {
+        return hotelMapper.deleteHotel(hotelId);
+    }
 
+    @Override
+    public List<HotelVO> retrieveHotels() {
         return hotelMapper.selectAllHotel();
     }
+
 
     @Override
     public HotelVO retrieveHotelDetails(Integer hotelId) {
@@ -90,14 +95,11 @@ public class HotelServiceImpl implements HotelService {
 
         return hotelVO;
     }
-    
+
+
     /**
      * @param hotelId
      * @return
      */
-    @Override
-    public List<Order> getHotelOrders(Integer hotelId) {
-        List<Order> orders = orderService.getAllOrders();
-        return orders.stream().filter(order -> order.getHotelId().equals(hotelId)).collect(Collectors.toList());
-    }
+
 }

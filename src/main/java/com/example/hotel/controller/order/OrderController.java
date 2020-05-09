@@ -1,5 +1,6 @@
 package com.example.hotel.controller.order;
 
+import com.example.hotel.bl.hotel.HotelService;
 import com.example.hotel.bl.order.OrderService;
 import com.example.hotel.vo.OrderVO;
 import com.example.hotel.vo.ResponseVO;
@@ -36,8 +37,12 @@ public class OrderController {
 
     @GetMapping("/{orderid}/annulOrder")
     public ResponseVO annulOrder(@PathVariable int orderid){
+
         return orderService.annulOrder(orderid);
     }
 
-
+    @GetMapping("/{hotelId}/allOrders")
+    public ResponseVO retrieveHotelOrders(@PathVariable Integer hotelId) {
+        return ResponseVO.buildSuccess(orderService.getHotelOrders(hotelId));
+    }
 }
