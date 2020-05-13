@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 public class OrderServiceImpl implements OrderService {
     private final static String RESERVE_ERROR = "预订失败";
     private final static String ROOMNUM_LACK = "预订房间数量剩余不足";
+    private final static String ANNUL_ERROR = "删除失败";
     @Autowired
     OrderMapper orderMapper;
     @Autowired
@@ -56,7 +57,7 @@ public class OrderServiceImpl implements OrderService {
             Order order = new Order();
             BeanUtils.copyProperties(orderVO,order);
             orderMapper.addOrder(order);
-            hotelService.updateRoomInfo(orderVO.getHotelId(),orderVO.getRoomType(),orderVO.getRoomNum());
+            hotelService.updateRoomInfo(orderVO.getHotelId(),orderVO.getRoomType(),orderVO.getRoomNum()); //这里的update是原有房间数减去这次订单房间数
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return ResponseVO.buildFailure(RESERVE_ERROR);
@@ -85,12 +86,15 @@ public class OrderServiceImpl implements OrderService {
         //房间类型
         String roomType=order.getRoomType();
 
-        //删除订单
-        orderMapper.annulOrder(orderid);
-
-        //更新相应酒店客房信息
-        roomService.updateRoomInfo(hotelId,roomType,roomNum);
-
+        try {
+            //删除订单
+            orderMapper.annulOrder(orderid);
+            //更新相应酒店客房信息,增加剩余房间数
+            roomService.addRoomNum(hotelId, roomType, roomNum);
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseVO.buildFailure(ANNUL_ERROR);
+        }
         return ResponseVO.buildSuccess(true);
     }
 

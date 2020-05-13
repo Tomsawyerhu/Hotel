@@ -16,9 +16,9 @@
         select * from OrderList where id=#{orderid}
     </select>
     <!--取消订单的数据库操作-->
-    <delete id="annulOrder" >
-        delete from OrderList where id=#{orderid}
-    </delete>
+    <update id="annulOrder">
+        update OrderList set orderState="已撤销" where id=#{orderid}
+    </update>
 
 
 

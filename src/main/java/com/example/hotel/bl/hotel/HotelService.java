@@ -27,6 +27,23 @@ public interface HotelService {
     void updateRoomInfo(Integer hotelId, String roomType,Integer rooms);
 
     /**
+     * 增加制定酒店剩余客房数量
+     * @param hotelId
+     * @param roomType
+     * @param rooms
+     */
+
+    void addRoomNum(Integer hotelId,String roomType,Integer rooms);
+
+    /**
+     * 减少制定酒店剩余客房数量
+     * @param hotelId
+     * @param roomType
+     * @param rooms
+     */
+    void subRoomNum(Integer hotelId,String roomType,Integer rooms);
+
+    /**
      * 列表获取酒店信息
      * @return
      */

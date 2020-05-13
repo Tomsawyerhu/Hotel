@@ -63,6 +63,16 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
+    public void addRoomNum(Integer hotelId, String roomType, Integer rooms){
+        roomService.addRoomNum(hotelId,roomType,rooms);
+    }
+
+    @Override
+    public void subRoomNum(Integer hotelId, String roomType, Integer rooms){
+        roomService.subRoomNum(hotelId,roomType,rooms);
+    }
+
+    @Override
     public int getRoomCurNum(Integer hotelId, String roomType) {
         return roomService.getRoomCurNum(hotelId,roomType);
     }

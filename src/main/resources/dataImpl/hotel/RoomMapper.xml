@@ -16,6 +16,14 @@
         update Room set curNum=curNum-#{curNum} where hotel_id=#{hotelId} and roomType=#{roomType}
     </update>
 
+    <update id="addRoomNum">
+        update Room set curNum=curNum+#{curNum} where hotel_id=#{hotelId} and roomType=#{roomType}
+    </update>
+
+    <update id="subRoomNum">
+        update Room set curNum=curNum-#{curNum} where hotel_id=#{hotelId} and roomType=#{roomType}
+    </update>
+
     <select id="getRoomCurNum" resultType="int">
         select curNum from Room where hotel_id=#{hotelId} and roomType=#{roomType}
     </select>

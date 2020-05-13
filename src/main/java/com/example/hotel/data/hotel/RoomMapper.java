@@ -14,6 +14,10 @@ public interface RoomMapper {
 
     int updateRoomInfo(@Param("hotelId") Integer hotelId,@Param("roomType") String roomType,@Param("curNum") Integer curNum);
 
+    int addRoomNum(@Param("hotelId") Integer hotelId,@Param("roomType") String roomType,@Param("curNum") Integer curNum);
+
+    int subRoomNum(@Param("hotelId") Integer hotelId,@Param("roomType") String roomType,@Param("curNum") Integer curNum);
+
     int insertRoom(HotelRoom hotelRoom);
 
     List<HotelRoom> selectRoomsByHotelId(@Param("hotelId") Integer hotelId);
