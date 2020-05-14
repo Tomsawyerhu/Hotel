@@ -89,7 +89,7 @@ export default {
             'addHotel'
         ]),
         cancel() {
-            this.set_addHotelModalVisible(false)
+            this.set_addHotelModalVisible(false)   //这些方法都在哪儿？
         },
         changeStar(v){
 

@@ -15,6 +15,10 @@
         update User set password=#{password},username=#{userName},phonenumber=#{phoneNumber}
         where id=#{id}
     </update>
+    <update id="subCreditByAnnulOrder">
+        update User set credit=credit-#{amount}
+        where id=#{id}
+    </update>
 
 
     <resultMap id="User" type="com.example.hotel.po.User">

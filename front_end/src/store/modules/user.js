@@ -23,6 +23,10 @@ const getDefaultState = () => {
         },
         userOrderList: [
 
+        ],
+        currentOrderId: '',   //用户选择查看的当前订单
+        currentOrderInfo: [
+
         ]
     }
 }
@@ -37,7 +41,11 @@ const user = {
             state.userInfo = {
                 
             },
-            state.userOrderList = []
+            state.userOrderList = [],
+            state.currentOrderId = '',
+                state.currentOrderInfo = {
+
+            }
         },
         set_token: function(state, token){
             state.token = token
@@ -56,6 +64,12 @@ const user = {
         },
         set_userOrderList: (state, data) => {
             state.userOrderList = data
+        },
+        set_currentOrderId: (state,data) =>{
+            state.currentOrderId = data
+        },
+        set_currentOrderInfo: (state,data) =>{
+            state.currentOrderInfo = data
         }
     },
 

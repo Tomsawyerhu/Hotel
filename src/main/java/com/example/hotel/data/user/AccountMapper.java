@@ -38,5 +38,6 @@ public interface AccountMapper {
      */
      int updateAccount(@Param("id") int id, @Param("password") String password,@Param("userName") String username, @Param("phoneNumber") String phonenumber);
 
+     int subCreditByAnnulOrder(@Param("id") int id,@Param("amount") double amount);
 
 }

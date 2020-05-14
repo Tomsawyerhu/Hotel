@@ -10,7 +10,7 @@
                     :dataSource="hotelList"
                     bordered
                 >
-                    <span slot="action" slot-scope="record">
+                    <span slot="action" slot-scope="record">  <!--slot="action",就是选定key为action的列,record就是当前行的原始数据-->
                         <a-button type="primary" size="small" @click="addRoom(record)">录入房间</a-button>
                         <a-divider type="vertical"></a-divider>
                         <a-button type="info" size="small" @click="showCoupon(record)">优惠策略</a-button>
@@ -21,7 +21,7 @@
                             okText="确定"
                             cancelText="取消"
                         >
-                            <a-button type="danger" size="small">删除酒店</a-button>
+                            <a-button type="danger" size="small">删除酒店</a-button>   <!--不同级别的按钮，在ant-design里可以看到-->
                         </a-popconfirm>
                     </span>
                 </a-table>

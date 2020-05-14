@@ -1,5 +1,6 @@
 package com.example.hotel.bl.user;
 
+import com.example.hotel.po.Order;
 import com.example.hotel.po.User;
 import com.example.hotel.vo.*;
 
@@ -39,6 +40,8 @@ public interface AccountService {
      * @return
      */
     ResponseVO updateUserInfo(int id, String password,String username,String phonenumber);
+
+    void subCreditByAnnulOrder(int id, Order order);
 
 
 }

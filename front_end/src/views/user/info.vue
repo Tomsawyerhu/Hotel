@@ -66,7 +66,7 @@
                         {{ text }}
                     </a-tag>
                     <span slot="action" slot-scope="record">
-                        <a-button type="primary" size="small">查看</a-button>
+                        <a-button type="primary" size="small">查看详情</a-button>
                         <a-divider type="vertical" v-if="record.orderState == '已预订'"></a-divider>
                         <a-popconfirm
                             title="你确定撤销该笔订单吗？"
@@ -195,6 +195,9 @@ export default {
             this.cancelOrder(orderId)
         },
         cancelCancelOrder() {
+
+        },
+        showOrderDetails(){ //查看订单详细信息
 
         }
         

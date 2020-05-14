@@ -76,6 +76,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public Order getOrderByOrderId(int orderId){
+        return orderMapper.getOrderById(orderId);
+    }
+
+    @Override
     public ResponseVO annulOrder(int orderid) {
         //取消订单逻辑的具体实现（注意可能有和别的业务类之间的交互）
         Order order=orderMapper.getOrderById(orderid);
@@ -87,8 +92,10 @@ public class OrderServiceImpl implements OrderService {
         String roomType=order.getRoomType();
 
         try {
-            //删除订单
+            //删除订单,但是还没有考虑当前时间已经超过订单checkInDate,照理说超过订单checkInDate应该变为异常订单，这时撤销会报错，我还没有实现
             orderMapper.annulOrder(orderid);
+            Order curOrder = getOrderByOrderId(orderid);
+            accountService.subCreditByAnnulOrder(curOrder.getUserId(),curOrder);
             //更新相应酒店客房信息,增加剩余房间数
             roomService.addRoomNum(hotelId, roomType, roomNum);
         }catch (Exception e) {
