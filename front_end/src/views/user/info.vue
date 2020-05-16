@@ -48,11 +48,12 @@
                     </a-form-item>
                 </a-form>
             </a-tab-pane>
-            <a-tab-pane tab="我的订单" key="2">
+            <a-tab-pane tab="我的订单" key="2" >
                 <a-table
                     :columns="columns"
                     :dataSource="userOrderList"
                     bordered
+                    v-show="!showDetail"
                 >
                     <span slot="price" slot-scope="text">
                         <span>￥{{ text }}</span>
@@ -62,11 +63,20 @@
                         <span v-if="text == 'DoubleBed'">双床房</span>
                         <span v-if="text == 'Family'">家庭房</span>
                     </span>
-                    <a-tag slot="orderState" color="blue" slot-scope="text">
+                    <a-tag slot="orderState" color="blue" slot-scope="text" v-if="text==='已入住'">
+                        {{ text }}
+                    </a-tag>
+                    <a-tag slot="orderState" color="red" slot-scope="text" v-else-if="text==='异常'" >
+                        {{ text }}
+                    </a-tag>
+                    <a-tag slot="orderState" color="green" slot-scope="text" v-else-if="text==='已预定'">
+                        {{ text }}
+                    </a-tag>
+                    <a-tag slot="orderState" color="gray" slot-scope="text" v-else>
                         {{ text }}
                     </a-tag>
                     <span slot="action" slot-scope="record">
-                        <a-button type="primary" size="small">查看详情</a-button>
+                        <a-button type="primary" size="small"  @click="showOrderDetails(record.id)">查看详情</a-button>
                         <a-divider type="vertical" v-if="record.orderState == '已预订'"></a-divider>
                         <a-popconfirm
                             title="你确定撤销该笔订单吗？"
@@ -81,13 +91,20 @@
                         
                     </span>
                 </a-table>
+                <order-detail  v-if="showDetail" v-bind:back="setShowDetailFalse">
+
+                </order-detail>
+
             </a-tab-pane>
+
         </a-tabs>
     </div>
 </template>
 <script>
-import { mapGetters, mapMutations, mapActions } from 'vuex'
-const columns = [
+    import {mapActions, mapGetters, mapMutations} from 'vuex'
+    import orderDetail from '../order/components/orderDetail'
+
+    const columns = [
     {  
         title: '订单号',
         dataIndex: 'id',
@@ -121,7 +138,7 @@ const columns = [
     },
     {
         title: '状态',
-        filters: [{ text: '已预订', value: '已预订' }, { text: '已撤销', value: '已撤销' }, { text: '已入住', value: '已入住' }],
+        filters: [{ text: '已预订', value: '已预订' }, { text: '已撤销', value: '已撤销' }, { text: '已入住', value: '已入住' },{ text: '异常', value: '异常' }],
         onFilter: (value, record) => record.orderState.includes(value),
         dataIndex: 'orderState',
         scopedSlots: { customRender: 'orderState' }
@@ -143,28 +160,41 @@ export default {
             columns,
             data: [],
             form: this.$form.createForm(this, { name: 'coordinated' }),
+            orderDetailInfo:{},
+            showDetail:false,
         }
     },
     components: {
+        orderDetail
     },
     computed: {
         ...mapGetters([
             'userId',
             'userInfo',
             'userOrderList'
-        ])
+        ]),
+
     },
     async mounted() {
         await this.getUserInfo()
         await this.getUserOrders()
     },
     methods: {
+        ...mapMutations(['set_currentOrderId']),
         ...mapActions([
             'getUserInfo',
             'getUserOrders',
             'updateUserInfo',
-            'cancelOrder'
+            'cancelOrder',
+            'orderDetails'
         ]),
+        setShowDetailFalse(){
+           // console.log("false")
+            this.showDetail=false;
+        },
+        setShowDetailTrue(){
+            this.showDetail=true;
+        },
         saveModify() {
             this.form.validateFields((err, values) => {
                 if (!err) {
@@ -197,9 +227,12 @@ export default {
         cancelCancelOrder() {
 
         },
-        showOrderDetails(){ //查看订单详细信息
-
-        }
+        showOrderDetails(orderId){ //查看订单详细信息
+            this.set_currentOrderId(orderId)
+            this.orderDetailInfo=this.orderDetails()
+            this.setShowDetailTrue()
+            console.log(this.orderDetailInfo)
+        },
         
     }
 }

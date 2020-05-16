@@ -11,6 +11,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -69,17 +70,20 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void subCreditByAnnulOrder(int id, Order order) {
-        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-mm-dd");
-        LocalDateTime orderCheckInDate = LocalDateTime.parse(order.getCheckInDate());
-        LocalDateTime now = LocalDateTime.now();
-        Duration duration = Duration.between(orderCheckInDate,now);
-        long hours = duration.toHours();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        //System.out.println(order.getCreateDate());
+        Date checkInDate=null;
+        try {
+            checkInDate=df.parse(order.getCheckInDate());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        long checkIn=checkInDate.getTime();
+        long now = System.currentTimeMillis();
         //距离订单执行不足6h才会扣除信用值
-        if(hours>0){
-            if(hours<6){
-                double amount = order.getPrice()/2;
-                accountMapper.subCreditByAnnulOrder(id,amount);
-            }
+        if(checkIn-now>=0&&checkIn-now<6*60*60*1000){
+            double amount = order.getPrice()/2;
+            accountMapper.subCreditByAnnulOrder(id,amount);
         }
     }
 }

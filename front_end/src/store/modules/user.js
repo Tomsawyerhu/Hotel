@@ -1,19 +1,9 @@
-import Vue from 'vue'
-import router from '@/router'
-import { getToken, setToken, removeToken } from '@/utils/auth'
-import { resetRouter } from '@/router'
-import { message } from 'ant-design-vue'
-import {
-    loginAPI,
-    registerAPI,
-    getUserInfoAPI,
-    updateUserInfoAPI,
-} from '@/api/user'
+import router, {resetRouter} from '@/router'
+import {removeToken, setToken} from '@/utils/auth'
+import {message} from 'ant-design-vue'
+import {getUserInfoAPI, loginAPI, registerAPI, updateUserInfoAPI,} from '@/api/user'
 
-import {
-    getUserOrdersAPI,
-    cancelOrderAPI,
-} from '@/api/order'
+import {cancelOrderAPI, getOrderDetailsAPI, getUserOrdersAPI,} from '@/api/order'
 
 const getDefaultState = () => {
     return {
@@ -25,9 +15,8 @@ const getDefaultState = () => {
 
         ],
         currentOrderId: '',   //用户选择查看的当前订单
-        currentOrderInfo: [
+        currentOrderInfo: {}
 
-        ]
     }
 }
 
@@ -68,9 +57,9 @@ const user = {
         set_currentOrderId: (state,data) =>{
             state.currentOrderId = data
         },
-        set_currentOrderInfo: (state,data) =>{
-            state.currentOrderInfo = data
-        }
+        set_currentOrderDetail:(state,data)=>{
+            state.currentOrderInfo=data
+        },
     },
 
     actions: {
@@ -122,16 +111,22 @@ const user = {
             const res = await getUserOrdersAPI(data)
             if(res){
                 commit('set_userOrderList', res)
-                console.log(state.userOrderList)
+                //console.log(state.userOrderList)
             }
         },
         cancelOrder: async({ state, dispatch }, orderId) => {
             const res = await cancelOrderAPI(orderId)
             if(res) {
-                dispatch('getUserOrders')
+                dispatch('getUserOrders')//dispatch是异步操作action的方法
                 message.success('撤销成功')
             }else{
                 message.error('撤销失败')
+            }
+        },
+        orderDetails:async ({ state, commit })=> {
+            const res=await getOrderDetailsAPI(state.currentOrderId)
+            if(res){
+                commit('set_currentOrderDetail',res)
             }
         },
         logout: async({ commit }) => {

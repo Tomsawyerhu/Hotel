@@ -2,7 +2,7 @@ spring:
   datasource:
      url: jdbc:mysql://localhost:3306/Hotel?serverTimezone=CTT&characterEncoding=UTF-8
      username: root
-     password: 20001112305Xy
+     password: root
      driver-class-name: com.mysql.cj.jdbc.Driver
      max-active: 200
      max-idle: 20
@@ -11,7 +11,8 @@ spring:
      cache: false
   jackson:
     time-zone: GMT+8
-
+server:
+  port: 8080
 mybatis:
   mapper-locations: classpath:dataImpl/*/*Mapper.xml
 

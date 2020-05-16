@@ -41,6 +41,12 @@ public class OrderController {
         return orderService.annulOrder(orderid);
     }
 
+    @GetMapping("/{orderid}/getOrder")
+    public ResponseVO retrieveOrder(@PathVariable int orderid){
+        System.out.println(orderService.getOrderByOrderId(orderid));
+        return ResponseVO.buildSuccess(orderService.getOrderByOrderId(orderid));
+    }
+
     @GetMapping("/{hotelId}/allOrders")
     public ResponseVO retrieveHotelOrders(@PathVariable Integer hotelId) {
         return ResponseVO.buildSuccess(orderService.getHotelOrders(hotelId));

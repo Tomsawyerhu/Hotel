@@ -21,7 +21,7 @@ public class OrderVO {
     private Double price;
     private String clientName;
     private String phoneNumber;
-    private String orderState;     //有"已预订"，"已撤销"，"异常"三个状态
+    private String orderState;     //有"已预订"，"已入住","已撤销"，"异常"4个状态
 
     public Integer getId() {
         return id;

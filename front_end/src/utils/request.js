@@ -10,6 +10,7 @@ import router from '../router'
 const service = axios.create({
   baseURL: process.env.NODE_ENV === 'production' ? '': 'http://localhost:8080',
   withCredentials: true
+
 })
 console.log(process.env.NODE_ENV)
  const err = (error) => { 
@@ -39,7 +40,7 @@ console.log(process.env.NODE_ENV)
   return Promise.reject(error)
  }
 
-//request incerceptor
+//request interceptor
 service.interceptors.request.use((config) => {
   const requestConfig = {
     ...config,
@@ -48,6 +49,7 @@ service.interceptors.request.use((config) => {
   return requestConfig
 }, err)
 
+//response interceptor
 service.interceptors.response.use((response) => {
   switch (response.status) {
     case 200:

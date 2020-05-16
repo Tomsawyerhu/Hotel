@@ -19,7 +19,7 @@ const VueAxios = {
                     return instance
                 }
             },
-            $http: {
+            $http: {//加$避免命名冲突
                 get:function get() {
                     return instance
                 }
