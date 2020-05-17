@@ -51,5 +51,5 @@ public interface OrderService {
      * @param orderId
      * @return
      */
-    Order getOrderByOrderId(int orderId);
+    OrderVO getOrderByOrderId(int orderId);
 }

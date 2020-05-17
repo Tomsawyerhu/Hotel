@@ -77,8 +77,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order getOrderByOrderId(int orderId){
-        return orderMapper.getOrderById(orderId);
+    public OrderVO getOrderByOrderId(int orderId){
+        Order order = orderMapper.getOrderById(orderId);
+        OrderVO orderVO = new OrderVO();
+        BeanUtils.copyProperties(order,orderVO);
+        return orderVO;
     }
 
     @Override
@@ -95,8 +98,7 @@ public class OrderServiceImpl implements OrderService {
         try {
             //删除订单,但是还没有考虑当前时间已经超过订单checkInDate,照理说超过订单checkInDate应该变为异常订单，这时撤销会报错，我还没有实现
             orderMapper.annulOrder(orderid);
-            Order curOrder = getOrderByOrderId(orderid);
-            accountService.subCreditByAnnulOrder(curOrder.getUserId(),curOrder);
+            accountService.subCreditByAnnulOrder(order.getUserId(),order);
             //更新相应酒店客房信息,增加剩余房间数
             roomService.addRoomNum(hotelId, roomType, roomNum);
         }catch (Exception e) {
