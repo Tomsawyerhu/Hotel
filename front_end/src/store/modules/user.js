@@ -4,6 +4,7 @@ import {message} from 'ant-design-vue'
 import {getUserInfoAPI, loginAPI, registerAPI, updateUserInfoAPI,} from '@/api/user'
 
 import {cancelOrderAPI, getOrderDetailsAPI, getUserOrdersAPI,} from '@/api/order'
+import {modifyPasswordAPI} from '@/api/user';
 
 const getDefaultState = () => {
     return {
@@ -102,6 +103,19 @@ const user = {
             if(res){
                 message.success('修改成功')
                 dispatch('getUserInfo')
+            }
+        },
+        //修改密码的方法
+        modifyPassword: async({state,dispatch},data)=>{
+            const params ={
+                id:state.userId,
+                ...data,
+            }
+            const res = await modifyPasswordAPI(params)
+            if(res){
+                message.success('修改成功')
+            }else{
+                message.error('修改失败')
             }
         },
         getUserOrders: async({ state, commit }) => {

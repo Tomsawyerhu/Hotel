@@ -27,10 +27,16 @@
                     <a-form-item label="信用值" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
                         <span>{{ userInfo.credit }}</span>
                     </a-form-item>
-                    <a-form-item label="密码" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }" v-if="modify">
+                    <a-form-item label="密码" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }" v-if="modifyPasswordVisible">
                         <a-input
                             placeholder="请输入新密码"
-                            v-decorator="['password', { rules: [{ required: true, message: '请输入新密码' }] }]"
+                            v-decorator="['newPassword',  {rules: [{ required: true, message: '请输入密码' }, { validator: this.handlePassword }], validateTrigger: 'blur'}]"
+                        />
+                    </a-form-item>
+                    <a-form-item label="确认密码" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }" v-if="modifyPasswordVisible">
+                        <a-input
+                                placeholder="请确认密码"
+                                v-decorator="['newPasswordConfirm', { rules: [{ required: true, message: '请确认密码' }] }]"
                         />
                     </a-form-item>
                     <a-form-item :wrapper-col="{ span: 12, offset: 5 }" v-if="modify">
@@ -44,6 +50,19 @@
                      <a-form-item :wrapper-col="{ span: 8, offset: 4 }" v-else>
                         <a-button type="primary" @click="modifyInfo">
                             修改信息
+                        </a-button>
+                    </a-form-item>
+                    <a-form-item  :wrapper-col="{ span: 8, offset: 4 }"  v-if="!modifyPasswordVisible">
+                        <a-button type="primary"   @click="modifyUserPassword">
+                            修改密码
+                        </a-button>
+                    </a-form-item>
+                    <a-form-item :wrapper-col="{ span: 12, offset: 5 }" v-else>
+                        <a-button type="primary" @click="savePassword">
+                            保存
+                        </a-button>
+                        <a-button type="default" style="margin-left: 30px" @click="cancelModifyPassword">
+                            取消
                         </a-button>
                     </a-form-item>
                 </a-form>
@@ -162,6 +181,7 @@ export default {
             form: this.$form.createForm(this, { name: 'coordinated' }),
             orderDetailInfo:{},
             showDetail:false,
+            modifyPasswordVisible:false
         }
     },
     components: {
@@ -218,6 +238,26 @@ export default {
             }, 0)
             this.modify = true
         },
+        modifyUserPassword(){
+            this.modifyPasswordVisible = true
+        },
+        savePassword(){
+
+            this.form.validateFields((err, values) => {
+                if (!err) {
+                    const data = {
+                        password: this.form.getFieldValue('newPassword')
+                    }
+                    console.log("s")
+                    this.modifyPassword(data).then(()=>{
+                        this.modifyPasswordVisible = false
+                    })
+                }
+            });
+        },
+        cancelModifyPassword(){
+            this.modifyPasswordVisible = false
+        },
         cancelModify() {
             this.modify = false
         },
@@ -232,6 +272,43 @@ export default {
             this.orderDetailInfo=this.orderDetails()
             this.setShowDetailTrue()
             console.log(this.orderDetailInfo)
+        },
+        // handler
+        handleUsernameOrEmail (rule, value, callback) {
+            const { state } = this
+            const regex = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/
+            if (regex.test(value)) {
+                callback()
+            } else {
+                callback(new Error('请输入有效用户名或邮箱'))
+            }
+            callback()
+        },
+        checkEmail(rule, value, callback) {
+            const re = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/
+            if (re.test(value)) {
+                callback();
+            } else {
+                callback(new Error('请输入有效邮箱'));
+            }
+            callback()
+        },
+        handlePassword(rule, value, callback) {
+            if (value.length < 6) {
+                callback(new Error('密码长度至少6位'))
+            }
+            callback()
+        },
+        handlePasswordCheck (rule, value, callback) {
+            const password = this.form.getFieldValue('newPassword')
+            console.log(password)
+            if (value === undefined) {
+                callback(new Error('请输入密码'))
+            }
+            if (value && password && value.trim() !== password.trim()) {
+                callback(new Error('两次密码不一致'))
+            }
+            callback()
         },
         
     }

@@ -34,12 +34,13 @@ public interface AccountService {
     /**
      * 更新用户个人信息
      * @param id
-     * @param password
      * @param username
      * @param phonenumber
      * @return
      */
-    ResponseVO updateUserInfo(int id, String password,String username,String phonenumber);
+    ResponseVO updateUserInfo(int id,String username,String phonenumber);
+
+    ResponseVO modifyPassword(int id,String password);
 
     void subCreditByAnnulOrder(int id, Order order);
 

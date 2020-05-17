@@ -30,3 +30,11 @@ export function updateUserInfoAPI(data) {
         data
     })
 }
+
+export function modifyPasswordAPI(data){
+    return axios({
+        url: `${api.userPre}/${data.id}/userInfo/modifyPassword`,
+        method: 'POST',
+        data
+    })
+}

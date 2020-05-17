@@ -15,6 +15,9 @@
         <a-descriptions-item label="离店时间">
             {{currentOrderInfo.checkOutDate}}
         </a-descriptions-item>
+        <a-descriptions-item label="离店时间">
+            {{currentOrderInfo.checkOutDate}}
+        </a-descriptions-item>
     </a-descriptions>
 
 </template>

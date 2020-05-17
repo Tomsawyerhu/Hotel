@@ -31,12 +31,19 @@ public interface AccountMapper {
     /**
      * 更新用户信息
      * @param id
-     * @param password
      * @param username
      * @param phonenumber
      * @return
      */
-     int updateAccount(@Param("id") int id, @Param("password") String password,@Param("userName") String username, @Param("phoneNumber") String phonenumber);
+     int updateAccount(@Param("id") int id, @Param("userName") String username, @Param("phoneNumber") String phonenumber);
+
+    /**
+     * 修改用户密码
+     * @param id
+     * @param password
+     * @return
+     */
+     int modifyPassword(@Param("id") int id,@Param("password") String password);
 
      int subCreditByAnnulOrder(@Param("id") int id,@Param("amount") double amount);
 
