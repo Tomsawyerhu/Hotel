@@ -3,16 +3,17 @@
         <a-tabs>
             <a-tab-pane tab="我的信息" key="1">
                 <a-form :form="form" style="margin-top: 30px">
-                    
                     <a-form-item label="用户名" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }">
                         <a-input
                             placeholder="请填写用户名"
                             v-decorator="['userName', { rules: [{ required: true, message: '请输入用户名' }] }]"
-                            v-if="modify"
-                        />
-                        <span v-else>{{ userInfo.userName }}</span>
+                            v-if="modify">
+                            <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)' }"/>
+                        </a-input>
+                        <span v-if="!modify">{{ userInfo.userName }}</span>
                     </a-form-item>
                     <a-form-item label="邮箱" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
+                        <a-icon slot="prefix" type="mail" :style="{ color: 'rgba(0,0,0,.25)' }"/>
                         <span>{{ userInfo.email }}</span>
                     </a-form-item>
                     
@@ -20,24 +21,31 @@
                         <a-input
                             placeholder="请填写手机号"
                             v-decorator="['phoneNumber', { rules: [{ required: true, message: '请输入手机号' }] }]"
-                            v-if="modify"
-                        />
-                        <span v-else>{{ userInfo.phoneNumber}}</span>
+                            v-if="modify">
+                            <a-icon slot="prefix" type="phone" :style="{ color: 'rgba(0,0,0,.25)' }"/>
+                        </a-input>
+                        <span v-if="!modify">{{ userInfo.phoneNumber}}</span>
                     </a-form-item>
                     <a-form-item label="信用值" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
                         <span>{{ userInfo.credit }}</span>
                     </a-form-item>
-                    <a-form-item label="密码" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }" v-if="modifyPasswordVisible">
+                    <a-form-item  label="密码" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }" v-if="modifyPasswordVisible">
                         <a-input
-                            placeholder="请输入新密码"
-                            v-decorator="['newPassword',  {rules: [{ required: true, message: '请输入密码' }, { validator: this.handlePassword }], validateTrigger: 'blur'}]"
-                        />
+                                 type="password"
+                                 visibilityToggle="false"
+                                 placeholder="请输入新密码"
+                                 v-decorator="['newPassword',  {rules: [{ required: true, message: '请输入密码' }, { validator: this.handlePassword }], validateTrigger: 'blur'}]">
+                            <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }"/>
+                        </a-input>
                     </a-form-item>
-                    <a-form-item label="确认密码" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }" v-if="modifyPasswordVisible">
+                    <a-form-item    label="确认密码" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }" v-if="modifyPasswordVisible">
                         <a-input
+                                type="password"
+                                visibilityToggle="false"
                                 placeholder="请确认密码"
-                                v-decorator="['newPasswordConfirm', { rules: [{ required: true, message: '请确认密码' }] }]"
-                        />
+                                v-decorator="['newPasswordConfirm', { rules: [{ required: true, message: '请确认密码' }, { validator: this.handlePasswordCheck }] , validateTrigger: 'blur'}]">
+                            <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }"/>
+                        </a-input>
                     </a-form-item>
                     <a-form-item :wrapper-col="{ span: 12, offset: 5 }" v-if="modify">
                         <a-button type="primary" @click="saveModify">
@@ -47,17 +55,17 @@
                             取消
                         </a-button>
                     </a-form-item>
-                     <a-form-item :wrapper-col="{ span: 8, offset: 4 }" v-else>
+                     <a-form-item :wrapper-col="{ span: 8, offset: 4 }" v-if="modifyButtonVisible">
                         <a-button type="primary" @click="modifyInfo">
                             修改信息
                         </a-button>
                     </a-form-item>
-                    <a-form-item  :wrapper-col="{ span: 8, offset: 4 }"  v-if="!modifyPasswordVisible">
-                        <a-button type="primary"   @click="modifyUserPassword">
+                    <a-form-item  :wrapper-col="{ span: 8, offset: 4 }"  v-if="modifyPasswordButtonVisible">
+                        <a-button type="primary"  @click="modifyUserPassword">
                             修改密码
                         </a-button>
                     </a-form-item>
-                    <a-form-item :wrapper-col="{ span: 12, offset: 5 }" v-else>
+                    <a-form-item :wrapper-col="{ span: 12, offset: 5 }" v-if="modifyPasswordVisible">
                         <a-button type="primary" @click="savePassword">
                             保存
                         </a-button>
@@ -174,14 +182,17 @@ export default {
     data(){
         return {
             modify: false,
+            modifyButtonVisible:true,
+            modifyPasswordVisible:false,
+            modifyPasswordButtonVisible:true,
             formLayout: 'horizontal',
             pagination: {},
             columns,
             data: [],
             form: this.$form.createForm(this, { name: 'coordinated' }),
             orderDetailInfo:{},
-            showDetail:false,
-            modifyPasswordVisible:false
+            showDetail:false
+
         }
     },
     components: {
@@ -206,7 +217,8 @@ export default {
             'getUserOrders',
             'updateUserInfo',
             'cancelOrder',
-            'orderDetails'
+            'orderDetails',
+            'modifyPassword'
         ]),
         setShowDetailFalse(){
            // console.log("false")
@@ -225,6 +237,8 @@ export default {
                     }
                     this.updateUserInfo(data).then(()=>{
                         this.modify = false
+                        this.modifyButtonVisible = true
+                        this.modifyPasswordButtonVisible = true
                     })
                 }
             });
@@ -237,9 +251,13 @@ export default {
                 })
             }, 0)
             this.modify = true
+            this.modifyButtonVisible = false
+            this.modifyPasswordButtonVisible = false
         },
         modifyUserPassword(){
             this.modifyPasswordVisible = true
+            this.modifyPasswordButtonVisible = false
+            this.modifyButtonVisible = false
         },
         savePassword(){
 
@@ -251,15 +269,21 @@ export default {
                     console.log("s")
                     this.modifyPassword(data).then(()=>{
                         this.modifyPasswordVisible = false
+                        this.modifyButtonVisible = true
+                        this.modifyPasswordButtonVisible = true
                     })
                 }
             });
         },
         cancelModifyPassword(){
             this.modifyPasswordVisible = false
+            this.modifyPasswordButtonVisible = true
+            this.modifyButtonVisible = true
         },
         cancelModify() {
             this.modify = false
+            this.modifyButtonVisible = true
+            this.modifyPasswordButtonVisible = true
         },
         confirmCancelOrder(orderId){
             this.cancelOrder(orderId)
