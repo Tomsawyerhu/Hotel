@@ -45,6 +45,11 @@
                     <a-tab-pane tab="酒店详情" key="2">
 
                     </a-tab-pane>
+                    <a-tab-pane tab="历史订单" key="3">
+                        <order-list>
+
+                        </order-list>
+                    </a-tab-pane>
                 </a-tabs>
             </div>
         </a-layout-content>
@@ -53,6 +58,8 @@
 <script>
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 import RoomList from './components/roomList'
+import orderList from '../order/components/userOrderList'
+
 export default {
     name: 'hotelDetail',
     components: {
