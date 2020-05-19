@@ -38,3 +38,5 @@ export function modifyPasswordAPI(data){
         data
     })
 }
+
+

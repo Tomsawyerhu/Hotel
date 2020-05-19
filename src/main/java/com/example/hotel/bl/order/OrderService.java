@@ -52,4 +52,12 @@ public interface OrderService {
      * @return
      */
     OrderVO getOrderByOrderId(int orderId);
+
+    /**
+     * 根据userId，hotelId获取客户在某家酒店的订单列表
+     * @param userId
+     * @param hotelId
+     * @return
+     */
+    List<Order> getUserOrdersInCertainHotel(Integer userId,Integer hotelId);
 }

@@ -19,6 +19,10 @@
     <update id="annulOrder">
         update OrderList set orderState="已撤销" where id=#{orderid}
     </update>
+   <!-- 获得客户在某家酒店的订单的数据库操作-->
+    <select id="getUserOrdersInCertainHotel" resultMap="Order">
+        select * from OrderList where userId=#{userid} and hotelId=#{hotelid}
+    </select>
 
 
 

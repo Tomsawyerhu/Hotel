@@ -77,12 +77,19 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<Order> getUserOrdersInCertainHotel(Integer userId, Integer hotelId) {
+        return orderMapper.getUserOrdersInCertainHotel(userId,hotelId);
+    }
+
+    @Override
     public OrderVO getOrderByOrderId(int orderId){
         Order order = orderMapper.getOrderById(orderId);
         OrderVO orderVO = new OrderVO();
         BeanUtils.copyProperties(order,orderVO);
         return orderVO;
     }
+
+
 
     @Override
     public ResponseVO annulOrder(int orderid) {

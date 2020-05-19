@@ -158,6 +158,7 @@
         }
     }
 </script>
+<!--
 <style scoped lang="less">
     .info-wrapper {
         padding: 50px;
@@ -178,4 +179,4 @@
 </style>
 <style lang="less">
 
-</style>
+</style>-->

@@ -46,9 +46,9 @@
 
                     </a-tab-pane>
                     <a-tab-pane tab="历史订单" key="3">
-                        <order-list>
+                        <OrderList :order-list="userOrdersInCertainHotel">
 
-                        </order-list>
+                        </OrderList>
                     </a-tab-pane>
                 </a-tabs>
             </div>
@@ -58,11 +58,13 @@
 <script>
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 import RoomList from './components/roomList'
-import orderList from '../order/components/userOrderList'
+import OrderList from '../order/components/userOrderList'
+import hotel from "../../store/modules/hotel";
 
 export default {
     name: 'hotelDetail',
     components: {
+        OrderList,
         RoomList,
     },
     data() {
@@ -73,15 +75,21 @@ export default {
     computed: {
         ...mapGetters([
             'currentHotelInfo',
+            'currentHotelId',
+            'userId',
+            'userOrdersInCertainHotel'
         ])
     },
     mounted() {
         this.set_currentHotelId(Number(this.$route.params.hotelId))
+        //console.log("hotelId in mounted "+this.currentHotelId)
         this.getHotelById()
+        this.getUserOrdersInCertainHotel({userId:this.userId,hotelId:this.currentHotelId}) //加载客户在该酒店的历史订单
     },
     beforeRouteUpdate(to, from, next) {
         this.set_currentHotelId(Number(to.params.hotelId))
         this.getHotelById()
+        this.getUserOrdersInCertainHotel()
         next()
     },
     methods: {
@@ -89,7 +97,8 @@ export default {
             'set_currentHotelId',
         ]),
         ...mapActions([
-            'getHotelById'
+            'getHotelById',
+            'getUserOrdersInCertainHotel'
         ])
     }
 }
