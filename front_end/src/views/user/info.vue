@@ -76,52 +76,13 @@
                 </a-form>
             </a-tab-pane>
             <a-tab-pane tab="我的订单" key="2" >
-                <a-table
-                    :columns="columns"
-                    :dataSource="userOrderList"
-                    bordered
-                    v-show="!showDetail"
-                >
-                    <span slot="price" slot-scope="text">
-                        <span>￥{{ text }}</span>
-                    </span>
-                    <span slot="roomType" slot-scope="text">
-                        <span v-if="text == 'BigBed'">大床房</span>
-                        <span v-if="text == 'DoubleBed'">双床房</span>
-                        <span v-if="text == 'Family'">家庭房</span>
-                    </span>
-                    <a-tag slot="orderState" color="blue" slot-scope="text" v-if="text==='已入住'">
-                        {{ text }}
-                    </a-tag>
-                    <a-tag slot="orderState" color="red" slot-scope="text" v-else-if="text==='异常'" >
-                        {{ text }}
-                    </a-tag>
-                    <a-tag slot="orderState" color="green" slot-scope="text" v-else-if="text==='已预定'">
-                        {{ text }}
-                    </a-tag>
-                    <a-tag slot="orderState" color="gray" slot-scope="text" v-else>
-                        {{ text }}
-                    </a-tag>
-                    <span slot="action" slot-scope="record">
-                        <a-button type="primary" size="small"  @click="showOrderDetails(record.id)">查看详情</a-button>
-                        <a-divider type="vertical" v-if="record.orderState == '已预订'"></a-divider>
-                        <a-popconfirm
-                            title="你确定撤销该笔订单吗？"
-                            @confirm="confirmCancelOrder(record.id)"
-                            @cancel="cancelCancelOrder"
-                            okText="确定"
-                            cancelText="取消"
-                            v-if="record.orderState == '已预订'"
-                        >
-                            <a-button type="danger" size="small">撤销</a-button>
-                        </a-popconfirm>
-                        
-                    </span>
-                </a-table>
-                <order-detail  v-if="showDetail" v-bind:back="setShowDetailFalse">
+                <OrderList :order-list="userOrderList">
+                </OrderList>
+            </a-tab-pane>
+            <a-tab-pane tab="预定过的酒店" key="3">
+                <HotelList>
 
-                </order-detail>
-
+                </HotelList>
             </a-tab-pane>
 
         </a-tabs>
@@ -130,53 +91,9 @@
 <script>
     import {mapActions, mapGetters, mapMutations} from 'vuex'
     import orderDetail from '../order/components/orderDetail'
+    import OrderList from "../order/components/userOrderList"
+    import HotelList from "../hotel/hotelList";
 
-    const columns = [
-    {  
-        title: '订单号',
-        dataIndex: 'id',
-    },
-    {  
-        title: '酒店名',
-        dataIndex: 'hotelName',
-    },
-    {
-        title: '房型',
-        dataIndex: 'roomType',
-        scopedSlots: { customRender: 'roomType' }
-    },
-    {
-        title: '入住时间',
-        dataIndex: 'checkInDate',
-        scopedSlots: { customRender: 'checkInDate' }
-    },
-    {
-        title: '离店时间',
-        dataIndex: 'checkOutDate',
-        scopedSlots: { customRender: 'checkOutDate' }
-    },
-    {
-        title: '入住人数',
-        dataIndex: 'peopleNum',
-    },
-    {
-        title: '房价',
-        dataIndex: 'price',
-    },
-    {
-        title: '状态',
-        filters: [{ text: '已预订', value: '已预订' }, { text: '已撤销', value: '已撤销' }, { text: '已入住', value: '已入住' },{ text: '异常', value: '异常' }],
-        onFilter: (value, record) => record.orderState.includes(value),
-        dataIndex: 'orderState',
-        scopedSlots: { customRender: 'orderState' }
-    },
-    {
-      title: '操作',
-      key: 'action',
-      scopedSlots: { customRender: 'action' },
-    },
-    
-  ];
 export default {
     name: 'info',
     data(){
@@ -187,16 +104,12 @@ export default {
             modifyPasswordButtonVisible:true,
             formLayout: 'horizontal',
             pagination: {},
-            columns,
             data: [],
             form: this.$form.createForm(this, { name: 'coordinated' }),
-            orderDetailInfo:{},
-            showDetail:false
-
         }
     },
     components: {
-        orderDetail
+        OrderList
     },
     computed: {
         ...mapGetters([
@@ -217,16 +130,9 @@ export default {
             'getUserOrders',
             'updateUserInfo',
             'cancelOrder',
-            'orderDetails',
+            'getOrderDetails',
             'modifyPassword'
         ]),
-        setShowDetailFalse(){
-           // console.log("false")
-            this.showDetail=false;
-        },
-        setShowDetailTrue(){
-            this.showDetail=true;
-        },
         saveModify() {
             this.form.validateFields((err, values) => {
                 if (!err) {
@@ -290,12 +196,6 @@ export default {
         },
         cancelCancelOrder() {
 
-        },
-        showOrderDetails(orderId){ //查看订单详细信息
-            this.set_currentOrderId(orderId)
-            this.orderDetailInfo=this.orderDetails()
-            this.setShowDetailTrue()
-            console.log(this.orderDetailInfo)
         },
         // handler
         handleUsernameOrEmail (rule, value, callback) {

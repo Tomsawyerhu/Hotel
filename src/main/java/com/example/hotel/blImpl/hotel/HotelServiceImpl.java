@@ -87,6 +87,10 @@ public class HotelServiceImpl implements HotelService {
         return hotelMapper.selectAllHotel();
     }
 
+    @Override
+    public List<HotelVO> retrieveUserOrderedHotels(Integer userId) {
+        return hotelMapper.selectUserOrderedHotels(userId);
+    }
 
     @Override
     public HotelVO retrieveHotelDetails(Integer hotelId) {
@@ -105,6 +109,7 @@ public class HotelServiceImpl implements HotelService {
 
         return hotelVO;
     }
+
 
 
     /**

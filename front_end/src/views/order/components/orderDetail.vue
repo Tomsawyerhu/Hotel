@@ -1,4 +1,5 @@
 <template>
+    <div>
     <a-descriptions borderd size="default" title="订单详情">
         <a-descriptions-item label="订单号">
             {{currentOrderInfo.id}}
@@ -18,8 +19,11 @@
         <a-descriptions-item label="离店时间">
             {{currentOrderInfo.checkOutDate}}
         </a-descriptions-item>
+        <a-button @click="back">
+            返回按钮
+        </a-button>
     </a-descriptions>
-
+    </div>
 </template>
 
 

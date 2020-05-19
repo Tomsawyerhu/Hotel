@@ -5,6 +5,7 @@ import {getUserInfoAPI, loginAPI, registerAPI, updateUserInfoAPI,} from '@/api/u
 
 import {cancelOrderAPI, getOrderDetailsAPI, getUserOrdersAPI,} from '@/api/order'
 import {modifyPasswordAPI} from '@/api/user';
+import {getUserOrderedHotelsAPI} from "../../api/hotel";
 
 const getDefaultState = () => {
     return {
@@ -12,12 +13,12 @@ const getDefaultState = () => {
         userInfo: {
 
         },
+        userHotelList: [
+
+        ],
         userOrderList: [
 
         ],
-        currentOrderId: '',   //用户选择查看的当前订单
-        currentOrderInfo: {}
-
     }
 }
 
@@ -31,11 +32,8 @@ const user = {
             state.userInfo = {
                 
             },
-            state.userOrderList = [],
-            state.currentOrderId = '',
-                state.currentOrderInfo = {
-
-            }
+            state.userHotelList = [],
+            state.userOrderList = []
         },
         set_token: function(state, token){
             state.token = token
@@ -52,14 +50,11 @@ const user = {
                 ...data
             }
         },
+        set_userHotelList: (state, data) => {
+            state.userHotelList = data
+        },
         set_userOrderList: (state, data) => {
             state.userOrderList = data
-        },
-        set_currentOrderId: (state,data) =>{
-            state.currentOrderId = data
-        },
-        set_currentOrderDetail:(state,data)=>{
-            state.currentOrderInfo=data
         },
     },
 
@@ -128,6 +123,16 @@ const user = {
                 //console.log(state.userOrderList)
             }
         },
+        getUserOrderedHotels: async({ state, commit }) => {
+            const data = {
+                userId: Number(state.userId)
+            }
+            const res = await getUserOrderedHotelsAPI(data)
+            if(res){
+                commit('set_userHotelList', res)
+                //console.log(state.userOrderList)
+            }
+        },
         cancelOrder: async({ state, dispatch }, orderId) => {
             const res = await cancelOrderAPI(orderId)
             if(res) {
@@ -135,12 +140,6 @@ const user = {
                 message.success('撤销成功')
             }else{
                 message.error('撤销失败')
-            }
-        },
-        orderDetails:async ({ state, commit })=> {
-            const res=await getOrderDetailsAPI(state.currentOrderId)
-            if(res){
-                commit('set_currentOrderDetail',res)
             }
         },
         logout: async({ commit }) => {

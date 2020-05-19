@@ -14,3 +14,9 @@ export function getHotelByIdAPI(param) {
         method: 'GET',
     })
 }
+export function getUserOrderedHotelsAPI(param) {
+    return axios({
+        url: `${api.hotelPre}/${param.userId}/userOrdered`,
+        method: 'GET',
+    })
+}

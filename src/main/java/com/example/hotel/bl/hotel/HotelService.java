@@ -57,6 +57,13 @@ public interface HotelService {
     HotelVO retrieveHotelDetails(Integer hotelId);
 
     /**
+     * 获得用户预定过的酒店列表
+     * @param userId
+     * @return
+     */
+    List<HotelVO> retrieveUserOrderedHotels(Integer userId);
+
+    /**
      * 查看酒店剩余某种房间数量
      * @param hotelId
      * @param roomType

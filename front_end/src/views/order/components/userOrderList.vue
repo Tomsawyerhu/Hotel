@@ -42,7 +42,7 @@
 
                     </span>
     </a-table>
-    <order-detail  v-if="showDetail" v-bind:back="setShowDetailFalse">
+    <order-detail  v-if="showDetail" :back="setShowDetailFalse">
 
     </order-detail>
     </div>
@@ -134,7 +134,7 @@
             ...mapMutations(['set_currentOrderId']),
             ...mapActions([
                 'cancelOrder',
-                'orderDetails',
+                'getOrderDetails',
             ]),
             setShowDetailFalse(){
                 // console.log("false")
@@ -151,7 +151,7 @@
             },
             showOrderDetails(orderId){ //查看订单详细信息
                 this.set_currentOrderId(orderId)
-                this.orderDetailInfo=this.orderDetails()
+                this.getOrderDetails()
                 this.setShowDetailTrue()
                 console.log(this.orderDetailInfo)
             },

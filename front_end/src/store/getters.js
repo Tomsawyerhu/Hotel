@@ -4,12 +4,11 @@ const getters = {
   userId: state => state.user.userId,
   userInfo: state => state.user.userInfo,
   userOrderList: state => state.user.userOrderList,
+  userHotelList: state => state.userHotelList,
   hotelListLoading: state => state.hotel.hotelListLoading,
   hotelList: state => state.hotel.hotelList,
   currentHotelInfo: state => state.hotel.currentHotelInfo,
   currentHotelId: state => state.hotel.currentHotelId,
-  currentOrderId: state => state.user.currentOrderId,     //自己加的
-  currentOrderInfo: state => state.user.currentOrderInfo,    //自己加的
   orderModalVisible: state => state.hotel.orderModalVisible,
   currentOrderRoom: state => state.hotel.currentOrderRoom,
   orderMatchCouponList: state => state.hotel.orderMatchCouponList,
@@ -26,7 +25,9 @@ const getters = {
   activeHotelId: state => state.hotelManager.activeHotelId,
   couponList: state => state.hotelManager.couponList,
   //order
-  userOrdersInCertainHotel: state => state.order.userOrdersInCertainHotel
+  userOrdersInCertainHotel: state => state.order.userOrdersInCertainHotel,
+  currentOrderId: state => state.order.currentOrderId,     //自己加的
+  currentOrderInfo: state => state.order.currentOrderInfo,    //自己加的
   }
   
   export default getters

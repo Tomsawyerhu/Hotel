@@ -33,6 +33,11 @@ public class HotelController {
         return ResponseVO.buildSuccess(hotelService.retrieveHotels());
     }
 
+    @GetMapping("/{userId}/userOrdered")
+    public ResponseVO retrieveUserOrderedHotels(@PathVariable Integer userId){
+        return ResponseVO.buildSuccess(hotelService.retrieveUserOrderedHotels());
+    }
+
     @PostMapping("/roomInfo")
     public ResponseVO addRoomInfo(@RequestBody HotelRoom hotelRoom) {
         //此处应该检查同一酒店相同类型的客房只有一条记录
