@@ -35,7 +35,7 @@ public class HotelController {
 
     @GetMapping("/{userId}/userOrdered")
     public ResponseVO retrieveUserOrderedHotels(@PathVariable Integer userId){
-        return ResponseVO.buildSuccess(hotelService.retrieveUserOrderedHotels());
+        return ResponseVO.buildSuccess(hotelService.retrieveUserOrderedHotels(userId));
     }
 
     @PostMapping("/roomInfo")

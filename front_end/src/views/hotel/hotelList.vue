@@ -34,7 +34,6 @@ export default {
   computed: {
     ...mapGetters([
       'hotelList',
-      'userHotelList',
       'hotelListLoading'
     ])
   },
@@ -45,7 +44,6 @@ export default {
     ]),
     ...mapActions([
       'getHotelList',
-      'getUserOrderedHotels'
     ]),
 
     pageChange(page, pageSize) {
@@ -55,7 +53,6 @@ export default {
       this.set_hotelListParams(data)
       this.set_hotelListLoading(true)
       this.getHotelList()
-      this.getUserOrderedHotels()
     },
     jumpToDetails(id){
       this.$router.push({ name: 'hotelDetail', params: { hotelId: id }})

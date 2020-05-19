@@ -80,9 +80,9 @@
                 </OrderList>
             </a-tab-pane>
             <a-tab-pane tab="预定过的酒店" key="3">
-                <HotelList>
+             <UserOrderedHotelList>
 
-                </HotelList>
+             </UserOrderedHotelList>
             </a-tab-pane>
 
         </a-tabs>
@@ -92,7 +92,7 @@
     import {mapActions, mapGetters, mapMutations} from 'vuex'
     import orderDetail from '../order/components/orderDetail'
     import OrderList from "../order/components/userOrderList"
-    import HotelList from "../hotel/hotelList";
+    import UserOrderedHotelList from "../hotel/userOrderedHotelList";
 
 export default {
     name: 'info',
@@ -109,7 +109,8 @@ export default {
         }
     },
     components: {
-        OrderList
+        OrderList,
+        UserOrderedHotelList
     },
     computed: {
         ...mapGetters([

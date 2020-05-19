@@ -16,8 +16,6 @@ public interface HotelMapper {
 
     List<HotelVO> selectAllHotel();
 
-    List<HotelVO> selectUserOrderedHotels(Integer userid);
-
     HotelVO selectById(@Param("id") Integer id);
 
     int deleteHotel(int hotelId);

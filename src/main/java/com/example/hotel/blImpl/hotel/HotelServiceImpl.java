@@ -21,6 +21,7 @@ import com.example.hotel.vo.RoomVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -88,8 +89,26 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public List<HotelVO> retrieveUserOrderedHotels(Integer userId) {
-        return hotelMapper.selectUserOrderedHotels(userId);
+    public List<HotelVO> retrieveUserOrderedHotels(Integer userId) { //返回客户预定过的酒店列表
+        List<HotelVO> userOrderedHotels = new ArrayList<>();
+        List<Order> userOrders = orderService.getUserOrders(userId);
+        List<Integer> userOrderedHotelId = new ArrayList<>();
+        for(int i=0;i<userOrders.size();i++){
+            boolean flag = true;
+            for(int j=0;j<userOrderedHotelId.size();j++){
+                if(userOrderedHotelId.get(j).equals(userOrders.get(i).getHotelId())){
+                    flag = false;
+                }
+            }
+            //去重找出所有定过的酒店
+            if(flag) {
+                userOrderedHotelId.add(userOrders.get(i).getHotelId());
+            }
+        }
+        for(int i=0;i<userOrderedHotelId.size();i++){
+            userOrderedHotels.add(retrieveHotelDetails(userOrderedHotelId.get(i)));
+        }
+        return userOrderedHotels;
     }
 
     @Override

@@ -5,7 +5,7 @@ import {getUserInfoAPI, loginAPI, registerAPI, updateUserInfoAPI,} from '@/api/u
 
 import {cancelOrderAPI, getOrderDetailsAPI, getUserOrdersAPI,} from '@/api/order'
 import {modifyPasswordAPI} from '@/api/user';
-import {getUserOrderedHotelsAPI} from "../../api/hotel";
+import {getUserOrderedHotelsAPI} from '@/api/hotel';
 
 const getDefaultState = () => {
     return {
@@ -130,7 +130,6 @@ const user = {
             const res = await getUserOrderedHotelsAPI(data)
             if(res){
                 commit('set_userHotelList', res)
-                //console.log(state.userOrderList)
             }
         },
         cancelOrder: async({ state, dispatch }, orderId) => {
