@@ -8,6 +8,7 @@ public interface RoomService {
 
     /**
      * 获取某个酒店的全部房间信息
+     *
      * @param hotelId
      * @return
      */
@@ -15,12 +16,14 @@ public interface RoomService {
 
     /**
      * 添加酒店客房信息
+     *
      * @param hotelRoom
      */
     void insertRoomInfo(HotelRoom hotelRoom);
 
     /**
      * 预订酒店后更新客房房间数量
+     *
      * @param hotelId
      * @param roomType
      * @param rooms
@@ -29,23 +32,26 @@ public interface RoomService {
 
     /**
      * 增加制定酒店剩余客房数量
+     *
      * @param hotelId
      * @param roomType
      * @param rooms
      */
 
-    void addRoomNum(Integer hotelId,String roomType,Integer rooms);
+    void addRoomNum(Integer hotelId, String roomType, Integer rooms);
 
     /**
      * 减少制定酒店剩余客房数量
+     *
      * @param hotelId
      * @param roomType
      * @param rooms
      */
-    void subRoomNum(Integer hotelId,String roomType,Integer rooms);
+    void subRoomNum(Integer hotelId, String roomType, Integer rooms);
 
     /**
      * 获取酒店指定房间剩余数量
+     *
      * @param hotelId
      * @param roomType
      * @return

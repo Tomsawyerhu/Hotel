@@ -29,34 +29,34 @@ public class HotelController {
     }
 
     @GetMapping("/all")
-    public ResponseVO retrieveAllHotels(){
+    public ResponseVO retrieveAllHotels() {
         return ResponseVO.buildSuccess(hotelService.retrieveHotels());
     }
 
     @GetMapping("/{userId}/userOrdered")
-    public ResponseVO retrieveUserOrderedHotels(@PathVariable Integer userId){
+    public ResponseVO retrieveUserOrderedHotels(@PathVariable Integer userId) {
         return ResponseVO.buildSuccess(hotelService.retrieveUserOrderedHotels(userId));
     }
 
     @PostMapping("/roomInfo")
     public ResponseVO addRoomInfo(@RequestBody HotelRoom hotelRoom) {
         //此处应该检查同一酒店相同类型的客房只有一条记录
-        int hotelId=hotelRoom.getHotelId();
-        RoomType roomType=hotelRoom.getRoomType();
-        List<HotelRoom> roomList=roomService.retrieveHotelRoomInfo(hotelId);
+        int hotelId = hotelRoom.getHotelId();
+        RoomType roomType = hotelRoom.getRoomType();
+        List<HotelRoom> roomList = roomService.retrieveHotelRoomInfo(hotelId);
 
-        boolean roomTypeExists=false;
-        for(HotelRoom hotelroom:roomList){
+        boolean roomTypeExists = false;
+        for (HotelRoom hotelroom : roomList) {
             if (hotelroom.getRoomType().equals(roomType)) {
                 roomTypeExists = true;
                 break;
             }
         }
 
-        if(!roomTypeExists){
+        if (!roomTypeExists) {
             roomService.insertRoomInfo(hotelRoom);
             return ResponseVO.buildSuccess();
-        }else{
+        } else {
             return ResponseVO.buildFailure("已存在相同类型的客房，不可重复录入");
         }
     }
@@ -67,12 +67,10 @@ public class HotelController {
     }
 
     @DeleteMapping("/deleteHotel/{hotelId}")
-    public ResponseVO deleteHotel(@PathVariable Integer hotelId){
+    public ResponseVO deleteHotel(@PathVariable Integer hotelId) {
         hotelService.deleteHotel(hotelId);
         return ResponseVO.buildSuccess();
     }
-
-
 
 
 }

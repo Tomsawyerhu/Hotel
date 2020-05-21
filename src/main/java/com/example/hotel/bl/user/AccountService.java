@@ -26,6 +26,7 @@ public interface AccountService {
 
     /**
      * 获取用户个人信息
+     *
      * @param id
      * @return
      */
@@ -33,14 +34,15 @@ public interface AccountService {
 
     /**
      * 更新用户个人信息
+     *
      * @param id
      * @param username
      * @param phonenumber
      * @return
      */
-    ResponseVO updateUserInfo(int id,String username,String phonenumber);
+    ResponseVO updateUserInfo(int id, String username, String phonenumber);
 
-    ResponseVO modifyPassword(int id,String password);
+    ResponseVO modifyPassword(int id, String password);
 
     void subCreditByAnnulOrder(int id, Order order);
 

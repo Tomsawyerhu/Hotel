@@ -26,22 +26,22 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public void updateRoomInfo(Integer hotelId, String roomType, Integer rooms) {
-        roomMapper.updateRoomInfo(hotelId,roomType,rooms);
+        roomMapper.updateRoomInfo(hotelId, roomType, rooms);
     }
 
     @Override
-    public void addRoomNum(Integer hotelId, String roomType, Integer rooms){
-        roomMapper.addRoomNum(hotelId,roomType,rooms);
+    public void addRoomNum(Integer hotelId, String roomType, Integer rooms) {
+        roomMapper.addRoomNum(hotelId, roomType, rooms);
     }
 
     @Override
-    public void subRoomNum(Integer hotelId, String roomType, Integer rooms){
-        roomMapper.subRoomNum(hotelId,roomType,rooms);
+    public void subRoomNum(Integer hotelId, String roomType, Integer rooms) {
+        roomMapper.subRoomNum(hotelId, roomType, rooms);
     }
 
     @Override
     public int getRoomCurNum(Integer hotelId, String roomType) {
-        return roomMapper.getRoomCurNum(hotelId,roomType);
+        return roomMapper.getRoomCurNum(hotelId, roomType);
     }
 
 

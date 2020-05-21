@@ -21,13 +21,13 @@ public class AdminController {
     AdminService adminService;
 
     @PostMapping("/addManager")
-    public ResponseVO addManager(@RequestBody UserForm userForm){
+    public ResponseVO addManager(@RequestBody UserForm userForm) {
 
         return adminService.addManager(userForm);
     }
 
     @PostMapping("/getAllManagers")
-    public ResponseVO getAllManagers(){
+    public ResponseVO getAllManagers() {
         return ResponseVO.buildSuccess(adminService.getAllManagers());
     }
 

@@ -21,28 +21,28 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping("/addOrder")
-    public ResponseVO reserveHotel(@RequestBody OrderVO orderVO){
+    public ResponseVO reserveHotel(@RequestBody OrderVO orderVO) {
         return orderService.addOrder(orderVO);
     }
 
     @GetMapping("/getAllOrders")
-    public ResponseVO retrieveAllOrders(){
+    public ResponseVO retrieveAllOrders() {
         return ResponseVO.buildSuccess(orderService.getAllOrders());
     }
 
     @GetMapping("/{userid}/getUserOrders")
-    public  ResponseVO retrieveUserOrders(@PathVariable int userid){
+    public ResponseVO retrieveUserOrders(@PathVariable int userid) {
         return ResponseVO.buildSuccess(orderService.getUserOrders(userid));
     }
 
     @GetMapping("/{orderid}/annulOrder")
-    public ResponseVO annulOrder(@PathVariable int orderid){
+    public ResponseVO annulOrder(@PathVariable int orderid) {
 
         return orderService.annulOrder(orderid);
     }
 
     @GetMapping("/{orderid}/getOrder")
-    public ResponseVO retrieveOrder(@PathVariable int orderid){
+    public ResponseVO retrieveOrder(@PathVariable int orderid) {
         System.out.println(orderService.getOrderByOrderId(orderid));
         return ResponseVO.buildSuccess(orderService.getOrderByOrderId(orderid));
     }
@@ -53,8 +53,8 @@ public class OrderController {
     }
 
     @GetMapping("/{userId}/{hotelId}/getUserOrdersInCertainHotel")
-    public ResponseVO retrieveUserOrdersInCertainHotel(@PathVariable Integer userId,@PathVariable Integer hotelId){
-        return ResponseVO.buildSuccess(orderService.getUserOrdersInCertainHotel(userId,hotelId));
+    public ResponseVO retrieveUserOrdersInCertainHotel(@PathVariable Integer userId, @PathVariable Integer hotelId) {
+        return ResponseVO.buildSuccess(orderService.getUserOrdersInCertainHotel(userId, hotelId));
     }
 
 

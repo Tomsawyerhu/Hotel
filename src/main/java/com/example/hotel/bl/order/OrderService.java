@@ -14,6 +14,7 @@ public interface OrderService {
 
     /**
      * 预订酒店
+     *
      * @param orderVO
      * @return
      */
@@ -21,12 +22,14 @@ public interface OrderService {
 
     /**
      * 获得所有订单信息
+     *
      * @return
      */
     List<Order> getAllOrders();
 
     /**
      * 获得指定用户的所有订单信息
+     *
      * @param userid
      * @return
      */
@@ -34,6 +37,7 @@ public interface OrderService {
 
     /**
      * 撤销订单
+     *
      * @param orderid
      * @return
      */
@@ -41,6 +45,7 @@ public interface OrderService {
 
     /**
      * 查看酒店的所有订单
+     *
      * @param hotelId
      * @return
      */
@@ -48,6 +53,7 @@ public interface OrderService {
 
     /**
      * 根据orderId获取相应order
+     *
      * @param orderId
      * @return
      */
@@ -55,9 +61,10 @@ public interface OrderService {
 
     /**
      * 根据userId，hotelId获取客户在某家酒店的订单列表
+     *
      * @param userId
      * @param hotelId
      * @return
      */
-    List<Order> getUserOrdersInCertainHotel(Integer userId,Integer hotelId);
+    List<Order> getUserOrdersInCertainHotel(Integer userId, Integer hotelId);
 }

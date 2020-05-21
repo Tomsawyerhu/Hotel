@@ -84,6 +84,9 @@
 
              </UserOrderedHotelList>
             </a-tab-pane>
+            <a-tab-pane tab="test" key="4">
+                <test></test>
+            </a-tab-pane>
 
         </a-tabs>
     </div>
@@ -93,6 +96,7 @@
     import orderDetail from '../order/components/orderDetail'
     import OrderList from "../order/components/userOrderList"
     import UserOrderedHotelList from "../hotel/userOrderedHotelList";
+    import test from "../test";
 
 export default {
     name: 'info',
@@ -110,7 +114,8 @@ export default {
     },
     components: {
         OrderList,
-        UserOrderedHotelList
+        UserOrderedHotelList,
+        test
     },
     computed: {
         ...mapGetters([
