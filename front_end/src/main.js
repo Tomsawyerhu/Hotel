@@ -4,8 +4,12 @@ import router from './router'
 import Antd from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css'
 import store from './store'
+import "./utils/validate"
+
 
 import '@/permission'
+
+
 Vue.config.productionTip = false
 const options = {
   namespace: 'pro__',
@@ -13,6 +17,7 @@ const options = {
   storage: 'local'
 }
 Vue.use(Antd)
+
 
 Vue.directive('title', {
   inserted: function (el, binding) {
@@ -24,3 +29,6 @@ new Vue({
   store,
   render: h => h(App)
 }).$mount('#app')
+
+
+
