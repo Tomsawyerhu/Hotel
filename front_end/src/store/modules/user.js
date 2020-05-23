@@ -65,7 +65,14 @@ const user = {
                 setToken(res.id)
                 commit('set_userId', res.id)
                 dispatch('getUserInfo')
+
                 router.push('/hotel/hotelList')
+                console.log("this.userInfo.userType=")
+                /*if(this.userInfo.userType=="'Client'") { //根据用户身份决定首页路径
+                    router.push('/hotel/hotelList')
+                }else if(this.userInfo.userType=="'HotelManager'"){
+                    router.push('/hotel/hotelList/hotelManager/manageHotel')
+                }*/
             }
         },
         register: async({ commit }, data) => {

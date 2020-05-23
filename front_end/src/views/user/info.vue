@@ -75,16 +75,16 @@
                     </a-form-item>
                 </a-form>
             </a-tab-pane>
-            <a-tab-pane tab="我的订单" key="2" >
+            <a-tab-pane tab="我的订单" key="2" v-if="userInfo.userType=='Client'" >
                 <OrderList :order-list="userOrderList">
                 </OrderList>
             </a-tab-pane>
-            <a-tab-pane tab="预定过的酒店" key="3">
+            <a-tab-pane tab="预定过的酒店" key="3"  v-if="userInfo.userType=='Client'">
              <UserOrderedHotelList>
 
              </UserOrderedHotelList>
             </a-tab-pane>
-            <a-tab-pane tab="test" key="4">
+            <a-tab-pane tab="test" key="4"  v-if="userInfo.userType=='Client'">
                 <test></test>
             </a-tab-pane>
 

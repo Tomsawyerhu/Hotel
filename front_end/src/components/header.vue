@@ -6,7 +6,7 @@
             
         </div>
         <a-menu v-model="current" mode="horizontal" theme="light">
-            <a-menu-item key="1" @click="selectMenu">
+            <a-menu-item key="1" @click="selectMenu" v-if="userInfo.userType=='Client'">
                 <router-link to="/hotel/hotelList">
                     <a-icon type="home" />首页
                 </router-link>
