@@ -4,6 +4,7 @@ import com.example.hotel.bl.hotel.HotelService;
 import com.example.hotel.bl.hotel.RoomService;
 import com.example.hotel.bl.order.OrderService;
 import com.example.hotel.bl.user.AccountService;
+import com.example.hotel.blImpl.hotel.HotelServiceImpl;
 import com.example.hotel.data.order.OrderMapper;
 import com.example.hotel.po.Order;
 import com.example.hotel.po.User;
