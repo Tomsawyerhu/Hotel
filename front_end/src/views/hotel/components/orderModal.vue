@@ -49,7 +49,7 @@
                     v-validate="'checkInDate|checkInDate2'"
                     data-vv-name="checkInDate"
                 />
-                <div class="err" style="color: red">{{errors.first('checkInDate')}}</div>
+                <div class="err" style="color: #ff0000">{{errors.first('checkInDate')}}</div>
             </a-form-item>
             <a-form-item v-bind="formItemLayout" label="入住人数">
                 <a-select
