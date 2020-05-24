@@ -17,7 +17,11 @@
                         'clientName',
                         { rules: [{required: true, message: '请填写入住人姓名', }] }
                     ]"
+                    data-vv-name="name"
+                    v-validate="'name'"
                 />
+                <div class="err" style="color: red">{{errors.first('name')}}</div>
+
             </a-form-item>
             <a-form-item v-bind="formItemLayout" label="手机号">
                 <a-input
@@ -25,7 +29,10 @@
                         'phoneNumber',
                         { rules: [{required: true, message: '请填写入住人联系手机', }] }
                     ]"
+                    data-vv-name="phone"
+                    v-validate="'phone'"
                 />
+                <div class="err" style="color: red">{{errors.first('phone')}}</div>
             </a-form-item>
             
             <a-form-item v-bind="formItemLayout" label="入住日期">
@@ -39,7 +46,10 @@
                         }
                     ]"
                     :placeholder="['入住日期','退房日期']"
+                    v-validate="'checkInDate|checkInDate2'"
+                    data-vv-name="checkInDate"
                 />
+                <div class="err" style="color: #ff0000">{{errors.first('checkInDate')}}</div>
             </a-form-item>
             <a-form-item v-bind="formItemLayout" label="入住人数">
                 <a-select
