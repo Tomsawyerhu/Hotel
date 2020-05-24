@@ -41,3 +41,18 @@ export function getOrderDetailsAPI(orderId) {
     })
 
 }
+
+export function getAbnormalOrderListAPI() {
+    return axios({
+        url: `${api.orderPre}/getAbnormalOrders`,
+        method: 'GET',
+    })
+}
+
+//撤销异常订单，恢复用户该次被扣除的全部信用值
+export function cancelAbnormalOrderAPI(orderId,userId) {
+    return axios({
+        url: `${api.orderPre}/${orderId}/${userId}/annulAbnormalOrder`,
+        method: 'GET',
+    })
+}

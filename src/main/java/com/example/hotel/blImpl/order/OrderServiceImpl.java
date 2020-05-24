@@ -14,6 +14,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.Annotation;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -73,6 +74,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<Order> getAbnormalOrders() {
+        return orderMapper.getAbnormalOrders();
+    }
+
+    @Override
     public List<Order> getUserOrders(int userid) {
         return orderMapper.getUserOrders(userid);
     }
@@ -114,6 +120,22 @@ public class OrderServiceImpl implements OrderService {
         }
         return ResponseVO.buildSuccess(true);
     }
+
+    @Override
+    public ResponseVO annulAbnormalOrder(int orderid, int userid) {
+        Order order = orderMapper.getOrderById(orderid);
+        try {
+            orderMapper.annulOrder(orderid);
+            //恢复客户因该笔订单被扣除的全部信用值，与房间数量的交互没有放在这里，酒店管理人员把订单设置为异常是就返还了房间数量
+            double amount = order.getPrice();
+            accountService.addCreditByAnnulAbnormalOrder(userid, amount);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseVO.buildFailure(ANNUL_ERROR);
+        }
+        return ResponseVO.buildSuccess(true);
+    }
+
 
     /**
      * @param hotelId

@@ -28,6 +28,8 @@ const getters = {
   userOrdersInCertainHotel: state => state.order.userOrdersInCertainHotel,
   currentOrderId: state => state.order.currentOrderId,     //自己加的
   currentOrderInfo: state => state.order.currentOrderInfo,    //自己加的
+  //marketingStaff
+  abnormalOrderList: state => state.marketingStaff.abnormalOrderList
   }
   
   export default getters

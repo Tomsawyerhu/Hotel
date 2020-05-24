@@ -5,6 +5,10 @@
     <select id="getAllOrders" resultMap="Order">
         select * from OrderList
     </select>
+    <!--返回异常订单的数据库操作-->
+    <select id="getAbnormalOrders" resultMap="Order">
+        select * from OrderList where orderState="异常"
+    </select>
     <select id="getUserOrders" resultMap="Order">
         select * from OrderList where userId=#{userid}
     </select>

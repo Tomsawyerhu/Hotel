@@ -23,6 +23,7 @@ import java.util.Date;
 public class AccountServiceImpl implements AccountService {
     private final static String ACCOUNT_EXIST = "账号已存在";
     private final static String UPDATE_ERROR = "修改失败";
+    private final static String ACCOUNT_DONT_EXIST = "账号不存在";
     @Autowired
     private AccountMapper accountMapper;
 
@@ -74,6 +75,17 @@ public class AccountServiceImpl implements AccountService {
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return ResponseVO.buildFailure(UPDATE_ERROR);
+        }
+        return ResponseVO.buildSuccess(true);
+    }
+
+    @Override
+    public ResponseVO addCreditByAnnulAbnormalOrder(int userid, double amount) {
+        try {
+            accountMapper.addCreditByAnnulAbnormalOrder(userid, amount);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseVO.buildFailure(ACCOUNT_DONT_EXIST);
         }
         return ResponseVO.buildSuccess(true);
     }

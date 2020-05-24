@@ -1,50 +1,39 @@
 <template>
     <div class="info-wrapper">
-    <a-table
-            :columns="columns"
-            :dataSource="orderList"
-            bordered
-            v-show="!showDetail"
-    >
+        <a-table
+                :columns="columns"
+                :dataSource="orderList"
+                bordered
+                v-show="!showDetail"
+        >
                     <span slot="price" slot-scope="text">
                         <span>￥{{ text }}</span>
                     </span>
-        <span slot="roomType" slot-scope="text">
+            <span slot="roomType" slot-scope="text">
                         <span v-if="text == 'BigBed'">大床房</span>
                         <span v-if="text == 'DoubleBed'">双床房</span>
                         <span v-if="text == 'Family'">家庭房</span>
                     </span>
-        <a-tag slot="orderState" color="blue" slot-scope="text" v-if="text==='已入住'">
-            {{ text }}
-        </a-tag>
-        <a-tag slot="orderState" color="red" slot-scope="text" v-else-if="text==='异常'" >
-            {{ text }}
-        </a-tag>
-        <a-tag slot="orderState" color="green" slot-scope="text" v-else-if="text==='已预定'">
-            {{ text }}
-        </a-tag>
-        <a-tag slot="orderState" color="gray" slot-scope="text" v-else>
-            {{ text }}
-        </a-tag>
-        <span slot="action" slot-scope="record">
-                        <a-button type="primary" size="small"  @click="showOrderDetails(record.id)">查看详情</a-button>
-                        <a-divider type="vertical" v-if="record.orderState == '已预订'"></a-divider>
+            <a-tag slot="orderState" color="red" slot-scope="text" >
+                {{ text }}
+            </a-tag>
+            <span slot="action" slot-scope="record">
+                        <a-button type="primary" size="small"  @click="showOrderDetails(record.id,record.userId)">查看详情</a-button>
+                        <a-divider type="vertical"></a-divider>
                         <a-popconfirm
                                 title="你确定撤销该笔订单吗？"
                                 @confirm="confirmCancelOrder(record.id)"
                                 @cancel="cancelCancelOrder"
                                 okText="确定"
                                 cancelText="取消"
-                                v-if="record.orderState == '已预订'"
                         >
                             <a-button type="danger" size="small">撤销</a-button>
                         </a-popconfirm>
 
                     </span>
-    </a-table>
-    <order-detail  v-if="showDetail" :back="setShowDetailFalse">
-
-    </order-detail>
+        </a-table>
+        <order-detail  v-if="showDetail" :back="setShowDetailFalse">
+        </order-detail>
     </div>
 </template>
 
@@ -56,6 +45,10 @@
         {
             title: '订单号',
             dataIndex: 'id',
+        },
+        {
+            title: '客户ID',
+            dataIndex: 'userId',
         },
         {
             title: '酒店名',
@@ -99,7 +92,7 @@
 
     ];
     export default {
-        name: 'userOrderList',
+        name: 'abnormalOrderList',
         data(){
             return {
                 formLayout: 'horizontal',
@@ -127,13 +120,10 @@
             ]),
 
         },
-        /*async mounted() {
-            await this.getUserOrders()
-        },*/
         methods: {
             ...mapMutations(['set_currentOrderId']),
             ...mapActions([
-                'cancelOrder',
+                'cancelAbnormalOrder',
                 'getOrderDetails',
             ]),
             setShowDetailFalse(){
@@ -143,8 +133,8 @@
             setShowDetailTrue(){
                 this.showDetail=true;
             },
-            confirmCancelOrder(orderId){
-                this.cancelOrder(orderId)
+            confirmCancelOrder(orderId,userId){
+                this.cancelAbnormalOrder(orderId,userId)
             },
             cancelCancelOrder() {
 
@@ -158,25 +148,4 @@
         }
     }
 </script>
-<!--
-<style scoped lang="less">
-    .info-wrapper {
-        padding: 50px;
-        .chart {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: 20px
-        }
-    }
-</style>
-<style lang="less">
-    .info-wrapper {
-        .ant-tabs-bar {
-            padding-left: 30px
-        }
-    }
-</style>
-<style lang="less">
 
-</style>-->

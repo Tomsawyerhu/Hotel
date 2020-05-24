@@ -20,6 +20,8 @@ public interface OrderMapper {
 
     List<Order> getAllOrders();
 
+    List<Order> getAbnormalOrders();
+
     List<Order> getUserOrders(@Param("userid") int userid);
 
     List<Order> getUserOrdersInCertainHotel(@Param("userid") int userid,@Param("hotelid") int hotelid);

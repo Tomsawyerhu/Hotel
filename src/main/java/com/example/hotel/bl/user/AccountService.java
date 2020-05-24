@@ -44,6 +44,21 @@ public interface AccountService {
 
     ResponseVO modifyPassword(int id, String password);
 
+    /**
+     * 网站营销人员撤销异常订单，恢复用户信用值
+     * @param userid
+     * @param amount
+     * @return
+     */
+    ResponseVO addCreditByAnnulAbnormalOrder(int userid, double amount);
+
+
+    /**
+     * 撤销订单与订单执行最晚时间不超过6h需要扣除订单价值一半的信用值
+     *
+     * @param id
+     * @param order
+     */
     void subCreditByAnnulOrder(int id, Order order);
 
 

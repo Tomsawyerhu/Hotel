@@ -41,6 +41,11 @@ public class OrderController {
         return orderService.annulOrder(orderid);
     }
 
+    @GetMapping("/{orderid}/{userid}/annulAbnormalOrder")
+    public ResponseVO annulAbnormalOrder(@PathVariable int orderid,@PathVariable int userid) {
+        return orderService.annulAbnormalOrder(orderid,userid);
+    }
+
     @GetMapping("/{orderid}/getOrder")
     public ResponseVO retrieveOrder(@PathVariable int orderid) {
         System.out.println(orderService.getOrderByOrderId(orderid));
@@ -55,6 +60,11 @@ public class OrderController {
     @GetMapping("/{userId}/{hotelId}/getUserOrdersInCertainHotel")
     public ResponseVO retrieveUserOrdersInCertainHotel(@PathVariable Integer userId, @PathVariable Integer hotelId) {
         return ResponseVO.buildSuccess(orderService.getUserOrdersInCertainHotel(userId, hotelId));
+    }
+
+    @GetMapping("/getAbnormalOrders")
+    public ResponseVO retrieveAbnormalOrders(){
+        return ResponseVO.buildSuccess(orderService.getAbnormalOrders());
     }
 
 

@@ -11,7 +11,7 @@
                     <a-icon type="home" />首页
                 </router-link>
             </a-menu-item>
-            <a-menu-item key="2" @click="jumpToUserInfo" v-if="userInfo.userType=='Client'">
+            <a-menu-item key="2" @click="jumpToUserInfo" >
                 <a-icon type="user" />个人中心
             </a-menu-item>
             <a-menu-item key="3" @click="selectMenu" v-if="userInfo.userType=='HotelManager'">
@@ -22,6 +22,11 @@
             <a-menu-item key="4" @click="selectMenu" v-if="userInfo.userType=='Admin'">
                 <router-link :to="{ name: 'manageUser'}">
                      <a-icon type="user" />账户管理
+                </router-link>
+            </a-menu-item>
+            <a-menu-item key="5" @click="selectMenu" v-if="userInfo.userType=='MarketingStaff'">
+                <router-link :to="{ name: 'manageWeb'}">
+                    <a-icon type="switcher" />网站管理
                 </router-link>
             </a-menu-item>
         </a-menu>

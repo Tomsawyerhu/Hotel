@@ -28,6 +28,12 @@ public interface OrderService {
     List<Order> getAllOrders();
 
     /**
+     * 获得所有异常订单
+     * @return
+     */
+    List<Order> getAbnormalOrders();
+
+    /**
      * 获得指定用户的所有订单信息
      *
      * @param userid
@@ -42,6 +48,13 @@ public interface OrderService {
      * @return
      */
     ResponseVO annulOrder(int orderid);
+
+    /**
+     * 撤销异常订单，恢复客户信用值
+     * @param orderid
+     * @return
+     */
+    ResponseVO annulAbnormalOrder(int orderid,int userid);
 
     /**
      * 查看酒店的所有订单
