@@ -46,6 +46,7 @@ public interface AccountService {
 
     /**
      * 网站营销人员撤销异常订单，恢复用户信用值
+     *
      * @param userid
      * @param amount
      * @return
@@ -63,11 +64,12 @@ public interface AccountService {
 
     /**
      * 网站营销人员为用户充值信用值
+     *
      * @param userEmail
      * @param amount
      * @return
      */
-    ResponseVO addCredit(String userEmail,double amount);
+    ResponseVO addCredit(String userEmail, double amount);
 
 
 }
