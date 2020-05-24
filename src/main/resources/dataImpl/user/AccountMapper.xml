@@ -23,6 +23,14 @@
         update User set credit=credit-#{amount}
         where id=#{id}
     </update>
+    <update id="addCreditByAnnulAbnormalOrder">
+        update User set credit=credit+#{amount}
+        where id=#{userid}
+    </update>
+    <update id="addCredit">
+        update User set credit=credit+#{amount}
+        where email=#{email}
+    </update>
 
 
     <resultMap id="User" type="com.example.hotel.po.User">

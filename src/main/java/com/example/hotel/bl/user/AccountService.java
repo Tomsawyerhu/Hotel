@@ -26,6 +26,7 @@ public interface AccountService {
 
     /**
      * 获取用户个人信息
+     *
      * @param id
      * @return
      */
@@ -33,16 +34,40 @@ public interface AccountService {
 
     /**
      * 更新用户个人信息
+     *
      * @param id
      * @param username
      * @param phonenumber
      * @return
      */
-    ResponseVO updateUserInfo(int id,String username,String phonenumber);
+    ResponseVO updateUserInfo(int id, String username, String phonenumber);
 
-    ResponseVO modifyPassword(int id,String password);
+    ResponseVO modifyPassword(int id, String password);
 
+    /**
+     * 网站营销人员撤销异常订单，恢复用户信用值
+     * @param userid
+     * @param amount
+     * @return
+     */
+    ResponseVO addCreditByAnnulAbnormalOrder(int userid, double amount);
+
+
+    /**
+     * 撤销订单与订单执行最晚时间不超过6h需要扣除订单价值一半的信用值
+     *
+     * @param id
+     * @param order
+     */
     void subCreditByAnnulOrder(int id, Order order);
+
+    /**
+     * 网站营销人员为用户充值信用值
+     * @param userEmail
+     * @param amount
+     * @return
+     */
+    ResponseVO addCredit(String userEmail,double amount);
 
 
 }

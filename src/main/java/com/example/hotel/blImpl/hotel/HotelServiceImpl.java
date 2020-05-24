@@ -43,7 +43,7 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public void addHotel(HotelVO hotelVO) throws ServiceException {
         User manager = accountService.getUserInfo(hotelVO.getManagerId());
-        if(manager == null || !manager.getUserType().equals(UserType.HotelManager)){
+        if (manager == null || !manager.getUserType().equals(UserType.HotelManager)) {
             throw new ServiceException("管理员不存在或者无权限！创建酒店失败！");
         }
         Hotel hotel = new Hotel();
@@ -60,22 +60,22 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public void updateRoomInfo(Integer hotelId, String roomType, Integer rooms) {
-        roomService.updateRoomInfo(hotelId,roomType,rooms);
+        roomService.updateRoomInfo(hotelId, roomType, rooms);
     }
 
     @Override
-    public void addRoomNum(Integer hotelId, String roomType, Integer rooms){
-        roomService.addRoomNum(hotelId,roomType,rooms);
+    public void addRoomNum(Integer hotelId, String roomType, Integer rooms) {
+        roomService.addRoomNum(hotelId, roomType, rooms);
     }
 
     @Override
-    public void subRoomNum(Integer hotelId, String roomType, Integer rooms){
-        roomService.subRoomNum(hotelId,roomType,rooms);
+    public void subRoomNum(Integer hotelId, String roomType, Integer rooms) {
+        roomService.subRoomNum(hotelId, roomType, rooms);
     }
 
     @Override
     public int getRoomCurNum(Integer hotelId, String roomType) {
-        return roomService.getRoomCurNum(hotelId,roomType);
+        return roomService.getRoomCurNum(hotelId, roomType);
     }
 
     @Override
@@ -93,19 +93,19 @@ public class HotelServiceImpl implements HotelService {
         List<HotelVO> userOrderedHotels = new ArrayList<>();
         List<Order> userOrders = orderService.getUserOrders(userId);
         List<Integer> userOrderedHotelId = new ArrayList<>();
-        for(int i=0;i<userOrders.size();i++){
+        for (int i = 0; i < userOrders.size(); i++) {
             boolean flag = true;
-            for(int j=0;j<userOrderedHotelId.size();j++){
-                if(userOrderedHotelId.get(j).equals(userOrders.get(i).getHotelId())){
+            for (int j = 0; j < userOrderedHotelId.size(); j++) {
+                if (userOrderedHotelId.get(j).equals(userOrders.get(i).getHotelId())) {
                     flag = false;
                 }
             }
             //去重找出所有定过的酒店
-            if(flag) {
+            if (flag) {
                 userOrderedHotelId.add(userOrders.get(i).getHotelId());
             }
         }
-        for(int i=0;i<userOrderedHotelId.size();i++){
+        for (int i = 0; i < userOrderedHotelId.size(); i++) {
             userOrderedHotels.add(retrieveHotelDetails(userOrderedHotelId.get(i)));
         }
         return userOrderedHotels;
@@ -128,7 +128,6 @@ public class HotelServiceImpl implements HotelService {
 
         return hotelVO;
     }
-
 
 
     /**

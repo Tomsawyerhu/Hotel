@@ -23,13 +23,15 @@ import java.util.Date;
 public class AccountServiceImpl implements AccountService {
     private final static String ACCOUNT_EXIST = "账号已存在";
     private final static String UPDATE_ERROR = "修改失败";
+    private final static String ACCOUNT_DONT_EXIST = "账号不存在";
+    private final static String EMAIL_DONT_EXIST ="该用户邮箱不存在，请确认用户邮箱";
     @Autowired
     private AccountMapper accountMapper;
 
     @Override
     public ResponseVO registerAccount(UserVO userVO) {
         User user = new User();
-        BeanUtils.copyProperties(userVO,user);
+        BeanUtils.copyProperties(userVO, user);
         try {
             accountMapper.createNewAccount(user);
         } catch (Exception e) {
@@ -58,7 +60,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public ResponseVO updateUserInfo(int id,  String username, String phonenumber) {
+    public ResponseVO updateUserInfo(int id, String username, String phonenumber) {
         try {
             accountMapper.updateAccount(id, username, phonenumber);
         } catch (Exception e) {
@@ -68,12 +70,23 @@ public class AccountServiceImpl implements AccountService {
         return ResponseVO.buildSuccess(true);
     }
 
-    public ResponseVO modifyPassword(int id,String password){
-        try{
-            accountMapper.modifyPassword(id,password);
-        }catch (Exception e){
+    public ResponseVO modifyPassword(int id, String password) {
+        try {
+            accountMapper.modifyPassword(id, password);
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             return ResponseVO.buildFailure(UPDATE_ERROR);
+        }
+        return ResponseVO.buildSuccess(true);
+    }
+
+    @Override
+    public ResponseVO addCreditByAnnulAbnormalOrder(int userid, double amount) {
+        try {
+            accountMapper.addCreditByAnnulAbnormalOrder(userid, amount);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseVO.buildFailure(ACCOUNT_DONT_EXIST);
         }
         return ResponseVO.buildSuccess(true);
     }
@@ -82,18 +95,29 @@ public class AccountServiceImpl implements AccountService {
     public void subCreditByAnnulOrder(int id, Order order) {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         //System.out.println(order.getCreateDate());
-        Date checkInDate=null;
+        Date checkInDate = null;
         try {
-            checkInDate=df.parse(order.getCheckInDate());
+            checkInDate = df.parse(order.getCheckInDate());
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        long checkIn=checkInDate.getTime();
+        long checkIn = checkInDate.getTime();
         long now = System.currentTimeMillis();
         //距离订单执行不足6h才会扣除信用值
-        if(checkIn-now>=0&&checkIn-now<6*60*60*1000){
-            double amount = order.getPrice()/2;
-            accountMapper.subCreditByAnnulOrder(id,amount);
+        if (checkIn - now >= 0 && checkIn - now < 6 * 60 * 60 * 1000) {
+            double amount = order.getPrice() / 2;
+            accountMapper.subCreditByAnnulOrder(id, amount);
         }
+    }
+
+    @Override
+    public ResponseVO addCredit(String userEmail, double amount) {
+        User user = accountMapper.getAccountByName(userEmail);
+        if(user==null){
+            return ResponseVO.buildFailure(EMAIL_DONT_EXIST);
+        }else{
+            accountMapper.addCredit(userEmail,amount);
+        }
+        return ResponseVO.buildSuccess(true);
     }
 }

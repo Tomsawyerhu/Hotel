@@ -56,16 +56,26 @@ const user = {
         set_userOrderList: (state, data) => {
             state.userOrderList = data
         },
+        get_userInfo: (state, data) => {
+            return state.userInfo
+        }
     },
 
     actions: {
-        login: async ({ dispatch, commit }, userData) => {
+        login: async ({ dispatch, commit,state }, userData) => {
             const res = await loginAPI(userData)
             if(res){
                 setToken(res.id)
                 commit('set_userId', res.id)
-                dispatch('getUserInfo')
+                dispatch('getUserInfo').then(()=>{      //想根据userType来记得router.push的路由应该怎么操作？
+                    console.log("this.userInfo.userType="+state.userInfo)
+                })
                 router.push('/hotel/hotelList')
+                /*if(this.userInfo.userType=="'Client'") { //根据用户身份决定首页路径
+                    router.push('/hotel/hotelList')
+                }else if(this.userInfo.userType=="'HotelManager'"){
+                    router.push('/hotel/hotelList/hotelManager/manageHotel')
+                }*/
             }
         },
         register: async({ commit }, data) => {

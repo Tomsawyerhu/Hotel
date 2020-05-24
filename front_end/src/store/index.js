@@ -6,6 +6,7 @@ import hotelManager from './modules/hotelManager'
 import admin from './modules/admin'
 import order from './modules/order'
 import getters from './getters'
+import marketingStaff from "./modules/marketingStaff";
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -14,7 +15,8 @@ export default new Vuex.Store({
     user,
     hotelManager,
     admin,
-    order
+    order,
+    marketingStaff
   },
   state: {
   },

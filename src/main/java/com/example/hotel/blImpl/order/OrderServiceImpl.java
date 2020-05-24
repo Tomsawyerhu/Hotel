@@ -4,6 +4,7 @@ import com.example.hotel.bl.hotel.HotelService;
 import com.example.hotel.bl.hotel.RoomService;
 import com.example.hotel.bl.order.OrderService;
 import com.example.hotel.bl.user.AccountService;
+import com.example.hotel.blImpl.hotel.HotelServiceImpl;
 import com.example.hotel.data.order.OrderMapper;
 import com.example.hotel.po.Order;
 import com.example.hotel.po.User;
@@ -13,6 +14,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.Annotation;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -41,9 +43,9 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public ResponseVO addOrder(OrderVO orderVO) {
         int reserveRoomNum = orderVO.getRoomNum();
-        int curNum = hotelService.getRoomCurNum(orderVO.getHotelId(),orderVO.getRoomType());
+        int curNum = hotelService.getRoomCurNum(orderVO.getHotelId(), orderVO.getRoomType());
         //System.out.println(curNum);
-        if(reserveRoomNum>curNum){
+        if (reserveRoomNum > curNum) {
             return ResponseVO.buildFailure(ROOMNUM_LACK);
         }
         try {
@@ -56,9 +58,9 @@ public class OrderServiceImpl implements OrderService {
             orderVO.setClientName(user.getUserName());
             orderVO.setPhoneNumber(user.getPhoneNumber());
             Order order = new Order();
-            BeanUtils.copyProperties(orderVO,order);
+            BeanUtils.copyProperties(orderVO, order);
             orderMapper.addOrder(order);
-            hotelService.updateRoomInfo(orderVO.getHotelId(),orderVO.getRoomType(),orderVO.getRoomNum()); //这里的update是原有房间数减去这次订单房间数
+            hotelService.updateRoomInfo(orderVO.getHotelId(), orderVO.getRoomType(), orderVO.getRoomNum()); //这里的update是原有房间数减去这次订单房间数
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return ResponseVO.buildFailure(RESERVE_ERROR);
@@ -72,48 +74,68 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<Order> getAbnormalOrders() {
+        return orderMapper.getAbnormalOrders();
+    }
+
+    @Override
     public List<Order> getUserOrders(int userid) {
         return orderMapper.getUserOrders(userid);
     }
 
     @Override
     public List<Order> getUserOrdersInCertainHotel(Integer userId, Integer hotelId) {
-        return orderMapper.getUserOrdersInCertainHotel(userId,hotelId);
+        return orderMapper.getUserOrdersInCertainHotel(userId, hotelId);
     }
 
     @Override
-    public OrderVO getOrderByOrderId(int orderId){
+    public OrderVO getOrderByOrderId(int orderId) {
         Order order = orderMapper.getOrderById(orderId);
         OrderVO orderVO = new OrderVO();
-        BeanUtils.copyProperties(order,orderVO);
+        BeanUtils.copyProperties(order, orderVO);
         return orderVO;
     }
-
 
 
     @Override
     public ResponseVO annulOrder(int orderid) {
         //取消订单逻辑的具体实现（注意可能有和别的业务类之间的交互）
-        Order order=orderMapper.getOrderById(orderid);
+        Order order = orderMapper.getOrderById(orderid);
         //房间数
-        int roomNum=order.getRoomNum();
+        int roomNum = order.getRoomNum();
         //酒店编号
-        int hotelId=order.getHotelId();
+        int hotelId = order.getHotelId();
         //房间类型
-        String roomType=order.getRoomType();
+        String roomType = order.getRoomType();
 
         try {
             //删除订单,但是还没有考虑当前时间已经超过订单checkInDate,照理说超过订单checkInDate应该变为异常订单，这时撤销会报错，我还没有实现
             orderMapper.annulOrder(orderid);
-            accountService.subCreditByAnnulOrder(order.getUserId(),order);
+            accountService.subCreditByAnnulOrder(order.getUserId(), order);
             //更新相应酒店客房信息,增加剩余房间数
             roomService.addRoomNum(hotelId, roomType, roomNum);
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             return ResponseVO.buildFailure(ANNUL_ERROR);
         }
         return ResponseVO.buildSuccess(true);
     }
+
+    @Override
+    public ResponseVO annulAbnormalOrder(int orderid, int userid) {
+        Order order = orderMapper.getOrderById(orderid);
+        try {
+            orderMapper.annulOrder(orderid);
+            //恢复客户因该笔订单被扣除的全部信用值，与房间数量的交互没有放在这里，酒店管理人员把订单设置为异常是就返还了房间数量
+            double amount = order.getPrice();
+            accountService.addCreditByAnnulAbnormalOrder(userid, amount);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseVO.buildFailure(ANNUL_ERROR);
+        }
+        return ResponseVO.buildSuccess(true);
+    }
+
 
     /**
      * @param hotelId

@@ -4,9 +4,8 @@ import router from './router'
 import Antd from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css'
 import store from './store'
+import Distpicker from 'v-distpicker'
 import "./utils/validate"
-
-
 import '@/permission'
 
 
@@ -17,6 +16,7 @@ const options = {
   storage: 'local'
 }
 Vue.use(Antd)
+Vue.component('v-distpicker', Distpicker)
 
 
 Vue.directive('title', {

@@ -53,7 +53,7 @@ const columns = [
     },
   ];
 export default {
-    name: 'manageHotel',
+    name: 'manageUser',
     data(){
         return {
             formLayout: 'horizontal',

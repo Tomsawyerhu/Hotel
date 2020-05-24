@@ -7,7 +7,8 @@ package com.example.hotel.enums;
 public enum UserType {
     Client("1"),
     HotelManager("2"),
-    Manager("3");
+    Admin("3"),   //原本3对应的是manager，改成Admin试一试
+    MarketingStaff("4");
     private String value;
 
     UserType(String value) {

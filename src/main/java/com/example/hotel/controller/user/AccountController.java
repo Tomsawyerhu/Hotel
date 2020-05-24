@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 
-
 @RestController()
 @RequestMapping("/api/user")
 public class AccountController {
@@ -37,21 +36,26 @@ public class AccountController {
     @GetMapping("/{id}/getUserInfo")
     public ResponseVO getUserInfo(@PathVariable int id) {
         User user = accountService.getUserInfo(id);
-        if(user==null){
+        if (user == null) {
             return ResponseVO.buildFailure(ACCOUNT_INFO_ERROR);
         }
         return ResponseVO.buildSuccess(user);
     }
 
     @PostMapping("/{id}/userInfo/update")
-    public ResponseVO updateInfo(@RequestBody UserInfoVO userInfoVO,@PathVariable int id){
-        return accountService.updateUserInfo(id,userInfoVO.getUserName(),userInfoVO.getPhoneNumber());
+    public ResponseVO updateInfo(@RequestBody UserInfoVO userInfoVO, @PathVariable int id) {
+        return accountService.updateUserInfo(id, userInfoVO.getUserName(), userInfoVO.getPhoneNumber());
 
     }
 
     @PostMapping("/{id}/userInfo/modifyPassword")
-    public ResponseVO modifyPassword(@RequestBody UserInfoVO userInfoVO,@PathVariable int id){
-        return accountService.modifyPassword(id,userInfoVO.getPassword());
+    public ResponseVO modifyPassword(@RequestBody UserInfoVO userInfoVO, @PathVariable int id) {
+        return accountService.modifyPassword(id, userInfoVO.getPassword());
+    }
+
+    @PostMapping("/{userEmail}/{amount}/userInfo/addCredit")
+    public ResponseVO addCredit(@PathVariable String userEmail, @PathVariable double amount) {
+        return accountService.addCredit(userEmail,amount);
     }
 
 }

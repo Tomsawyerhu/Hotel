@@ -39,4 +39,14 @@ export function modifyPasswordAPI(data){
     })
 }
 
+export function addCreditAPI(data) {
+    return axios({
+        url: `${api.userPre}/${data.userEmail}/${data.amount}/userInfo/addCredit`,
+        method: 'POST',
+        data
+    })
+}
+
+
+
 

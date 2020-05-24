@@ -4,6 +4,7 @@ import com.example.hotel.po.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -46,5 +47,9 @@ public interface AccountMapper {
      int modifyPassword(@Param("id") int id,@Param("password") String password);
 
      int subCreditByAnnulOrder(@Param("id") int id,@Param("amount") double amount);
+
+     int addCreditByAnnulAbnormalOrder(@Param("userid") int userid,@Param("amount") double amount);
+
+     int addCredit(@Param("email") String email,@Param("amount") double amount);
 
 }
