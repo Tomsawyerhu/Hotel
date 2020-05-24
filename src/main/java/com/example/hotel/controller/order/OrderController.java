@@ -42,8 +42,8 @@ public class OrderController {
     }
 
     @GetMapping("/{orderid}/{userid}/annulAbnormalOrder")
-    public ResponseVO annulAbnormalOrder(@PathVariable int orderid,@PathVariable int userid) {
-        return orderService.annulAbnormalOrder(orderid,userid);
+    public ResponseVO annulAbnormalOrder(@PathVariable int orderid, @PathVariable int userid) {
+        return orderService.annulAbnormalOrder(orderid, userid);
     }
 
     @GetMapping("/{orderid}/getOrder")
@@ -63,7 +63,7 @@ public class OrderController {
     }
 
     @GetMapping("/getAbnormalOrders")
-    public ResponseVO retrieveAbnormalOrders(){
+    public ResponseVO retrieveAbnormalOrders() {
         return ResponseVO.buildSuccess(orderService.getAbnormalOrders());
     }
 

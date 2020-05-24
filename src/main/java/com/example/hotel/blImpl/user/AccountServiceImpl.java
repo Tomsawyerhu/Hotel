@@ -24,6 +24,7 @@ public class AccountServiceImpl implements AccountService {
     private final static String ACCOUNT_EXIST = "账号已存在";
     private final static String UPDATE_ERROR = "修改失败";
     private final static String ACCOUNT_DONT_EXIST = "账号不存在";
+    private final static String EMAIL_DONT_EXIST ="该用户邮箱不存在，请确认用户邮箱";
     @Autowired
     private AccountMapper accountMapper;
 
@@ -107,5 +108,16 @@ public class AccountServiceImpl implements AccountService {
             double amount = order.getPrice() / 2;
             accountMapper.subCreditByAnnulOrder(id, amount);
         }
+    }
+
+    @Override
+    public ResponseVO addCredit(String userEmail, double amount) {
+        User user = accountMapper.getAccountByName(userEmail);
+        if(user==null){
+            return ResponseVO.buildFailure(EMAIL_DONT_EXIST);
+        }else{
+            accountMapper.addCredit(userEmail,amount);
+        }
+        return ResponseVO.buildSuccess(true);
     }
 }

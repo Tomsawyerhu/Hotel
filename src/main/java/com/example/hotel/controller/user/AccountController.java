@@ -53,4 +53,9 @@ public class AccountController {
         return accountService.modifyPassword(id, userInfoVO.getPassword());
     }
 
+    @PostMapping("/{userEmail}/{amount}/userInfo/addCredit")
+    public ResponseVO addCredit(@PathVariable String userEmail, @PathVariable double amount) {
+        return accountService.addCredit(userEmail,amount);
+    }
+
 }

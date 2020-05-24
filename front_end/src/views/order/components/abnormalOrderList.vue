@@ -18,11 +18,11 @@
                 {{ text }}
             </a-tag>
             <span slot="action" slot-scope="record">
-                        <a-button type="primary" size="small"  @click="showOrderDetails(record.id,record.userId)">查看详情</a-button>
+                        <a-button type="primary" size="small"  @click="showOrderDetails(record.id)">查看详情</a-button>
                         <a-divider type="vertical"></a-divider>
                         <a-popconfirm
                                 title="你确定撤销该笔订单吗？"
-                                @confirm="confirmCancelOrder(record.id)"
+                                @confirm="confirmCancelOrder(record.id,record.userId)"
                                 @cancel="cancelCancelOrder"
                                 okText="确定"
                                 cancelText="取消"
@@ -134,7 +134,11 @@
                 this.showDetail=true;
             },
             confirmCancelOrder(orderId,userId){
-                this.cancelAbnormalOrder(orderId,userId)
+                const data={
+                    orderId: Number(orderId),
+                    userId: Number(userId)
+                }
+                this.cancelAbnormalOrder(data)
             },
             cancelCancelOrder() {
 

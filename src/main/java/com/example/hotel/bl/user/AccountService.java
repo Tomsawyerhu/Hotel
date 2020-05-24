@@ -61,5 +61,13 @@ public interface AccountService {
      */
     void subCreditByAnnulOrder(int id, Order order);
 
+    /**
+     * 网站营销人员为用户充值信用值
+     * @param userEmail
+     * @param amount
+     * @return
+     */
+    ResponseVO addCredit(String userEmail,double amount);
+
 
 }

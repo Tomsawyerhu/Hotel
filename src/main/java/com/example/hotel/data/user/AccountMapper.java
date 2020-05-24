@@ -50,4 +50,6 @@ public interface AccountMapper {
 
      int addCreditByAnnulAbnormalOrder(@Param("userid") int userid,@Param("amount") double amount);
 
+     int addCredit(@Param("email") String email,@Param("amount") double amount);
+
 }

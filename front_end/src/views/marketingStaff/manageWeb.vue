@@ -13,10 +13,11 @@
                 <AbnormalOrderList :order-list="abnormalOrderList">
 
                 </AbnormalOrderList>
+            </a-tab-pane>
+            <a-tab-pane tab="用户信用充值" key="3">
+                <AddCredit>
 
-
-
-
+                </AddCredit>
             </a-tab-pane>
         </a-tabs>
     </div>
@@ -24,18 +25,19 @@
 <script>
     import {mapActions, mapGetters, mapMutations} from 'vuex'
     import AbnormalOrderList from "../order/components/abnormalOrderList";
+    import AddCredit from "./componets/addCredit";
+
     export default {
         name: 'manageWeb',
-        data(){
+        data() {
             return {
                 formLayout: 'horizontal',
                 pagination: {},
-                data: [],
-                form: this.$form.createForm(this, { name: 'coordinated' }),
             }
         },
         components: {
-            AbnormalOrderList
+            AbnormalOrderList,
+            AddCredit,
         },
         computed: {
             ...mapGetters([
@@ -46,8 +48,7 @@
             await this.getAbnormalOrders()
         },
         methods: {
-            ...mapMutations([
-            ]),
+            ...mapMutations([]),
             ...mapActions([
                 'getAbnormalOrders',
             ]),
