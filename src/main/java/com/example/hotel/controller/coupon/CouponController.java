@@ -1,10 +1,7 @@
 package com.example.hotel.controller.coupon;
 
 import com.example.hotel.bl.coupon.CouponService;
-import com.example.hotel.vo.CouponVO;
-import com.example.hotel.vo.HotelTargetMoneyCouponVO;
-import com.example.hotel.vo.OrderVO;
-import com.example.hotel.vo.ResponseVO;
+import com.example.hotel.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,9 +14,21 @@ public class CouponController {
 
     @PostMapping("/hotelTargetMoney")
     public ResponseVO addHotelTargetMoneyCoupon(@RequestBody HotelTargetMoneyCouponVO hotelTargetMoneyCouponVO) {
-
+       // System.out.println(hotelTargetMoneyCouponVO);
         CouponVO couponVO = couponService.addHotelTargetMoneyCoupon(hotelTargetMoneyCouponVO);
+        return ResponseVO.buildSuccess(couponVO);
+    }
 
+    @PostMapping("/hotelMultiRoom")
+    public ResponseVO addHotelMultiRoomCoupon(@RequestBody HotelMultiRoomCouponVO hotelMultiRoomCouponVO) {
+        System.out.println(hotelMultiRoomCouponVO);
+        CouponVO couponVO = couponService.addHotelMultiRoomCoupon(hotelMultiRoomCouponVO);
+        return ResponseVO.buildSuccess(couponVO);
+    }
+
+    @PostMapping("/hotelTime")
+    public ResponseVO addHotelTimeCoupon(@RequestBody HotelTimeCouponVO hotelTimeCouponVO) {
+        CouponVO couponVO = couponService.addHotelTimeCoupon(hotelTimeCouponVO);
         return ResponseVO.buildSuccess(couponVO);
     }
 

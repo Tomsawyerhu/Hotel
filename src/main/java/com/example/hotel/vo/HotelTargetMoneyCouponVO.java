@@ -5,6 +5,7 @@ package com.example.hotel.vo;
  */
 public class HotelTargetMoneyCouponVO extends CouponVO {
 
+
     private Integer hotelId;
 
     private Integer targetMoney;
@@ -35,4 +36,12 @@ public class HotelTargetMoneyCouponVO extends CouponVO {
         this.discountMoney = discountMoney;
     }
 
+    @Override
+    public String toString() {
+        return super.toString()+"&&"+"HotelTargetMoneyCouponVO{" +
+                "hotelId=" + hotelId +
+                ", targetMoney=" + targetMoney +
+                ", discountMoney=" + discountMoney +
+                '}';
+    }
 }

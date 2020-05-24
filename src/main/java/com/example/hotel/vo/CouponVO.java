@@ -4,8 +4,8 @@ public class CouponVO {
     private Integer id;
     private String description;
     private Integer status;
-    private String name;
-    private Integer type;
+    private String couponName;
+    private Integer couponType;
 
     public Integer getId() {
         return id;
@@ -31,19 +31,30 @@ public class CouponVO {
         this.status = status;
     }
 
-    public String getName() {
-        return name;
+    public String getCouponName() {
+        return couponName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCouponName(String couponName) {
+        this.couponName = couponName;
     }
 
-    public Integer getType() {
-        return type;
+    public Integer getCouponType() {
+        return couponType;
     }
 
-    public void setType(Integer type) {
-        this.type = type;
+    public void setCouponType(Integer type) {
+        this.couponType = type;
+    }
+
+    @Override
+    public String toString() {
+        return "CouponVO{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", status=" + status +
+                ", name='" + couponName + '\'' +
+                ", type=" + couponType+
+                '}';
     }
 }

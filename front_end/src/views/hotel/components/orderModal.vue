@@ -117,7 +117,7 @@
                 <a-table
                     :columns="columns"
                     :dataSource="orderMatchCouponList"
-                    :showHeader="false"
+                    :showHeader="true"
                     bordered
                     v-if="orderMatchCouponList.length>0"
                 >
@@ -150,18 +150,20 @@ const columns = [
         scopedSlots: {customRender: 'couponName'}
     },
     {
-        title: '折扣',
+        title: '折扣(折)',
         dataIndex: 'discount',
+        key:'discount'
     },
 
     {
         title: '优惠简介',
         dataIndex: 'description',
-        
+        key:'description'
     },
     {
-        title: '优惠金额',
+        title: '满减优惠金额(元)',
         dataIndex: 'discountMoney',
+        key:'discountMoney'
     },
   ];
 export default {
@@ -226,7 +228,17 @@ export default {
         onchange() {
             this.finalPrice = this.totalPrice
             if(this.checkedList.length>0){
-                this.orderMatchCouponList.filter(item => this.checkedList.indexOf(item.id)!=-1).forEach(item => this.finalPrice= this.finalPrice-item.discountMoney)
+                let final=this.finalPrice
+                this.orderMatchCouponList.filter(item => this.checkedList.indexOf(item.id)!=-1).forEach(item => {
+                    //满减特惠
+                    if(item.discountMoney>0){
+                        this.finalPrice= this.finalPrice-item.discountMoney
+                    }
+                    //限时特惠
+                    if(Number(item.discount)>0){
+                        this.finalPrice=this.finalPrice-Math.ceil(final*item.discount/10)
+                    }
+                })
             }else{
                 
             }

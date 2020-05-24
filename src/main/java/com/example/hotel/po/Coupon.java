@@ -1,4 +1,7 @@
 package com.example.hotel.po;
+import com.example.hotel.vo.CouponVO;
+import org.springframework.beans.BeanUtils;
+
 import java.time.LocalDateTime;
 
 
@@ -155,5 +158,23 @@ public class Coupon {
     }
 
     public Coupon() {
+    }
+
+    @Override
+    public String toString() {
+        return "Coupon{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", hotelId=" + hotelId +
+                ", couponType=" + couponType +
+                ", couponName='" + couponName + '\'' +
+                ", targetMoney=" + targetMoney +
+                ", discount=" + discount +
+                ", discountMoney=" + discountMoney +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", status=" + status +
+                ", targetRoomNum=" + targetRoomNum +
+                '}';
     }
 }

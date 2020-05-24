@@ -31,7 +31,7 @@ Validator.extend('name',{
 
 Validator.extend('checkInDate',{
     getMessage:
-        field=>'入住时间不能早于当前时间',
+        field=>'选择时间不能早于当前时间',
     validate:
         value=>{
             let now=Date.now()

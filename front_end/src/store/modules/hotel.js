@@ -95,7 +95,16 @@ const hotel = {
         },
         getOrderMatchCoupons: async({ state, commit }, data) => {
             const res = await orderMatchCouponsAPI(data)
+            //这边做一次过滤将所有0值属性改为无
             if(res){
+                res.forEach(v=>{
+                    for(let property in v){
+                        if(v[property]==0){
+                            v[property]="无"
+                        }
+                    }
+                })
+                console.log(res)
                 commit('set_orderMatchCouponList', res)
             }
         }
