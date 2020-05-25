@@ -29,7 +29,9 @@ const getters = {
   currentOrderId: state => state.order.currentOrderId,     //自己加的
   currentOrderInfo: state => state.order.currentOrderInfo,    //自己加的
   //marketingStaff
-  abnormalOrderList: state => state.marketingStaff.abnormalOrderList
+  abnormalOrderList: state => state.marketingStaff.abnormalOrderList,
+  websiteCouponList: state => state.marketingStaff.websiteCouponList,
+  addWebCouponVisible: state => state.marketingStaff.addWebCouponVisible,
   }
   
   export default getters

@@ -2,21 +2,14 @@
     <div class="manageWeb-wrapper">
         <a-tabs>
             <a-tab-pane tab="网站优惠策略" key="1">
-                <div style="width: 100%; text-align: right; margin:20px 0">
-                    <a-button type="primary">
-                        <a-icon type="plus"/>
-                        添加优惠策略
-                    </a-button>
-                </div>
+                <WebsiteCoupon></WebsiteCoupon>
             </a-tab-pane>
             <a-tab-pane tab="异常订单处理" key="2">
                 <AbnormalOrderList :order-list="abnormalOrderList">
-
                 </AbnormalOrderList>
             </a-tab-pane>
             <a-tab-pane tab="用户信用充值" key="3">
                 <AddCredit>
-
                 </AddCredit>
             </a-tab-pane>
         </a-tabs>
@@ -26,6 +19,7 @@
     import {mapActions, mapGetters, mapMutations} from 'vuex'
     import AbnormalOrderList from "../order/components/abnormalOrderList";
     import AddCredit from "./componets/addCredit";
+    import WebsiteCoupon from "./componets/websiteCoupon";
 
     export default {
         name: 'manageWeb',
@@ -38,6 +32,7 @@
         components: {
             AbnormalOrderList,
             AddCredit,
+            WebsiteCoupon,
         },
         computed: {
             ...mapGetters([

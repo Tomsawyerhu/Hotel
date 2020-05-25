@@ -9,7 +9,7 @@
         >
             <!-- 这里是模态框内容区域，请编写列表代码与添加策略按钮 -->
             <div style="width: 100%; text-align: right; margin:20px 0">
-                <a-button type="primary" @click="addCoupon"><a-icon type="plus" />添加优惠策略</a-button>//click操作绑定addCoupon⽅法
+                <a-button type="primary" @click="addCoupon"><a-icon type="plus" />添加优惠策略</a-button>
             </div>
             <a-table
                     :columns="columns"

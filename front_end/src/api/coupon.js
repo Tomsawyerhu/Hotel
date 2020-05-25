@@ -32,10 +32,25 @@ export function hotelAllCouponsAPI(hotelId) {
     })
 }
 
+export function websiteAllCouponsAPI() {
+    return axios({
+        url: `${api.couponPre}/websiteAllCoupons`,
+        method: 'GET',
+    })
+}
+
 export function orderMatchCouponsAPI(params) {
     return axios({
         url: `${api.couponPre}/orderMatchCoupons`,
         method: 'GET',
         params,
+    })
+}
+
+export function cancelCouponAPI(couponId) {
+    return axios({
+        url: `${api.couponPre}/${couponId}/cancelCoupon`,
+        method: 'POST',
+        couponId,
     })
 }

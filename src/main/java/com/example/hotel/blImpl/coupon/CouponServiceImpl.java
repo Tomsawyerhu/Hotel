@@ -29,6 +29,8 @@ public class CouponServiceImpl implements CouponService {
 
     private static List<CouponMatchStrategy> strategyList = new ArrayList<>();
 
+    private static String COUPON_DONT_EXIST="该优惠不存在";
+
     @Autowired
     public CouponServiceImpl(TargetMoneyCouponStrategyImpl targetMoneyCouponStrategy,
                              TimeCouponStrategyImpl timeCouponStrategy, MultiRoomsCouponStrategyimpl multiRoomsCouponStrategyimpl,
@@ -65,6 +67,12 @@ public class CouponServiceImpl implements CouponService {
     public List<Coupon> getHotelAllCoupon(Integer hotelId) {
         List<Coupon> hotelCoupons = couponMapper.selectByHotelId(hotelId);
         return hotelCoupons;
+    }
+
+    @Override
+    public List<Coupon> getWebsiteAllCoupons() {
+        List<Coupon> websiteCoupons = couponMapper.selectAllWebsiteCoupons();
+        return websiteCoupons;
     }
 
     @Override
@@ -110,6 +118,17 @@ public class CouponServiceImpl implements CouponService {
         int result = couponMapper.insertCoupon(coupon);
         couponVO.setId(result);
         return couponVO;
+    }
+
+    @Override
+    public ResponseVO cancelCoupon(int couponId) {
+        try{
+            couponMapper.cancelCoupon(couponId);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return ResponseVO.buildFailure(COUPON_DONT_EXIST);
+        }
+        return ResponseVO.buildSuccess(true);
     }
 
 }
