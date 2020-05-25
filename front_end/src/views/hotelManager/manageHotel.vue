@@ -31,6 +31,7 @@
                     :columns="columns2"
                     :dataSource="orderList"
                     bordered
+                    v-show="!showDetail"
                 >
                     <span slot="price" slot-scope="text">
                         <span>￥{{ text }}</span>
@@ -41,7 +42,7 @@
                         <span v-if="text == 'Family'">家庭房</span>
                     </span>
                     <span slot="action" slot-scope="record">
-                        <a-button type="primary" size="small">订单详情</a-button>
+                        <a-button type="primary" size="small" @click="showOrderDetails(record.id)">订单详情</a-button>
                         <a-divider type="vertical"></a-divider>
                         <a-popconfirm
                             title="确定想删除该订单吗？"
@@ -53,6 +54,9 @@
                         </a-popconfirm>
                     </span>
                 </a-table>
+                <order-details  v-if="showDetail" :back="setShowDetailFalse" :editable="true">
+
+                </order-details>
             </a-tab-pane>
             
         </a-tabs>
@@ -66,6 +70,8 @@ import { mapGetters, mapMutations, mapActions } from 'vuex'
 import AddHotelModal from './components/addHotelModal'
 import AddRoomModal from './components/addRoomModal'
 import Coupon from './components/coupon'
+import OrderDetail from '../order/components/orderDetail'
+import OrderDetails from "../order/components/orderDetail";
 const moment = require('moment')
 const columns1 = [
     {  
@@ -145,9 +151,12 @@ export default {
             columns1,
             columns2,
             form: this.$form.createForm(this, { name: 'manageHotel' }),
+            showDetail:false,
+            orderDetailInfo:{},
         }
     },
     components: {
+        OrderDetails,
         AddHotelModal,
         AddRoomModal,
         Coupon,
@@ -172,12 +181,21 @@ export default {
             'set_addRoomModalVisible',
             'set_couponVisible',
             'set_activeHotelId',
+            'set_currentOrderId'
         ]),
         ...mapActions([
             'getHotelList',
             'getAllOrders',
-            'getHotelCoupon'
+            'getHotelCoupon',
+            'getOrderDetails',
         ]),
+        setShowDetailFalse(){
+            // console.log("false")
+            this.showDetail=false;
+        },
+        setShowDetailTrue(){
+            this.showDetail=true;
+        },
         addHotel() {
             this.set_addHotelModalVisible(true)
         },
@@ -195,6 +213,12 @@ export default {
         },
         deleteOrder(){
 
+        },
+        showOrderDetails(orderId){ //查看订单详细信息
+            this.set_currentOrderId(orderId)
+            this.getOrderDetails()
+            this.setShowDetailTrue()
+            console.log(this.orderDetailInfo)
         },
     }
 }

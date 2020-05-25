@@ -37,6 +37,7 @@ const order={
         },
         getOrderDetails:async ({ state, commit })=> {
             const res=await getOrderDetailsAPI(state.currentOrderId)
+            console.log(res)
             if(res){
                 commit('set_currentOrderDetail',res)
             }
