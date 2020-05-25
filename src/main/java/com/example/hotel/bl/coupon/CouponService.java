@@ -60,4 +60,12 @@ public interface CouponService {
      * @return
      */
     ResponseVO cancelCoupon(int couponId);
+
+    /**
+     * 通过优惠券ID获取优惠券信息
+     *
+     * @param couponId
+     * @return
+     */
+    CouponVO getCouponById(int couponId);
 }
