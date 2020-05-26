@@ -67,5 +67,5 @@ public interface CouponService {
      * @param couponId
      * @return
      */
-    CouponVO getCouponById(int couponId);
+    Coupon getCouponById(int couponId);
 }

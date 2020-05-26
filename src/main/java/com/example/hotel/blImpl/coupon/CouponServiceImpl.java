@@ -131,17 +131,17 @@ public class CouponServiceImpl implements CouponService {
     }
 
     @Override
-    public CouponVO getCouponById(int couponId) {
+    public Coupon getCouponById(int couponId) {
 
         try {
             Coupon coupon = couponMapper.selectCouponById(couponId);
-            //优惠券类型 1生日特惠 2多间特惠 3满减优惠 4限时优惠
+            /*//优惠券类型 1生日特惠 2多间特惠 3满减优惠 4限时优惠
             if (coupon.getCouponType() == 4) {
                 CouponVO couponVO = new HotelTimeCouponVO();
                 BeanUtils.copyProperties(coupon, couponVO);
                 return couponVO;
-            }
-            return null;
+            }*/
+            return coupon;
         } catch (Exception e) {
             System.out.println(COUPON_DONT_EXIST);
             return null;
