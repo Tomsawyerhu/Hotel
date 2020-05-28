@@ -54,3 +54,11 @@ export function cancelCouponAPI(couponId) {
         couponId,
     })
 }
+
+export function getCouponById(couponId) {
+    return axios({
+        url: `${api.couponPre}/${couponId}/getCouponInfo`,
+        method: 'GET',
+        couponId,
+    })
+}

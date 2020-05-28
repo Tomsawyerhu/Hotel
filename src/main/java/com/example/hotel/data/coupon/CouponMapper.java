@@ -17,4 +17,6 @@ public interface CouponMapper {
     List<Coupon> selectAllWebsiteCoupons();
 
     int cancelCoupon(@Param("id") int id);
+
+    Coupon selectCouponById(@Param("id") int id);
 }

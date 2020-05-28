@@ -14,7 +14,15 @@
             <a-tag color="red" slot="couponName" slot-scope="text">
                 {{text}}
             </a-tag>
+            <span slot="couponType" slot-scope="text">
+                <span v-if="text==1">生日特惠</span>
+                <span v-if="text==2">多间特惠</span>
+                <span v-if="text==3">满减特惠</span>
+                <span v-if="text==4">限时特惠</span>
+            </span>
             <span slot="action" slot-scope="record">
+                        <a-button type="primary" size="small" @click="showCouponDetails(record.id)">查看详情</a-button>
+                        <a-divider type="vertical"></a-divider>
                         <a-popconfirm
                                 title="您确定要撤销该网站优惠吗？"
                                 @confirm="confirmCancelCoupon(record.id)"
@@ -22,44 +30,33 @@
                                 okText="确定"
                                 cancelText="取消"
                         >
-                            <a-button type="danger" size="small">撤销</a-button>
+                            <a-button type="danger" size="small">撤销优惠</a-button>
                         </a-popconfirm>
             </span>
         </a-table>
+        <WebsiteCouponDetails></WebsiteCouponDetails>
         <AddWebsiteCoupon></AddWebsiteCoupon>
     </div>
 </template>
 <script>
-    import Vue from 'vue'
-
-    var vm = new Vue({
-        el: ''
-
-    })
     import {mapGetters, mapMutations, mapActions} from 'vuex'
     import AddWebsiteCoupon from "./addWebsiteCoupon";
+    import WebsiteCouponDetails from "./websiteCouponDetails";
 
     const columns = [
         // 这里定义列表头
         {
-            title: "优惠券ID",
-            dataIndex: 'id'
-        },
-        {
             title: "优惠类型",
-            dataIndex: 'couponType'
+            dataIndex: 'couponType',
+            scopedSlots: {customRender: 'couponType'}  //自定义渲染
         },
         {
-            title: "折扣",
-            dataIndex: 'discount',
+            title: "优惠券名",
+            dataIndex: 'couponName'
         },
         {
             title: "优惠简介",
             dataIndex: 'description',
-        },
-        {
-            title: "优惠金额",
-            dataIndex: 'discountMoney',
         },
         {
             title: "开始时间",
@@ -78,7 +75,7 @@
         },
     ];
     export default {
-        name: 'coupon',
+        name: 'websiteCoupon',
         data() {
             return {
                 columns
@@ -86,10 +83,13 @@
         },
         components: {
             AddWebsiteCoupon,
+            WebsiteCouponDetails,
         },
         computed: {
             ...mapGetters([
                 'websiteCouponList',
+                'currentCouponId',
+                'currentCouponInfo',
             ])
         },
         async mounted() {
@@ -97,21 +97,35 @@
         },
         methods: {
             ...mapMutations([
-                'set_addWebCouponVisible'
+                'set_addWebCouponVisible',
+                'set_currentCouponId',
+                'set_couponDetailVisible',
             ]),
             ...mapActions([
                 'getWebsiteCouponList',
-                'cancelCoupon'
+                'cancelCoupon',
+                'getCurrentCouponInfo',
             ]),
             addWebCoupon() {
                 this.set_addWebCouponVisible(true)
             },
             confirmCancelCoupon(couponId) {
-                this.cancelCoupon(couponId).then(()=>{
+                this.cancelCoupon(couponId).then(() => {
                     this.getWebsiteCouponList()
                 })
             },
             cancelCancelCoupon() {
+
+            },
+            //展示优惠券详细信息，相应状态在marketingStaff.js中
+            showCouponDetails(couponId) {
+                this.set_currentCouponId(couponId)
+                this.getCurrentCouponInfo(couponId).then(()=>{
+                    //异步，获取优惠券信息完毕后再显示
+                    console.log("couponInfo")
+                    console.log(this.currentCouponInfo)
+                    this.set_couponDetailVisible(true)
+                })
 
             },
         },

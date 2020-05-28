@@ -64,6 +64,11 @@ public class CouponController {
         return ResponseVO.buildSuccess(couponService.cancelCoupon(couponId));
     }
 
+    @GetMapping("/{couponId}/getCouponInfo")
+    public ResponseVO getCouponInfoById(@PathVariable int couponId){
+        return ResponseVO.buildSuccess(couponService.getCouponById(couponId));
+    }
+
 
 
 }

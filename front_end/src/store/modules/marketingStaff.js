@@ -7,7 +7,8 @@ import {
 } from '@/api/user'
 import {
     websiteAllCouponsAPI,
-    cancelCouponAPI
+    cancelCouponAPI,
+    getCouponById,
 } from '@/api/coupon'
 import {message} from 'ant-design-vue'
 
@@ -16,6 +17,9 @@ const marketingStaff = {
         abnormalOrderList: [],
         addWebCouponVisible: false,
         websiteCouponList: [],
+        currentCouponId: 0,
+        currentCouponInfo: [],
+        couponDetailVisible: false,
     },
     mutations: {
         set_abnormalOrderList(state, data) {
@@ -27,6 +31,15 @@ const marketingStaff = {
         set_websiteCouponList(state, data) {
             state.websiteCouponList = data
         },
+        set_currentCouponId(state, data) {
+            state.currentCouponId = data
+        },
+        set_currentCouponInfo(state, data) {
+            state.currentCouponInfo = data
+        },
+        set_couponDetailVisible(state, data) {
+            state.couponDetailVisible = data
+        }
     },
     actions: {
         //获取异常订单列表
@@ -70,6 +83,15 @@ const marketingStaff = {
                 message.error('充值失败')
             }
         },
+        getCurrentCouponInfo: async ({state, commit}, couponId) => {
+            const res = await getCouponById(couponId)
+            if (res) {
+                commit('set_currentCouponInfo',res)
+            } else {
+                message.error('查看失败')
+            }
+        },
+
     }
 }
 export default marketingStaff

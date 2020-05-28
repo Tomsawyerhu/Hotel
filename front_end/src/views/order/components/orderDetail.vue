@@ -36,22 +36,28 @@
             预留手机号:{{currentOrderInfo.phoneNumber}}
         </a-descriptions-item>
 
-    </a-descriptions>
+        </a-descriptions>
         <a-button @click="back" type="primary" block>
             返回
         </a-button>
         <a-modal
                 :visible="visible"
-                 title="工作人员功能"
-                 cancelText="取消"
-                 okText="提交"
-                 @cancel="handleCancel"
-                 @ok="handleOk">
+                title="工作人员功能"
+                cancelText="取消"
+                okText="提交"
+                @cancel="handleCancel"
+                @ok="handleOk">
 
             <a-tabs default-active-key="1" @change="changePane">
+<<<<<<< HEAD
                 <a-tab-pane key="1" tab="手工补登记" :disabled="currentOrderInfo.orderState!='异常'">
                     <a-form :form="form1" v-if="currentOrderInfo.orderState=='异常'">
                         <a-form-item label="订单号" >
+=======
+                <a-tab-pane key="1" tab="手工补登记" :disabled="currentOrderInfo.orderState=='异常'">
+                    <a-form :model="form1">
+                        <a-form-item label="订单号">
+>>>>>>> f11d29ca7bfe3ab13cc61a583f4b3e0a14568547
                             <a-input
                                     :disabled="true"
                                     style="width: 40px"
@@ -76,12 +82,17 @@
                         <a-form-item label="备注">
                             <a-input
                                     v-decorator="['mentions', { rules: [{  message: '请填写备注' }] }]"
-                                    type="textarea" />
+                                    type="textarea"/>
                         </a-form-item>
                     </a-form>
                 </a-tab-pane>
+<<<<<<< HEAD
                 <a-tab-pane key="2" tab="执行订单" :disabled="currentOrderInfo.orderState!='已预定'">
                     <a-form :form="form2" v-if="currentOrderInfo.orderState=='已预定'">
+=======
+                <a-tab-pane key="2" tab="执行订单" :disabled="currentOrderInfo.orderState=='已入住'">
+                    <a-form :model="form2">
+>>>>>>> f11d29ca7bfe3ab13cc61a583f4b3e0a14568547
                         <a-form-item label="订单号">
                             <a-input
                                     :disabled="true"  style="width: 40px"
@@ -113,59 +124,84 @@
 </template>
 
 
-
 <script>
+<<<<<<< HEAD
     import {mapGetters,mapActions} from 'vuex'
+=======
+    import {mapGetters} from 'vuex'
+
+>>>>>>> f11d29ca7bfe3ab13cc61a583f4b3e0a14568547
     export default {
-        name:'orderDetails',
-        props:{
-            back:{
-                function (){}
+        name: 'orderDetails',
+        props: {
+            back: {
+                function() {
+                }
             },
-            editable:{
-                type:Boolean,
-                default:false
+            editable: {
+                type: Boolean,
+                default: false
             }
         },
-        data(){
+        data() {
             return {
-                orderId:null,
+                orderId: null,
                 loading: false,
                 visible: false,
-                pane:1
+                pane: 1,
+
             }
         },
 
-        computed:{
+        computed: {
             ...mapGetters([
                 'currentOrderInfo'
             ]),
         },
+<<<<<<< HEAD
         methods:{
             ...mapActions(['checkIn']),
+=======
+        methods: {
+>>>>>>> f11d29ca7bfe3ab13cc61a583f4b3e0a14568547
             showModal() {
                 this.visible = true;
             },
             handleOk(e) {
                 this.loading = true;
                 e.preventDefault();
-                let data={}
-                if(Number(this.pane)===1){
+                let data = {}
+                if (Number(this.pane) === 1) {
                     this.form1.validateFieldsAndScroll((err, values) => {
+<<<<<<< HEAD
                         data.orderId=this.form1.getFieldValue("orderId1")
                         data.realTime=this.form1.getFieldValue('realtime1')
                         data.mentions=this.form1.getFieldValue('mentions')
                         data.credit=this.form1.getFieldValue("credit1")
                         //将订单状态改为已入住,恢复信用值
                         this.checkIn(data)
+=======
+                        data.orderId = Number(this.form1.getFieldValue("orderId1"))
+                        data.realTime = this.form1.getFieldValue('realtime1')
+                        data.mentions = this.form1.getFieldValue('mentions')
+                        console.log("data in form1" + data)
+>>>>>>> f11d29ca7bfe3ab13cc61a583f4b3e0a14568547
                     })
-                }else{
+                } else {
                     this.form2.validateFieldsAndScroll((err, values) => {
+<<<<<<< HEAD
                         data.orderId=this.form2.getFieldValue("orderId2")
                         data.realTime=this.form2.getFieldValue("realtime2")
                         data.credit=this.form2.getFieldValue("credit2")
                         //将订单状态改为已入住,增加信用值
                         this.checkIn(data)
+=======
+                        data.orderId = this.form2.getFieldValue("orderId2")
+                        data.realTime = this.form2.getFieldValue("realtime2")
+                        data.credit = this.form2.getFieldValue("credit")
+                        console.log("data in form2")
+                        console.log(data)
+>>>>>>> f11d29ca7bfe3ab13cc61a583f4b3e0a14568547
                     })
                 }
                 setTimeout(() => {
@@ -178,17 +214,17 @@
             handleCancel(e) {
                 this.visible = false;
             },
-            changePane(){
-                if(Number(this.pane)===1){
-                    this.pane=2
-                }else{
-                    this.pane=1
+            changePane() {
+                if (Number(this.pane) === 1) {
+                    this.pane = 2
+                } else {
+                    this.pane = 1
                 }
             }
         },
         beforeCreate() {
-            this.form1= this.$form.createForm(this, { name: 'amendOrder1' })
-            this.form2=this.$form.createForm(this, { name: 'amendOrder2' })
+            this.form1 = this.$form.createForm(this, {name: 'amendOrder1'})
+            this.form2 = this.$form.createForm(this, {name: 'amendOrder2'})
         }
     }
 

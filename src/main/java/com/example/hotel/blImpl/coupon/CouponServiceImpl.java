@@ -19,9 +19,9 @@ import java.util.List;
 public class CouponServiceImpl implements CouponService {
 
 
-    private final  TargetMoneyCouponStrategyImpl targetMoneyCouponStrategy;
+    private final TargetMoneyCouponStrategyImpl targetMoneyCouponStrategy;
 
-    private final  TimeCouponStrategyImpl timeCouponStrategy;
+    private final TimeCouponStrategyImpl timeCouponStrategy;
 
     private final MultiRoomsCouponStrategyimpl multiRoomsCouponStrategyimpl;
 
@@ -29,7 +29,7 @@ public class CouponServiceImpl implements CouponService {
 
     private static List<CouponMatchStrategy> strategyList = new ArrayList<>();
 
-    private static String COUPON_DONT_EXIST="该优惠不存在";
+    private static String COUPON_DONT_EXIST = "该优惠不存在";
 
     @Autowired
     public CouponServiceImpl(TargetMoneyCouponStrategyImpl targetMoneyCouponStrategy,
@@ -42,7 +42,6 @@ public class CouponServiceImpl implements CouponService {
         strategyList.add(targetMoneyCouponStrategy);
         strategyList.add(timeCouponStrategy);
     }
-
 
 
     @Override
@@ -79,7 +78,7 @@ public class CouponServiceImpl implements CouponService {
     public CouponVO addHotelTargetMoneyCoupon(HotelTargetMoneyCouponVO couponVO) {
         System.out.println(couponVO);
         Coupon coupon = new Coupon();
-        BeanUtils.copyProperties(couponVO,coupon);
+        BeanUtils.copyProperties(couponVO, coupon);
         coupon.setTargetMoney(couponVO.getTargetMoney());
         coupon.setDiscountMoney(couponVO.getDiscountMoney());
         int result = couponMapper.insertCoupon(coupon);
@@ -91,13 +90,13 @@ public class CouponServiceImpl implements CouponService {
     public CouponVO addHotelTimeCoupon(HotelTimeCouponVO couponVO) {
         System.out.println(couponVO);
         Coupon coupon = new Coupon();
-        BeanUtils.copyProperties(couponVO,coupon);
-        DateTimeFormatter formatter=DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        coupon.setStartTime(LocalDateTime.parse(couponVO.getDiscountDate()[0]+" 00:00:00",formatter));
-        coupon.setEndTime(LocalDateTime.parse(couponVO.getDiscountDate()[1]+" 00:00:00",formatter));
-        if(couponVO.getDiscount()>0){
+        BeanUtils.copyProperties(couponVO, coupon);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        coupon.setStartTime(LocalDateTime.parse(couponVO.getDiscountDate()[0] + " 00:00:00", formatter));
+        coupon.setEndTime(LocalDateTime.parse(couponVO.getDiscountDate()[1] + " 00:00:00", formatter));
+        if (couponVO.getDiscount() > 0) {
             coupon.setDiscount(couponVO.getDiscount());
-        }else{
+        } else {
             coupon.setTargetMoney(couponVO.getTargetMoney());
             coupon.setDiscountMoney(couponVO.getDiscountMoney());
         }
@@ -110,10 +109,10 @@ public class CouponServiceImpl implements CouponService {
 
 
     @Override
-    public CouponVO addHotelMultiRoomCoupon(HotelMultiRoomCouponVO couponVO){
+    public CouponVO addHotelMultiRoomCoupon(HotelMultiRoomCouponVO couponVO) {
         System.out.println(couponVO);
         Coupon coupon = new Coupon();
-        BeanUtils.copyProperties(couponVO,coupon);
+        BeanUtils.copyProperties(couponVO, coupon);
         coupon.setTargetRoomNum(couponVO.getTargetRoomNum());
         int result = couponMapper.insertCoupon(coupon);
         couponVO.setId(result);
@@ -122,13 +121,32 @@ public class CouponServiceImpl implements CouponService {
 
     @Override
     public ResponseVO cancelCoupon(int couponId) {
-        try{
+        try {
             couponMapper.cancelCoupon(couponId);
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             return ResponseVO.buildFailure(COUPON_DONT_EXIST);
         }
         return ResponseVO.buildSuccess(true);
+    }
+
+    @Override
+    public Coupon getCouponById(int couponId) {
+
+        try {
+            Coupon coupon = couponMapper.selectCouponById(couponId);
+            /*//优惠券类型 1生日特惠 2多间特惠 3满减优惠 4限时优惠
+            if (coupon.getCouponType() == 4) {
+                CouponVO couponVO = new HotelTimeCouponVO();
+                BeanUtils.copyProperties(coupon, couponVO);
+                return couponVO;
+            }*/
+            return coupon;
+        } catch (Exception e) {
+            System.out.println(COUPON_DONT_EXIST);
+            return null;
+        }
+
     }
 
 }
