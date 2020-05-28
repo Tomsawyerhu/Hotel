@@ -27,6 +27,10 @@
     <select id="getUserOrdersInCertainHotel" resultMap="Order">
         select * from OrderList where userId=#{userid} and hotelId=#{hotelid}
     </select>
+    <!--更新订单状态-->
+    <update id="updateOrderState">
+        update OrderList set orderState=#{orderstate} where id=#{orderid}
+    </update>
 
 
 

@@ -54,8 +54,13 @@ public class AccountController {
     }
 
     @PostMapping("/{userEmail}/{amount}/userInfo/addCredit")
-    public ResponseVO addCredit(@PathVariable String userEmail, @PathVariable double amount) {
-        return accountService.addCredit(userEmail,amount);
+    public ResponseVO addCreditAsSale(@PathVariable String userEmail, @PathVariable double amount) {
+        return accountService.addCreditAsSale(userEmail,amount);
+    }
+
+    @GetMapping("/addCreditAsSale/{orderId}/{amount}")
+    public ResponseVO addCreditAsWorker(@PathVariable int orderId, @PathVariable double amount) {
+        return accountService.addCreditAsWorker(orderId,amount);
     }
 
 }

@@ -82,4 +82,14 @@ public interface OrderService {
     List<Order> getUserOrdersInCertainHotel(Integer userId, Integer hotelId);
 
 
+    /**
+     * 修改订单状态
+     *
+     * @param orderId
+     * @param orderStatus
+     * @return
+     */
+    int changeOrderStatus(int orderId,int orderStatus);
+
+
 }

@@ -56,3 +56,11 @@ export function cancelAbnormalOrderAPI(orderId,userId) {
         method: 'GET',
     })
 }
+
+//更改订单状态至已入住并增加信用分 1:已预定 2:已入住 3:已撤销 4:异常
+export function checkInAPI(data) {
+    return axios({
+        url: `${api.orderPre}/checkIn/${data.orderId}/${data.credit}`,
+        method: 'GET',
+    })
+}

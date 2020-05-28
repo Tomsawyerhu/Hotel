@@ -46,10 +46,10 @@ public interface AccountMapper {
      */
      int modifyPassword(@Param("id") int id,@Param("password") String password);
 
-     int subCreditByAnnulOrder(@Param("id") int id,@Param("amount") double amount);
+     int subCreditById(@Param("id") int id,@Param("amount") double amount);
 
-     int addCreditByAnnulAbnormalOrder(@Param("userid") int userid,@Param("amount") double amount);
+     int addCreditById(@Param("userid") int userid,@Param("amount") double amount);
 
-     int addCredit(@Param("email") String email,@Param("amount") double amount);
+     int addCreditByEmail(@Param("email") String email,@Param("amount") double amount);
 
 }

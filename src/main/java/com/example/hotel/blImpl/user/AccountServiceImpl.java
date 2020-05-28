@@ -83,7 +83,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public ResponseVO addCreditByAnnulAbnormalOrder(int userid, double amount) {
         try {
-            accountMapper.addCreditByAnnulAbnormalOrder(userid, amount);
+            accountMapper.addCreditById(userid, amount);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return ResponseVO.buildFailure(ACCOUNT_DONT_EXIST);
@@ -106,17 +106,39 @@ public class AccountServiceImpl implements AccountService {
         //距离订单执行不足6h才会扣除信用值
         if (checkIn - now >= 0 && checkIn - now < 6 * 60 * 60 * 1000) {
             double amount = order.getPrice() / 2;
-            accountMapper.subCreditByAnnulOrder(id, amount);
+            accountMapper.subCreditById(id, amount);
         }
     }
 
     @Override
-    public ResponseVO addCredit(String userEmail, double amount) {
+    public ResponseVO addCreditAsSale(String userEmail, double amount) {
         User user = accountMapper.getAccountByName(userEmail);
         if(user==null){
             return ResponseVO.buildFailure(EMAIL_DONT_EXIST);
         }else{
-            accountMapper.addCredit(userEmail,amount);
+            accountMapper.addCreditByEmail(userEmail,amount);
+        }
+        return ResponseVO.buildSuccess(true);
+    }
+
+    @Override
+    public ResponseVO addCreditAsWorker(int id, double amount) {
+        User user = accountMapper.getAccountById(id);
+        if(user==null){
+            return ResponseVO.buildFailure(ACCOUNT_DONT_EXIST);
+        }else{
+            accountMapper.addCreditById(id,amount);
+        }
+        return ResponseVO.buildSuccess(true);
+    }
+
+    @Override
+    public ResponseVO subCreditAsWorker(int id, double amount) {
+        User user = accountMapper.getAccountById(id);
+        if(user==null){
+            return ResponseVO.buildFailure(ACCOUNT_DONT_EXIST);
+        }else{
+            accountMapper.subCreditById(id,amount);
         }
         return ResponseVO.buildSuccess(true);
     }
