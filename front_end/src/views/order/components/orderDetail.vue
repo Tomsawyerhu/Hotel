@@ -113,6 +113,12 @@
                                     v-decorator="['orderId3',{initialValue:currentOrderInfo.id}]"
                             ></a-input>
                         </a-form-item>
+                        <a-form-item label="扣除信用值">
+                            <a-input
+                                    :disabled="true"  style="width: 80px"
+                                    v-decorator="['credit3',{initialValue:currentOrderInfo.price}]"
+                            />
+                        </a-form-item>
                     </a-form>
                 </a-tab-pane>
                 <a-tab-pane key="4" tab="办理退房" :disabled="currentOrderInfo.orderState!='已执行'">
@@ -123,9 +129,15 @@
                                     v-decorator="['orderId4',{initialValue:currentOrderInfo.id}]"
                             ></a-input>
                         </a-form-item>
-                        <a-form-item label="退房时间">
+                        <a-form-item label="预定时间">
+                            {{currentOrderInfo.checkInDate}}
+                        </a-form-item>
+                        <a-form-item label="规定退房时间">
+                            {{currentOrderInfo.checkInDate}}
+                        </a-form-item>
+                        <a-form-item label="实际退房时间">
                             <a-input
-                                    v-decorator="['checkoutTime4', { rules: [{ required: true, message: '请填写退房时间' }] }]"
+                                    v-decorator="['checkoutTime4', { rules: [{ required: true, message: '请填写实际退房时间' }] }]"
                             />
                         </a-form-item>
                     </a-form>
@@ -197,6 +209,7 @@
                 }else if(Number(this.pane) === 3){
                     this.form3.validateFieldsAndScroll((err, values) => {
                         data.orderId=this.form3.getFieldValue("orderId3")
+                        data.credit=this.form3.getFieldValue("credit3")
                         //置为异常
                         this.badOrder(data)
                     })

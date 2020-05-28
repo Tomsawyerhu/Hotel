@@ -68,7 +68,7 @@ export function checkInAPI(data) {
 //置为异常
 export function badOrderAPI(data) {
     return axios({
-        url: `${api.orderPre}/badOrder/${data.orderId}`,
+        url: `${api.orderPre}/badOrder/${data.orderId}/${data.credit}`,
         method: 'GET',
     })
 }

@@ -80,12 +80,12 @@ public class OrderController {
         }
     }
 
-    @GetMapping("/badOrder/{orderId}")
-    public ResponseVO badOrder(@PathVariable Integer orderId){
+    @GetMapping("/badOrder/{orderId}/{amount}")
+    public ResponseVO badOrder(@PathVariable Integer orderId,@PathVariable String amount){
         int userId= orderService.changeOrderStatus(orderId,4);
         if(userId<0) return ResponseVO.buildFailure("更改状态失败");
         else {
-            return ResponseVO.buildSuccess("更改状态成功");
+            return accountService.subCreditAsWorker(userId,Double.parseDouble(amount));
         }
     }
 
