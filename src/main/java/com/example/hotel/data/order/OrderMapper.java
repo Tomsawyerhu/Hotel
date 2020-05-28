@@ -30,5 +30,7 @@ public interface OrderMapper {
 
     Order getOrderById(@Param("orderid") int orderid);
 
+    int updateOrderState(@Param("orderstate")String orderstate,@Param("orderid") int orderid);
+
 
 }

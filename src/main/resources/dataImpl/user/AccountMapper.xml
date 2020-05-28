@@ -19,15 +19,15 @@
         update User set password=#{password}
         where id=#{id}
     </update>
-    <update id="subCreditByAnnulOrder">
+    <update id="subCreditById">
         update User set credit=credit-#{amount}
         where id=#{id}
     </update>
-    <update id="addCreditByAnnulAbnormalOrder">
+    <update id="addCreditById">
         update User set credit=credit+#{amount}
         where id=#{userid}
     </update>
-    <update id="addCredit">
+    <update id="addCreditByEmail">
         update User set credit=credit+#{amount}
         where email=#{email}
     </update>

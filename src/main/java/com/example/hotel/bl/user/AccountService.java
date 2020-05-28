@@ -69,7 +69,25 @@ public interface AccountService {
      * @param amount
      * @return
      */
-    ResponseVO addCredit(String userEmail, double amount);
+    ResponseVO addCreditAsSale(String userEmail, double amount);
+
+    /**
+     * 酒店工作人员人员为用户增加信用值
+     *
+     * @param id
+     * @param amount
+     * @return
+     */
+    ResponseVO addCreditAsWorker(int id, double amount);
+
+    /**
+     * 酒店工作人员人员为用户减少信用值
+     *
+     * @param id
+     * @param amount
+     * @return
+     */
+    ResponseVO subCreditAsWorker(int id, double amount);
 
 
 }

@@ -4,6 +4,9 @@
         <a-descriptions-item label="订单号">
             {{currentOrderInfo.id}}
         </a-descriptions-item>
+        <a-descriptions-item label="用户编号" >
+            {{currentOrderInfo.userId}}
+        </a-descriptions-item>
         <a-descriptions-item label="酒店名称">
             {{currentOrderInfo.hotelName}}
         </a-descriptions-item>
@@ -18,14 +21,15 @@
         </a-descriptions-item>
         <a-descriptions-item label="订单状态" >
             <a-tag color="grey" v-if="currentOrderInfo.orderState=='已撤销'">已撤销</a-tag>
-            <a-tag color="blue" v-if="currentOrderInfo.orderState=='已入住'">已入住</a-tag>
-            <a-tag color="green" v-if="currentOrderInfo.orderState=='已预定'">已预定</a-tag>
-            <a-tag color="red" v-if="currentOrderInfo.orderState=='异常'">异常</a-tag>
+            <a-tag color="blue" v-else-if="currentOrderInfo.orderState=='已执行'">已执行</a-tag>
+            <a-tag color="red" v-else-if="currentOrderInfo.orderState=='异常'">异常</a-tag>
+            <a-tag color="green" v-else>已预定</a-tag>
             <a-button type="primary" @click="showModal" v-if="editable">
                 修改订单
             </a-button>
         </a-descriptions-item>
-        <a-descriptions-item label="订单内容" span="3">
+
+        <a-descriptions-item label="订单内容" span="2">
             登记人数：{{currentOrderInfo.peopleNum}}<br/>
             预定房间：{{currentOrderInfo.roomType}}/{{currentOrderInfo.roomNum}}间<br/>
             有无儿童：{{Number(currentOrderInfo.haveChild)===0?'有':'无'}}<br/>
@@ -45,14 +49,13 @@
                  @ok="handleOk">
 
             <a-tabs default-active-key="1" @change="changePane">
-                <a-tab-pane key="1" tab="手工补登记" :disabled="currentOrderInfo.orderState=='异常'">
-                    <a-form :model="form1" >
+                <a-tab-pane key="1" tab="手工补登记" :disabled="currentOrderInfo.orderState!='异常'">
+                    <a-form :form="form1" v-if="currentOrderInfo.orderState=='异常'">
                         <a-form-item label="订单号" >
                             <a-input
                                     :disabled="true"
-                                    :default-value="currentOrderInfo.id"
                                     style="width: 40px"
-                                    v-decorator="['orderId1']"
+                                    v-decorator="['orderId1',{initialValue:currentOrderInfo.id}]"
                             />
                         </a-form-item>
                         <a-form-item label="原预定时间">
@@ -64,6 +67,12 @@
                                     v-decorator="['realtime1', { rules: [{ required: true, message: '请填写入住时间' }] }]"
                             />
                         </a-form-item>
+                        <a-form-item label="恢复信用值">
+                            <a-input
+                                    :disabled="true"  style="width: 80px"
+                                    v-decorator="['credit1',{initialValue:Math.floor(currentOrderInfo.price/2)}]"
+                            />
+                        </a-form-item>
                         <a-form-item label="备注">
                             <a-input
                                     v-decorator="['mentions', { rules: [{  message: '请填写备注' }] }]"
@@ -71,12 +80,12 @@
                         </a-form-item>
                     </a-form>
                 </a-tab-pane>
-                <a-tab-pane key="2" tab="执行订单" :disabled="currentOrderInfo.orderState=='已入住'">
-                    <a-form :model="form2" >
+                <a-tab-pane key="2" tab="执行订单" :disabled="currentOrderInfo.orderState!='已预定'">
+                    <a-form :form="form2" v-if="currentOrderInfo.orderState=='已预定'">
                         <a-form-item label="订单号">
                             <a-input
-                                    :disabled="true" :default-value="currentOrderInfo.id" style="width: 40px"
-                                    v-decorator="['orderId2']"
+                                    :disabled="true"  style="width: 40px"
+                                    v-decorator="['orderId2',{initialValue:currentOrderInfo.id}]"
                             ></a-input>
                         </a-form-item>
                         <a-form-item label="预定时间">
@@ -89,8 +98,8 @@
                         </a-form-item>
                         <a-form-item label="增加信用值">
                             <a-input
-                                    :disabled="true" :default-value="currentOrderInfo.price" style="width: 80px"
-                                    v-decorator="['credit']"
+                                    :disabled="true"  style="width: 80px"
+                                    v-decorator="['credit2',{initialValue:currentOrderInfo.price}]"
                             />
                         </a-form-item>
                     </a-form>
@@ -106,7 +115,7 @@
 
 
 <script>
-    import {mapGetters} from 'vuex'
+    import {mapGetters,mapActions} from 'vuex'
     export default {
         name:'orderDetails',
         props:{
@@ -133,33 +142,36 @@
             ]),
         },
         methods:{
+            ...mapActions(['checkIn']),
             showModal() {
-                console.log("showmodal")
                 this.visible = true;
             },
             handleOk(e) {
                 this.loading = true;
-                setTimeout(() => {
-                    this.visible = false;
-                    this.loading = false;
-                }, 3000);
                 e.preventDefault();
                 let data={}
                 if(Number(this.pane)===1){
                     this.form1.validateFieldsAndScroll((err, values) => {
-                        data.orderId=Number(this.form1.getFieldValue("orderId1"))
+                        data.orderId=this.form1.getFieldValue("orderId1")
                         data.realTime=this.form1.getFieldValue('realtime1')
                         data.mentions=this.form1.getFieldValue('mentions')
-                        console.log(this.form1.getFieldsValue())
+                        data.credit=this.form1.getFieldValue("credit1")
+                        //将订单状态改为已入住,恢复信用值
+                        this.checkIn(data)
                     })
                 }else{
                     this.form2.validateFieldsAndScroll((err, values) => {
                         data.orderId=this.form2.getFieldValue("orderId2")
                         data.realTime=this.form2.getFieldValue("realtime2")
-                        data.credit=this.form2.getFieldValue("credit")
-                        console.log(data)
+                        data.credit=this.form2.getFieldValue("credit2")
+                        //将订单状态改为已入住,增加信用值
+                        this.checkIn(data)
                     })
                 }
+                setTimeout(() => {
+                    this.visible = false;
+                    this.loading = false;
+                }, 1000);
 
 
             },

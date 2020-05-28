@@ -52,9 +52,14 @@
                         >
                             <a-button type="danger" size="small">删除订单</a-button>
                         </a-popconfirm>
+                        <a-divider type="vertical"></a-divider>
+                        <a-tag color="grey" v-if="record.orderState=='已撤销'">已撤销</a-tag>
+                        <a-tag color="blue" v-else-if="record.orderState=='已执行'">已执行</a-tag>
+                        <a-tag color="red" v-else-if="record.orderState=='异常'">异常</a-tag>
+                        <a-tag color="green" v-else>已预定</a-tag>
                     </span>
                 </a-table>
-                <order-details  v-if="showDetail" :back="setShowDetailFalse" :editable="true">
+                    <order-details  v-if="showDetail" :back="setShowDetailFalse" :editable="true">
 
                 </order-details>
             </a-tab-pane>

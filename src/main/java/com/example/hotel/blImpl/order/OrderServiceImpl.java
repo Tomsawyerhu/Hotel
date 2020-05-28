@@ -10,6 +10,7 @@ import com.example.hotel.po.Order;
 import com.example.hotel.po.User;
 import com.example.hotel.vo.OrderVO;
 import com.example.hotel.vo.ResponseVO;
+import com.sun.org.apache.xpath.internal.operations.Or;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -86,6 +87,29 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> getUserOrdersInCertainHotel(Integer userId, Integer hotelId) {
         return orderMapper.getUserOrdersInCertainHotel(userId, hotelId);
+    }
+
+    @Override
+    public int changeOrderStatus(int orderId, int orderStatus) {
+        Order order = orderMapper.getOrderById(orderId);
+        if(order==null){
+            return -1;
+        }
+        if(orderStatus==1){
+            orderMapper.updateOrderState("已预定",orderId);
+            return order.getUserId();
+        }else if(orderStatus==2){
+            orderMapper.updateOrderState("已执行",orderId);
+            return order.getUserId();
+        }else if(orderStatus==3){
+            orderMapper.updateOrderState("已撤销",orderId);
+            return order.getUserId();
+        }else if(orderStatus==4){
+            orderMapper.updateOrderState("异常",orderId);
+            return order.getUserId();
+        }else{
+            return -2;
+        }
     }
 
     @Override

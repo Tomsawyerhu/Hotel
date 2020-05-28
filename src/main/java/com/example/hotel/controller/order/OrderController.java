@@ -2,6 +2,7 @@ package com.example.hotel.controller.order;
 
 import com.example.hotel.bl.hotel.HotelService;
 import com.example.hotel.bl.order.OrderService;
+import com.example.hotel.bl.user.AccountService;
 import com.example.hotel.vo.OrderVO;
 import com.example.hotel.vo.ResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,8 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private AccountService accountService;
 
     @PostMapping("/addOrder")
     public ResponseVO reserveHotel(@RequestBody OrderVO orderVO) {
@@ -48,7 +51,7 @@ public class OrderController {
 
     @GetMapping("/{orderid}/getOrder")
     public ResponseVO retrieveOrder(@PathVariable int orderid) {
-        System.out.println(orderService.getOrderByOrderId(orderid));
+        //System.out.println(orderService.getOrderByOrderId(orderid));
         return ResponseVO.buildSuccess(orderService.getOrderByOrderId(orderid));
     }
 
@@ -67,5 +70,14 @@ public class OrderController {
         return ResponseVO.buildSuccess(orderService.getAbnormalOrders());
     }
 
+    @GetMapping("/checkIn/{orderId}/{amount}")
+    public ResponseVO checkIn(@PathVariable Integer orderId,@PathVariable String amount) {
+        System.out.println(orderId);
+        int userId= orderService.changeOrderStatus(orderId,2);
+        if(userId<0) return ResponseVO.buildFailure("更改状态失败");
+        else {
+            return accountService.addCreditAsWorker(userId,Double.parseDouble(amount));
+        }
+    }
 
 }
