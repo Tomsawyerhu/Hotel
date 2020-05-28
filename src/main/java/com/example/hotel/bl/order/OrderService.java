@@ -91,5 +91,15 @@ public interface OrderService {
      */
     int changeOrderStatus(int orderId,int orderStatus);
 
+    /**
+     * 恢复房间数
+     *
+     * @param orderId
+     * @return
+     */
+    void restoreRoom(int orderId);
+
+
+
 
 }

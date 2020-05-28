@@ -1,5 +1,5 @@
 import { message } from 'ant-design-vue'
-import {getUserOrdersInCertainHotelAPI,getOrderDetailsAPI,checkInAPI} from '@/api/order'
+import {getUserOrdersInCertainHotelAPI,getOrderDetailsAPI,checkInAPI,badOrderAPI,checkOutAPI} from '@/api/order'
 
 const getDefaultSate=()=>{
 
@@ -43,6 +43,28 @@ const order={
         checkIn:async({ state, commit },data) => {
             const res = await checkInAPI(data)
             console.log(res)
+            if(res){
+                const res2=await getOrderDetailsAPI(data.orderId)
+                commit("set_currentOrderDetail",res2)
+                message.success("修改订单状态成功")
+            }else{
+                message.error("修改订单状态失败")
+            }
+        },
+        badOrder:async({ state, commit },data) => {
+            const res = await badOrderAPI(data)
+            //console.log(res)
+            if(res){
+                const res2=await getOrderDetailsAPI(data.orderId)
+                commit("set_currentOrderDetail",res2)
+                message.success("修改订单状态成功")
+            }else{
+                message.error("修改订单状态失败")
+            }
+        },
+        checkOut:async({ state, commit },data) => {
+            const res = await checkOutAPI(data)
+            //console.log(res)
             if(res){
                 const res2=await getOrderDetailsAPI(data.orderId)
                 commit("set_currentOrderDetail",res2)

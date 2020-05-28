@@ -91,12 +91,13 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public int changeOrderStatus(int orderId, int orderStatus) {
+        System.out.println(orderStatus);
         Order order = orderMapper.getOrderById(orderId);
         if(order==null){
             return -1;
         }
         if(orderStatus==1){
-            orderMapper.updateOrderState("已预定",orderId);
+            orderMapper.updateOrderState("已预订",orderId);
             return order.getUserId();
         }else if(orderStatus==2){
             orderMapper.updateOrderState("已执行",orderId);
@@ -107,9 +108,21 @@ public class OrderServiceImpl implements OrderService {
         }else if(orderStatus==4){
             orderMapper.updateOrderState("异常",orderId);
             return order.getUserId();
-        }else{
+        }else if(orderStatus==5){
+            orderMapper.updateOrderState("已退房",orderId);
+            return order.getUserId();
+        } else{
             return -2;
         }
+    }
+
+    @Override
+    public void restoreRoom(int orderId) {
+        Order order = orderMapper.getOrderById(orderId);
+        int hotelId=order.getHotelId();
+        String roomType=order.getRoomType();
+        int roomNum=order.getRoomNum();
+        roomService.addRoomNum(hotelId,roomType,roomNum);
     }
 
     @Override

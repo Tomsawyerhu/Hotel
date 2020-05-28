@@ -80,4 +80,26 @@ public class OrderController {
         }
     }
 
+    @GetMapping("/badOrder/{orderId}")
+    public ResponseVO badOrder(@PathVariable Integer orderId){
+        int userId= orderService.changeOrderStatus(orderId,4);
+        if(userId<0) return ResponseVO.buildFailure("更改状态失败");
+        else {
+            return ResponseVO.buildSuccess("更改状态成功");
+        }
+    }
+
+    @GetMapping("/checkOut/{orderId}")
+    public ResponseVO checkOut(@PathVariable Integer orderId){
+        int userId= orderService.changeOrderStatus(orderId,5);
+        if(userId<0) return ResponseVO.buildFailure("更改状态失败");
+        else {
+            orderService.restoreRoom(orderId);
+            return ResponseVO.buildSuccess("更改状态成功");
+        }
+    }
+
+
+
+
 }

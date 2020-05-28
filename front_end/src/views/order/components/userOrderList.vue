@@ -20,10 +20,13 @@
             <a-tag slot="orderState" color="red" slot-scope="text" v-else-if="text==='异常'">
                 {{ text }}
             </a-tag>
-            <a-tag slot="orderState" color="green" slot-scope="text" v-else-if="text==='已预定'">
+            <a-tag slot="orderState" color="green" slot-scope="text" v-else-if="text==='已预订'">
                 {{ text }}
             </a-tag>
-            <a-tag slot="orderState" color="gray" slot-scope="text" v-else>
+            <a-tag slot="orderState" color="yellow" slot-scope="text" v-else-if="text==='已退房'">
+                {{ text }}
+            </a-tag>
+            <a-tag slot="orderState" color="gray" slot-scope="text" v-else >
                 {{ text }}
             </a-tag>
             <span slot="action" slot-scope="record">

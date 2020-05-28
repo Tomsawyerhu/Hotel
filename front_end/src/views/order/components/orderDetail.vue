@@ -23,7 +23,8 @@
             <a-tag color="grey" v-if="currentOrderInfo.orderState=='已撤销'">已撤销</a-tag>
             <a-tag color="blue" v-else-if="currentOrderInfo.orderState=='已执行'">已执行</a-tag>
             <a-tag color="red" v-else-if="currentOrderInfo.orderState=='异常'">异常</a-tag>
-            <a-tag color="green" v-else>已预定</a-tag>
+            <a-tag color="yellow" v-else-if="currentOrderInfo.orderState=='已退房'">已退房</a-tag>
+            <a-tag color="green" v-else>已预订</a-tag>
             <a-button type="primary" @click="showModal" v-if="editable">
                 修改订单
             </a-button>
@@ -49,15 +50,9 @@
                 @ok="handleOk">
 
             <a-tabs default-active-key="1" @change="changePane">
-<<<<<<< HEAD
                 <a-tab-pane key="1" tab="手工补登记" :disabled="currentOrderInfo.orderState!='异常'">
                     <a-form :form="form1" v-if="currentOrderInfo.orderState=='异常'">
                         <a-form-item label="订单号" >
-=======
-                <a-tab-pane key="1" tab="手工补登记" :disabled="currentOrderInfo.orderState=='异常'">
-                    <a-form :model="form1">
-                        <a-form-item label="订单号">
->>>>>>> f11d29ca7bfe3ab13cc61a583f4b3e0a14568547
                             <a-input
                                     :disabled="true"
                                     style="width: 40px"
@@ -86,13 +81,8 @@
                         </a-form-item>
                     </a-form>
                 </a-tab-pane>
-<<<<<<< HEAD
-                <a-tab-pane key="2" tab="执行订单" :disabled="currentOrderInfo.orderState!='已预定'">
-                    <a-form :form="form2" v-if="currentOrderInfo.orderState=='已预定'">
-=======
-                <a-tab-pane key="2" tab="执行订单" :disabled="currentOrderInfo.orderState=='已入住'">
-                    <a-form :model="form2">
->>>>>>> f11d29ca7bfe3ab13cc61a583f4b3e0a14568547
+                <a-tab-pane key="2" tab="执行订单" :disabled="currentOrderInfo.orderState!='已预订'">
+                    <a-form :form="form2" v-if="currentOrderInfo.orderState=='已预订'">
                         <a-form-item label="订单号">
                             <a-input
                                     :disabled="true"  style="width: 40px"
@@ -115,6 +105,31 @@
                         </a-form-item>
                     </a-form>
                 </a-tab-pane>
+                <a-tab-pane key="3" tab="置为异常" :disabled="currentOrderInfo.orderState=='异常'">
+                    <a-form :form="form3" v-if="currentOrderInfo.orderState!='异常'">
+                        <a-form-item label="订单号">
+                            <a-input
+                                    :disabled="true"  style="width: 40px"
+                                    v-decorator="['orderId3',{initialValue:currentOrderInfo.id}]"
+                            ></a-input>
+                        </a-form-item>
+                    </a-form>
+                </a-tab-pane>
+                <a-tab-pane key="4" tab="办理退房" :disabled="currentOrderInfo.orderState!='已执行'">
+                    <a-form :form="form4" v-if="currentOrderInfo.orderState=='已执行'">
+                        <a-form-item label="订单号">
+                            <a-input
+                                    :disabled="true"  style="width: 40px"
+                                    v-decorator="['orderId4',{initialValue:currentOrderInfo.id}]"
+                            ></a-input>
+                        </a-form-item>
+                        <a-form-item label="退房时间">
+                            <a-input
+                                    v-decorator="['checkoutTime4', { rules: [{ required: true, message: '请填写退房时间' }] }]"
+                            />
+                        </a-form-item>
+                    </a-form>
+                </a-tab-pane>
 
             </a-tabs>
         </a-modal>
@@ -125,12 +140,7 @@
 
 
 <script>
-<<<<<<< HEAD
     import {mapGetters,mapActions} from 'vuex'
-=======
-    import {mapGetters} from 'vuex'
-
->>>>>>> f11d29ca7bfe3ab13cc61a583f4b3e0a14568547
     export default {
         name: 'orderDetails',
         props: {
@@ -158,12 +168,8 @@
                 'currentOrderInfo'
             ]),
         },
-<<<<<<< HEAD
         methods:{
-            ...mapActions(['checkIn']),
-=======
-        methods: {
->>>>>>> f11d29ca7bfe3ab13cc61a583f4b3e0a14568547
+            ...mapActions(['checkIn','badOrder','checkOut']),
             showModal() {
                 this.visible = true;
             },
@@ -173,35 +179,33 @@
                 let data = {}
                 if (Number(this.pane) === 1) {
                     this.form1.validateFieldsAndScroll((err, values) => {
-<<<<<<< HEAD
                         data.orderId=this.form1.getFieldValue("orderId1")
                         data.realTime=this.form1.getFieldValue('realtime1')
                         data.mentions=this.form1.getFieldValue('mentions')
                         data.credit=this.form1.getFieldValue("credit1")
                         //将订单状态改为已入住,恢复信用值
                         this.checkIn(data)
-=======
-                        data.orderId = Number(this.form1.getFieldValue("orderId1"))
-                        data.realTime = this.form1.getFieldValue('realtime1')
-                        data.mentions = this.form1.getFieldValue('mentions')
-                        console.log("data in form1" + data)
->>>>>>> f11d29ca7bfe3ab13cc61a583f4b3e0a14568547
                     })
-                } else {
+                } else if(Number(this.pane) === 2){
                     this.form2.validateFieldsAndScroll((err, values) => {
-<<<<<<< HEAD
                         data.orderId=this.form2.getFieldValue("orderId2")
                         data.realTime=this.form2.getFieldValue("realtime2")
                         data.credit=this.form2.getFieldValue("credit2")
                         //将订单状态改为已入住,增加信用值
                         this.checkIn(data)
-=======
-                        data.orderId = this.form2.getFieldValue("orderId2")
-                        data.realTime = this.form2.getFieldValue("realtime2")
-                        data.credit = this.form2.getFieldValue("credit")
-                        console.log("data in form2")
-                        console.log(data)
->>>>>>> f11d29ca7bfe3ab13cc61a583f4b3e0a14568547
+                    })
+                }else if(Number(this.pane) === 3){
+                    this.form3.validateFieldsAndScroll((err, values) => {
+                        data.orderId=this.form3.getFieldValue("orderId3")
+                        //置为异常
+                        this.badOrder(data)
+                    })
+                }else if(Number(this.pane) === 4){
+                    this.form4.validateFieldsAndScroll((err, values) => {
+                        data.orderId=this.form4.getFieldValue("orderId4")
+                        data.checkoutTime=this.form4.getFieldValue("checkoutTime4")
+                        //办理退房
+                        this.checkOut(data)
                     })
                 }
                 setTimeout(() => {
@@ -214,17 +218,15 @@
             handleCancel(e) {
                 this.visible = false;
             },
-            changePane() {
-                if (Number(this.pane) === 1) {
-                    this.pane = 2
-                } else {
-                    this.pane = 1
-                }
+            changePane(e) {
+                this.pane=Number(e)
             }
         },
         beforeCreate() {
             this.form1 = this.$form.createForm(this, {name: 'amendOrder1'})
             this.form2 = this.$form.createForm(this, {name: 'amendOrder2'})
+            this.form3 = this.$form.createForm(this, {name: 'amendOrder3'})
+            this.form4 = this.$form.createForm(this, {name: 'amendOrder4'})
         }
     }
 

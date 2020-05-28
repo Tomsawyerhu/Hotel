@@ -64,3 +64,19 @@ export function checkInAPI(data) {
         method: 'GET',
     })
 }
+
+//置为异常
+export function badOrderAPI(data) {
+    return axios({
+        url: `${api.orderPre}/badOrder/${data.orderId}`,
+        method: 'GET',
+    })
+}
+
+//办理退房
+export function checkOutAPI(data) {
+    return axios({
+        url: `${api.orderPre}/checkOut/${data.orderId}`,
+        method: 'GET',
+    })
+}
