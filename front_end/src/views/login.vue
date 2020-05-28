@@ -217,7 +217,7 @@ export default {
           this.loginLoading = true
           const data = {
             email: this.form.getFieldValue("username"),
-            password: this.form.getFieldValue("password")
+            password: this.$md5(this.form.getFieldValue("password")).toString().substring(0,10)
           }
           await this.login(data)
           this.loginLoading = false
@@ -233,7 +233,7 @@ export default {
           this.registerLoading = true
           const data = {
             email: this.form.getFieldValue('registerUserMail'),
-            password: this.form.getFieldValue('registerPassword'),
+            password: this.$md5(this.form.getFieldValue('registerPassword')).toString().substring(0,10),
             phoneNumber: this.form.getFieldValue('registerPhoneNumber'),
             username: this.form.getFieldValue('registerUsername'),
             credit: 100,

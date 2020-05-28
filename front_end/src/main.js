@@ -7,7 +7,7 @@ import store from './store'
 import Distpicker from 'v-distpicker'
 import "./utils/validate"
 import '@/permission'
-
+import md5 from 'js-md5'
 
 Vue.config.productionTip = false
 const options = {
@@ -24,6 +24,10 @@ Vue.directive('title', {
     document.title = el.dataset.title
   }
 })
+
+/*md5密码加密*/
+Vue.prototype.$md5=md5;
+
 new Vue({
   router,
   store,

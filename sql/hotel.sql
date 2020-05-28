@@ -158,6 +158,9 @@ CREATE TABLE `User` (
   `phonenumber` varchar(255) DEFAULT NULL,
   `credit` double(255,0) DEFAULT NULL,
   `usertype` varchar(255) DEFAULT NULL,
+  'membertype' varchar(255) default null,
+  'birthdate' date default null,
+  'companyname' varchar(255) default null,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;

@@ -147,7 +147,7 @@
                         const data = {
                             userName: this.form.getFieldValue('userName'),
                             phoneNumber: this.form.getFieldValue('phoneNumber'),
-                            password: this.form.getFieldValue('password')
+                            password: this.$md5(this.form.getFieldValue('password')).toString().substring(0,10)
                         }
                         this.updateUserInfo(data).then(() => {
                             this.modify = false
@@ -178,7 +178,7 @@
                 this.form.validateFields((err, values) => {
                     if (!err) {
                         const data = {
-                            password: this.form.getFieldValue('newPassword')
+                            password: this.$md5(this.form.getFieldValue('newPassword')).toString().substring(0,10)
                         }
                         console.log("s")
                         this.modifyPassword(data).then(() => {
