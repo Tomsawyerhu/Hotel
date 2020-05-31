@@ -116,6 +116,12 @@
               <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }"/>
             </a-input>
           </a-form-item>
+          <a-form-item>
+            <div>
+              <a-input-number id="inputNumber" :min="1" :max="4" @change="changeUserType"  v-model="userTypeValue"/>
+              用户类型：{{ userType }}
+            </div>
+          </a-form-item>
            <a-form-item style="margin-top:24px">
             <a-button
               size="large"
@@ -125,6 +131,7 @@
               @click="handleRegister()"
             >确定</a-button>
           </a-form-item>
+
         </a-tab-pane>
       </a-tabs>
     </a-form>
@@ -146,6 +153,8 @@ export default {
       loginLoading: false,
       registerLoading: false,
       form: this.$form.createForm(this),
+      userType: "普通用户",
+      userTypeValue: 1
     }
   },
   computed: {
@@ -169,6 +178,13 @@ export default {
       'login',
       'register'
       ]),
+
+    changeUserType(event){
+      if(event==1){this.userType="普通用户"}
+      else if(event==2){this.userType="酒店工作人员"}
+      else if(event==3){this.userType="网站管理人员"}
+      else{this.userType="网站营销人员"}
+    },
 
     // handler
     handleUsernameOrEmail (rule, value, callback) {
@@ -237,7 +253,7 @@ export default {
             phoneNumber: this.form.getFieldValue('registerPhoneNumber'),
             username: this.form.getFieldValue('registerUsername'),
             credit: 100,
-            userType: 1
+            userType: this.userTypeValue
           }
           await this.register(data).then(() => {
             this.customActiveKey = 'tab1'
