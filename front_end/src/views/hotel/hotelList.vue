@@ -17,13 +17,13 @@
           </a-spin>
       </a-layout-content>
     </a-layout>
-    <a-modal
-            :visible="showSearchModal"
-            cancelText="取消"
-            okText="搜索"
-            title="搜索条件"
-            @cancel="cancel"
-            @ok="search">
+      <a-drawer
+              title="条件搜索"
+              :width="720"
+              :visible="showSearchModal"
+              :body-style="{ paddingBottom: '80px' }"
+              @close="dismissSearch"
+      >
         <a-form :form="form" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }" >
             <a-checkbox :default-checked="true" @change="change1" />
             <a-form-item label="酒店名称" >
@@ -32,24 +32,58 @@
             </a-form-item>
             <a-checkbox :default-checked="true"  @change="change2"/>
             <a-form-item label="酒店地址">
-                <a-input
-                        v-decorator="['hotelAddr', { rules: [{ message: '请填写酒店地址' }] }]"></a-input>
+                <a-cascader
+                        :options="addrOptions"
+                        :load-data="loadData"
+                        placeholder="请选择地址"
+                        change-on-select
+                        v-decorator="['hotelAddr']"
+                />
             </a-form-item>
             <a-checkbox :default-checked="true"  @change="change3"/>
             <a-form-item label="酒店星级">
                 <a-rate v-model="rate" :disabled="starProhibited">
-
                 </a-rate>
             </a-form-item>
-
         </a-form>
-    </a-modal>
+          <div
+                  :style="{
+          position: 'absolute',
+          right: 0,
+          bottom: 0,
+          width: '100%',
+          borderTop: '1px solid #e9e9e9',
+          padding: '10px 16px',
+          background: '#fff',
+          textAlign: 'right',
+          zIndex: 1,
+        }"
+          >
+              <a-button :style="{ marginRight: '8px' }" @click="search">
+                  搜索
+              </a-button>
+              <a-button type="primary" @click="cancel">
+                  取消
+              </a-button>
+          </div>
+      </a-drawer>
   </div>
 </template>
 <script>
 import HotelCard from './components/hotelCard'
 import { mapGetters, mapActions, mapMutations } from 'vuex'
-
+const Options= [
+        {
+            value: '江苏',
+            label: '江苏',
+            isLeaf: false,
+        },
+        {
+            value: '浙江',
+            label: '浙江',
+            isLeaf: false,
+        },
+    ]
 export default {
   name: 'home',
   components: {
@@ -62,7 +96,8 @@ export default {
       rate:3,
       starProhibited:false,
         addrProhibited:false,
-        nameProhibited:false
+        nameProhibited:false,
+        addrOptions:Options
     }
   },
   async mounted() {
@@ -97,19 +132,23 @@ export default {
     showSearch(){
         this.showSearchModal=true
     },
+    dismissSearch(){
+        this.showSearchModal=false
+     },
     search(){
         let data={}
         if(!this.nameProhibited){
             data.hotelName=this.form.getFieldValue("hotelName")
         }
         if(!this.addrProhibited){
+            //此处返回Array对象
             data.hotelAddr=this.form.getFieldValue("hotelAddr")
         }
         if(!this.starProhibited){
             data.hotelStar=this.rate
         }
         console.log(data)
-        
+
     },
     cancel(){
         this.showSearchModal=false
@@ -123,6 +162,28 @@ export default {
       change3(e){
         this.starProhibited=!e.target.checked
     },
+      loadData(selectedOptions) {
+          //console.log(selectedOptions)
+          const targetOption = selectedOptions[selectedOptions.length - 1];
+          targetOption.loading = true;
+
+          // load options lazily
+          setTimeout(() => {
+              targetOption.loading = false;
+              targetOption.children = [
+                  //此处要改为具体的地址
+                  {
+                      label: 'xx',
+                      value: 'xx',
+                  },
+                  {
+                      label: 'yy',
+                      value: 'yy',
+                  },
+              ];
+             this.addrOptions=[...this.addrOptions]
+          }, 1000);
+      },
   },
     beforeCreate() {
         this.form = this.$form.createForm(this, {name: 'searchModal'})
