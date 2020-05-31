@@ -21,6 +21,7 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public void insertRoomInfo(HotelRoom hotelRoom) {
+
         roomMapper.insertRoom(hotelRoom);
     }
 

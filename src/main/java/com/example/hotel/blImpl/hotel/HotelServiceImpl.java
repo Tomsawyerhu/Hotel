@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -110,6 +111,52 @@ public class HotelServiceImpl implements HotelService {
         }
         return userOrderedHotels;
     }
+
+    @Override
+    public List<HotelVO> searchHotel(Map<String, String> conditions) {
+        List<HotelVO> res = new ArrayList<>();
+        List<HotelVO> allHotels = hotelMapper.selectAllHotel();
+        String province = conditions.get("province");
+        String city = conditions.get("city");
+        String area = conditions.get("area");
+        int star = Integer.parseInt(conditions.get("star"));
+        for (HotelVO hotel : allHotels) {
+            String hotelAddr = hotel.getAddress();
+            boolean isFit = true;
+            //首先判断星级是否符合,星级小于star则不符合
+            if (Integer.parseInt(hotel.getHotelStar()) < star) {
+                isFit = false;
+            }
+            //province非空则判断hotelAddr中是否包含province，不包含则不符合
+            if (province != null) {
+                if (!hotelAddr.contains(province)) {
+                    isFit = false;
+                }
+            }
+            //city非空则判断hotelAddr中是否包含city，不包含则不符合
+            if (city != null) {
+                if (!hotelAddr.contains(city)) {
+                    isFit = false;
+                }
+            }
+            //area非空则判断hotelAddr中是否包含area，不包含则不符合
+            if (area != null) {
+                if (!hotelAddr.contains(area)) {
+                    isFit = false;
+                }
+            }
+            //isFit为true表示满足条件，把该酒店加入结果
+            if (isFit) {
+                res.add(hotel);
+            }
+        }
+        if (!res.isEmpty()) {
+            return res;
+        } else {
+            return null;
+        }
+    }
+
 
     @Override
     public HotelVO retrieveHotelDetails(Integer hotelId) {

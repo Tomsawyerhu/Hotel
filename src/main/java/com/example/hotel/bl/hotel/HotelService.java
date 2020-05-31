@@ -7,6 +7,7 @@ import com.example.hotel.vo.CouponVO;
 import com.example.hotel.vo.HotelVO;
 
 import java.util.List;
+import java.util.Map;
 
 public interface HotelService {
 
@@ -69,6 +70,13 @@ public interface HotelService {
      * @return
      */
     List<HotelVO> retrieveUserOrderedHotels(Integer userId);
+
+    /**
+     * 根据搜索条件获取酒店列表，没有符合条件的则返回null
+     * @param conditions
+     * @return
+     */
+    List<HotelVO> searchHotel(Map<String,String> conditions);
 
     /**
      * 查看酒店剩余某种房间数量
