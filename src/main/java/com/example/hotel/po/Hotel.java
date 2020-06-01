@@ -10,8 +10,11 @@ public class Hotel {
     private Integer id;
     private String name;
     private String address;
-    private String bizRegion;
-    private String hotelStar;
+    /**
+     商圈
+     */
+    private BizRegion bizRegion;
+    private HotelStar hotelStar;
     private Double rate;
     private String description;
     private String phoneNum;
@@ -43,12 +46,21 @@ public class Hotel {
         this.address = address;
     }
 
-    public String getBizRegion() {
+
+    public BizRegion getBizRegion() {
         return bizRegion;
     }
 
-    public void setBizRegion(String bizRegion) {
+    public void setBizRegion(BizRegion bizRegion) {
         this.bizRegion = bizRegion;
+    }
+
+    public HotelStar getHotelStar() {
+        return hotelStar;
+    }
+
+    public void setHotelStar(HotelStar hotelStar) {
+        this.hotelStar = hotelStar;
     }
 
     public Double getRate() {
@@ -59,13 +71,7 @@ public class Hotel {
         this.rate = rate;
     }
 
-    public String getHotelStar() {
-        return hotelStar;
-    }
 
-    public void setHotelStar(String hotelStar) {
-        this.hotelStar = hotelStar;
-    }
 
     public String getDescription() {
         return description;

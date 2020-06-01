@@ -49,7 +49,7 @@ public class HotelServiceImpl implements HotelService {
         Hotel hotel = new Hotel();
         hotel.setDescription(hotelVO.getDescription());
         hotel.setAddress(hotelVO.getAddress());
-        hotel.setHotelName(hotelVO.getName());
+        hotel.setName(hotelVO.getName());
         hotel.setPhoneNum(hotelVO.getPhoneNum());
         hotel.setManagerId(hotelVO.getManagerId());
         hotel.setRate(hotelVO.getRate());
