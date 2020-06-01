@@ -8,6 +8,18 @@ export function getManagerListAPI(){
         method: 'POST'
     })
 }
+export function getClientListAPI(){
+    return axios({
+        url: `${api.adminPre}/getAllClients`,
+        method: 'POST'
+    })
+}
+export function getStaffListAPI(){
+    return axios({
+        url: `${api.adminPre}/getAllStaff`,
+        method: 'POST'
+    })
+}
 export function addManagerAPI(data) {
     return axios({
         url: `${api.adminPre}/addManager`,
@@ -15,3 +27,17 @@ export function addManagerAPI(data) {
         data
     })
 }
+export function addStaffAPI(data) {
+    return axios({
+        url: `${api.adminPre}/addStaff`,
+        method: 'POST',
+        data
+    })
+}
+export function deleteAccountAPI(data) {
+    return axios({
+        url: `${api.adminPre}/deleteAccount/${data}`,
+        method: 'POST',
+    })
+}
+

@@ -128,9 +128,7 @@ public class Hotel {
         this.id = id;
     }
 
-    public String getHotelName() {
-        return hotelName;
-    }
+    public String getHotelName() { return hotelName; }
 
     public void setHotelName(String hotelName) {
         this.hotelName = hotelName;

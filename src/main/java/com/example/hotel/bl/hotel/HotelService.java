@@ -5,6 +5,7 @@ import com.example.hotel.po.Order;
 import com.example.hotel.util.ServiceException;
 import com.example.hotel.vo.CouponVO;
 import com.example.hotel.vo.HotelVO;
+import com.example.hotel.vo.ResponseVO;
 
 import java.util.List;
 import java.util.Map;
@@ -20,14 +21,17 @@ public interface HotelService {
     void addHotel(HotelVO hotelVO) throws ServiceException;
 
 
-    /**
+    /* /**
      * 预订酒店修改剩余客房信息
-     *
-     * @param hotelId
-     * @param roomType
-     * @param rooms
+     * @param Id
+     * @param breakfast
+     * @param peopleNum
+     * @param price
      */
-    void updateRoomInfo(Integer hotelId, String roomType, Integer rooms);
+    /*
+
+    void updateRoomInfo(int Id,String breakfast,double price,int peopleNum);*/
+
 
     /**
      * 增加制定酒店剩余客房数量
@@ -37,7 +41,9 @@ public interface HotelService {
      * @param rooms
      */
 
+
     void addRoomNum(Integer hotelId, String roomType, Integer rooms);
+
 
     /**
      * 减少制定酒店剩余客房数量
@@ -46,7 +52,9 @@ public interface HotelService {
      * @param roomType
      * @param rooms
      */
+
     void subRoomNum(Integer hotelId, String roomType, Integer rooms);
+
 
     /**
      * 列表获取酒店信息
@@ -64,12 +72,21 @@ public interface HotelService {
     HotelVO retrieveHotelDetails(Integer hotelId);
 
     /**
+     * 更改某家酒店的详细信息
+     *
+     * @param
+     * @return
+     */
+    ResponseVO updateHotelInfo(HotelVO hotelVO);
+
+    /**
      * 获得用户预定过的酒店列表
      *
      * @param userId
      * @return
      */
     List<HotelVO> retrieveUserOrderedHotels(Integer userId);
+
 
     /**
      * 根据搜索条件获取酒店列表，没有符合条件的则返回null

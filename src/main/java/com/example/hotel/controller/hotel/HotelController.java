@@ -3,6 +3,7 @@ package com.example.hotel.controller.hotel;
 import com.example.hotel.bl.hotel.HotelService;
 import com.example.hotel.bl.hotel.RoomService;
 import com.example.hotel.enums.RoomType;
+import com.example.hotel.po.Hotel;
 import com.example.hotel.po.HotelRoom;
 import com.example.hotel.util.ServiceException;
 import com.example.hotel.vo.HotelVO;
@@ -35,6 +36,11 @@ public class HotelController {
         return ResponseVO.buildSuccess(hotelService.retrieveHotels());
     }
 
+    @PostMapping("/UpdateDetail")
+    public  ResponseVO updateHotelInfo(@RequestBody HotelVO hotelVO){
+        return hotelService.updateHotelInfo(hotelVO);
+    }
+
     @GetMapping("/{userId}/userOrdered")
     public ResponseVO retrieveUserOrderedHotels(@PathVariable Integer userId) {
         return ResponseVO.buildSuccess(hotelService.retrieveUserOrderedHotels(userId));
@@ -42,25 +48,12 @@ public class HotelController {
 
     @PostMapping("/roomInfo")
     public ResponseVO addRoomInfo(@RequestBody HotelRoom hotelRoom) {
-        //此处应该检查同一酒店相同类型的客房只有一条记录
-        int hotelId = hotelRoom.getHotelId();
-        RoomType roomType = hotelRoom.getRoomType();
-        List<HotelRoom> roomList = roomService.retrieveHotelRoomInfo(hotelId);
+        return roomService.insertRoomInfo(hotelRoom);
+    }
 
-        boolean roomTypeExists = false;
-        for (HotelRoom hotelroom : roomList) {
-            if (hotelroom.getRoomType().equals(roomType)) {
-                roomTypeExists = true;
-                break;
-            }
-        }
-
-        if (!roomTypeExists) {
-            roomService.insertRoomInfo(hotelRoom);
-            return ResponseVO.buildSuccess();
-        } else {
-            return ResponseVO.buildFailure("已存在相同类型的客房，不可重复录入");
-        }
+    @PostMapping("/updateRoom")
+    public ResponseVO updateRoomInfo(@RequestBody HotelRoom hotelRoom) {
+        return roomService.updateRoomInfo(hotelRoom);
     }
 
     @GetMapping("/{hotelId}/detail")
@@ -78,6 +71,10 @@ public class HotelController {
         hotelService.deleteHotel(hotelId);
         return ResponseVO.buildSuccess();
     }
-
+    @PostMapping("/deleteRoom/{roomId}")
+    public ResponseVO deleteRoom(@PathVariable Integer roomId) {
+        roomService.deleteRoom(roomId);
+        return ResponseVO.buildSuccess("success");
+    }
 
 }

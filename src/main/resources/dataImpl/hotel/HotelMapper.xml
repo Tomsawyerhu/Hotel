@@ -3,8 +3,8 @@
 <mapper namespace="com.example.hotel.data.hotel.HotelMapper">
     <insert id="insertHotel" parameterType="com.example.hotel.po.Hotel"
             useGeneratedKeys="true" keyProperty="id">
-        insert into Hotel(address,bizRegion,hotelDescription,hotelStar,hotelName,phoneNum,rate,manager_id)
-        values (#{address},#{bizRegion},#{description},#{hotelStar},#{hotelName},#{phoneNum},#{rate},#{managerId})
+        insert into Hotel(address,bizRegion,description,hotelStar,hotelName,phoneNum,rate,managerId)
+        values (#{address},#{bizRegion},#{description},#{hotelStar},#{name},#{phoneNum},#{rate},#{managerId})
     </insert>
 
     <select id="selectAllHotel" resultMap="Hotel">
@@ -14,6 +14,9 @@
     <select id="selectById" resultMap="Hotel">
         select * from Hotel where id=#{id}
     </select>
+    <update id="updateHotelInfo">
+        update Hotel set description =#{describe} where id=#{hotelId}
+    </update>
 
     <!--删除酒店-->
     <delete id="deleteHotel" >
@@ -25,12 +28,12 @@
         <id column="id" property="id"></id>
         <result column="address" property="address"></result>
         <result column="bizRegion" property="bizRegion"></result>
-        <result column="hotelDescription" property="description"></result>
+        <result column="description" property="description"></result>
         <result column="hotelStar" property="hotelStar"></result>
         <result column="hotelName" property="name"></result>
         <result column="phoneNum" property="phoneNum"></result>
         <result column="rate" property="rate"></result>
-        <result column="manager_id" property="managerId"></result>
+        <result column="managerId" property="managerId"></result>
 
     </resultMap>
 

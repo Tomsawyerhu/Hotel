@@ -16,3 +16,23 @@ export function addHotelAPI(data) {
         data,
     })
 }
+export function updateRoomAPI(data) {
+    return axios({
+        url: `${api.hotelPre}/updateRoom`,
+        method: 'POST',
+        data,
+    })
+}
+export function addNewRoomAPI(data) {
+    return axios({
+        url: `${api.hotelPre}/addNewRoom`,
+        method: 'POST',
+        data,
+    })
+}
+export function deleteRoomAPI(data) {
+    return axios({
+        url: `${api.hotelPre}/deleteRoom/${data}`,
+        method: 'POST',
+    })
+}

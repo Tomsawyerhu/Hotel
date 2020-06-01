@@ -2,7 +2,8 @@ import { message } from 'ant-design-vue'
 import store from '@/store'
 import {
     getHotelsAPI,
-    getHotelByIdAPI
+    getHotelByIdAPI,
+    UpdateHotelByIdAPI,
 } from '@/api/hotel'
 import {
     reserveHotelAPI
@@ -14,7 +15,7 @@ import {
 const hotel = {
     state: {
         hotelList: [
-            
+
         ],
         hotelListParams: {
             pageNo: 0,
@@ -25,7 +26,11 @@ const hotel = {
         currentHotelInfo: {
 
         },
+
         orderModalVisible: false,
+        roomEditVisible:false,
+        descEditVisible:false,
+        addRoomVisible:false,
         currentOrderRoom: {
 
         },
@@ -55,8 +60,18 @@ const hotel = {
                 ...data,
             }
         },
+        set_currentHotelInfo_d: function(state, data) {
+            state.currentHotelInfo.description = data
+        }
+        ,
         set_orderModalVisible: function(state, data) {
             state.orderModalVisible = data
+        },
+        set_roomEditVisible: function(state, data) {
+            state.roomEditVisible = data
+        },
+        set_descEditVisible: function(state, data) {
+            state.descEditVisible = data
         },
         set_currentOrderRoom: function(state, data) {
             state.currentOrderRoom = {
@@ -66,6 +81,9 @@ const hotel = {
         },
         set_orderMatchCouponList: function(state, data) {
             state.orderMatchCouponList = data
+        },
+        set_addRoomVisible:function(state, data) {
+            state.addRoomVisible = data
         }
     },
 
@@ -82,6 +100,7 @@ const hotel = {
                 hotelId: state.currentHotelId
             })
             if(res){
+                console.log(res)
                 commit('set_currentHotelInfo', res)
             }
         },
@@ -106,6 +125,14 @@ const hotel = {
                 })
                 console.log(res)
                 commit('set_orderMatchCouponList', res)
+            }
+        },
+        updateHotelInfo:async ({state,commit},data)=>{
+            const res=await UpdateHotelByIdAPI(data)
+            console.log(res)
+            if(res){
+                message.success('更新成功')
+                commit('set_descEditVisible', false)
             }
         }
     }

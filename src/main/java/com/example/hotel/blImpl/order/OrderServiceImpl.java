@@ -63,7 +63,7 @@ public class OrderServiceImpl implements OrderService {
             Order order = new Order();
             BeanUtils.copyProperties(orderVO, order);
             orderMapper.addOrder(order);
-            hotelService.updateRoomInfo(orderVO.getHotelId(), orderVO.getRoomType(), orderVO.getRoomNum()); //这里的update是原有房间数减去这次订单房间数
+            hotelService.subRoomNum(orderVO.getHotelId(), orderVO.getRoomType(), orderVO.getRoomNum()); //这里的update是原有房间数减去这次订单房间数
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return ResponseVO.buildFailure(RESERVE_ERROR);
