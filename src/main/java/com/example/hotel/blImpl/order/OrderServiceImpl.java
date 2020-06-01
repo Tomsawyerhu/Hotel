@@ -10,6 +10,7 @@ import com.example.hotel.po.Order;
 import com.example.hotel.po.User;
 import com.example.hotel.vo.OrderVO;
 import com.example.hotel.vo.ResponseVO;
+import com.example.hotel.vo.UserVO;
 import com.sun.org.apache.xpath.internal.operations.Or;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.Annotation;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,6 +32,7 @@ public class OrderServiceImpl implements OrderService {
     private final static String RESERVE_ERROR = "预订失败";
     private final static String ROOMNUM_LACK = "预订房间数量剩余不足";
     private final static String ANNUL_ERROR = "删除失败";
+    private final static String ORDER_DONT_EXIST = "订单不存在";
     @Autowired
     OrderMapper orderMapper;
     @Autowired
@@ -55,7 +58,7 @@ public class OrderServiceImpl implements OrderService {
             String curdate = sf.format(date);
             orderVO.setCreateDate(curdate);
             orderVO.setOrderState("已预订");
-            User user = accountService.getUserInfo(orderVO.getUserId());
+            UserVO user = accountService.getUserInfo(orderVO.getUserId());
             orderVO.setClientName(user.getUserName());
             orderVO.setPhoneNumber(user.getPhoneNumber());
             Order order = new Order();
@@ -70,23 +73,51 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> getAllOrders() {
-        return orderMapper.getAllOrders();
+    public List<OrderVO> getAllOrders() {
+        List<Order> orders = orderMapper.getAllOrders();
+        List<OrderVO> orderVOS = new ArrayList<>();
+        for(Order order: orders){
+            OrderVO orderVO = new OrderVO();
+            BeanUtils.copyProperties(order,orderVO);
+            orderVOS.add(orderVO);
+        }
+        return orderVOS;
     }
 
     @Override
-    public List<Order> getAbnormalOrders() {
-        return orderMapper.getAbnormalOrders();
+    public List<OrderVO> getAbnormalOrders() {
+        List<Order> orders = orderMapper.getAbnormalOrders();
+        List<OrderVO> orderVOS = new ArrayList<>();
+        for(Order order: orders){
+            OrderVO orderVO = new OrderVO();
+            BeanUtils.copyProperties(order,orderVO);
+            orderVOS.add(orderVO);
+        }
+        return orderVOS;
     }
 
     @Override
-    public List<Order> getUserOrders(int userid) {
-        return orderMapper.getUserOrders(userid);
+    public List<OrderVO> getUserOrders(int userid) {
+        List<Order> orders = orderMapper.getUserOrders(userid);
+        List<OrderVO> orderVOS = new ArrayList<>();
+        for(Order order: orders){
+            OrderVO orderVO = new OrderVO();
+            BeanUtils.copyProperties(order,orderVO);
+            orderVOS.add(orderVO);
+        }
+        return orderVOS;
     }
 
     @Override
-    public List<Order> getUserOrdersInCertainHotel(Integer userId, Integer hotelId) {
-        return orderMapper.getUserOrdersInCertainHotel(userId, hotelId);
+    public List<OrderVO> getUserOrdersInCertainHotel(Integer userId, Integer hotelId) {
+        List<Order> orders = orderMapper.getUserOrdersInCertainHotel(userId, hotelId);
+        List<OrderVO> orderVOS = new ArrayList<>();
+        for(Order order: orders){
+            OrderVO orderVO = new OrderVO();
+            BeanUtils.copyProperties(order,orderVO);
+            orderVOS.add(orderVO);
+        }
+        return orderVOS;
     }
 
     @Override
@@ -127,7 +158,13 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderVO getOrderByOrderId(int orderId) {
-        Order order = orderMapper.getOrderById(orderId);
+        Order order = new Order();
+        try {
+            order = orderMapper.getOrderById(orderId);
+        }catch (Exception e){
+            System.out.println(ORDER_DONT_EXIST);
+            return null;
+        }
         OrderVO orderVO = new OrderVO();
         BeanUtils.copyProperties(order, orderVO);
         return orderVO;
@@ -179,8 +216,8 @@ public class OrderServiceImpl implements OrderService {
      * @return
      */
     @Override
-    public List<Order> getHotelOrders(Integer hotelId) {
-        List<Order> orders = orderService.getAllOrders();
+    public List<OrderVO> getHotelOrders(Integer hotelId) {
+        List<OrderVO> orders = orderService.getAllOrders();
         return orders.stream().filter(order -> order.getHotelId().equals(hotelId)).collect(Collectors.toList());
     }
 

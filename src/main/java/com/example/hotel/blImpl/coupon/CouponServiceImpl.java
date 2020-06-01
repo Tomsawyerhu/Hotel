@@ -48,7 +48,6 @@ public class CouponServiceImpl implements CouponService {
     public List<Coupon> getMatchOrderCoupon(OrderVO orderVO) {
 
         List<Coupon> hotelCoupons = getHotelAllCoupon(orderVO.getHotelId());
-
         List<Coupon> availAbleCoupons = new ArrayList<>();
 
         for (int i = 0; i < hotelCoupons.size(); i++) {

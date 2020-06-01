@@ -6,9 +6,12 @@ import com.example.hotel.enums.UserType;
 import com.example.hotel.po.User;
 import com.example.hotel.vo.ResponseVO;
 import com.example.hotel.vo.UserForm;
+import com.example.hotel.vo.UserVO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,7 +39,14 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<User> getAllManagers() {
-        return adminMapper.getAllManagers();
+    public List<UserVO> getAllManagers() {
+        List<UserVO> managerVOs = new ArrayList<>();
+        List<User> managers = adminMapper.getAllManagers();
+        for(User manager: managers){
+            UserVO managerVO = new UserVO();
+            BeanUtils.copyProperties(manager,managerVO);
+            managerVOs.add(managerVO);
+        }
+        return managerVOs;
     }
 }

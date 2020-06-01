@@ -20,3 +20,11 @@ export function getUserOrderedHotelsAPI(param) {
         method: 'GET',
     })
 }
+//搜索酒店的api
+//location是省+市+区,hotelName酒店名，star是最低酒店星级(是3就返回3及以上)
+export function searchHotelAPI(param) {
+    return axios({
+        url: `${api.hotelPre}/${param.location}/${param.hotelName}/${param.star}/userOrdered`,
+        method: 'GET',
+    })
+}

@@ -14,9 +14,9 @@ public interface HotelMapper {
 
     int insertHotel(Hotel hotel);
 
-    List<HotelVO> selectAllHotel();
+    List<Hotel> selectAllHotel();
 
-    HotelVO selectById(@Param("id") Integer id);
+    Hotel selectById(@Param("id") Integer id);
 
     int deleteHotel(int hotelId);
 }

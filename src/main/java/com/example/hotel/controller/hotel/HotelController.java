@@ -10,7 +10,9 @@ import com.example.hotel.vo.ResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Dictionary;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/hotel")
@@ -64,6 +66,11 @@ public class HotelController {
     @GetMapping("/{hotelId}/detail")
     public ResponseVO retrieveHotelDetail(@PathVariable Integer hotelId) {
         return ResponseVO.buildSuccess(hotelService.retrieveHotelDetails(hotelId));
+    }
+
+    @GetMapping("/searchHotel")
+    public ResponseVO searchHotel(@RequestBody Map<String, String> conditons) {
+        return ResponseVO.buildSuccess(hotelService.searchHotel(conditons));
     }
 
     @DeleteMapping("/deleteHotel/{hotelId}")
