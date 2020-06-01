@@ -140,7 +140,7 @@ public class HotelServiceImpl implements HotelService {
             }
             //名称非空则判断名称的匹配，cnt用来计数搜索条件的名称与hotelName匹配的字符个数，cnt与hotelNameLen绝对值差在2以内则符合
             if(name!=null){
-                String hotelName = hotel.getHotelName();
+                String hotelName = hotel.getName();
                 int hotelNameLen = hotelName.length();
                 int cnt = 0;
                 for(int i=0;i<name.length();i++){
