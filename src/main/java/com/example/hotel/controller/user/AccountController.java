@@ -19,7 +19,7 @@ public class AccountController {
 
     @PostMapping("/login")
     public ResponseVO login(@RequestBody UserForm userForm) {
-        User user = accountService.login(userForm);
+        UserVO user = accountService.login(userForm);
         if (user == null) {
             return ResponseVO.buildFailure(ACCOUNT_INFO_ERROR);
         }
@@ -35,7 +35,7 @@ public class AccountController {
 
     @GetMapping("/{id}/getUserInfo")
     public ResponseVO getUserInfo(@PathVariable int id) {
-        User user = accountService.getUserInfo(id);
+        UserVO user = accountService.getUserInfo(id);
         if (user == null) {
             return ResponseVO.buildFailure(ACCOUNT_INFO_ERROR);
         }
