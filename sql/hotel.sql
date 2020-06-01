@@ -60,24 +60,22 @@ DROP TABLE IF EXISTS `Hotel`;
 CREATE TABLE `Hotel` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `hotelName` varchar(255) NOT NULL,
-  `hotelDescription` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+ /* `hotelinfo` varchar(1024)DEFAULT NULL,*/
   `address` varchar(255) DEFAULT NULL,
   `bizRegion` varchar(255) DEFAULT NULL,
   `hotelStar` varchar(255) DEFAULT NULL,
   `phoneNum` int(11) DEFAULT NULL,
   `rate` double DEFAULT NULL,
-  `manager_id` int(11) DEFAULT NULL,
+  `managerId` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `Hotel`
---
 
 BEGIN;
 /*!40000 ALTER TABLE `Hotel` DISABLE KEYS */;
-INSERT INTO `Hotel` VALUES (1,'汉庭酒店','欢迎您入住',NULL,'XiDan','Four',1829373819,4.8,1),(2,'儒家酒店','欢迎您入住','南京市鼓楼区珠江路268号','XiDan','Four',1829373819,4.8,2),(3,'桂圆酒店','欢迎您入住','南京市栖霞区珠江路268号','XiDan','Four',1829553719,4.8,6);
+INSERT INTO `Hotel` VALUES (1,'汉庭酒店','欢迎您入住',NULL,'XiDan','Four',1829373819,4.8,NULL),(2,'儒家酒店','欢迎您入住','南京市鼓楼区珠江路268号','XiDan','Four',1829373819,4.8,NULL),(3,'桂圆酒店','欢迎您入住','南京市栖霞区珠江路268号','XiDan','Four',1829553719,4.8,NULL);
 /*!40000 ALTER TABLE `Hotel` ENABLE KEYS */;
 COMMIT;
 
@@ -96,6 +94,7 @@ CREATE TABLE `OrderList` (
   `checkInDate` varchar(255) DEFAULT NULL,
   `checkOutDate` varchar(255) DEFAULT NULL,
   `roomType` varchar(255) DEFAULT NULL,
+  `bedType` varchar(255) DEFAULT NULL,
   `roomNum` int(255) DEFAULT NULL,
   `peopleNum` int(255) DEFAULT NULL,
   `haveChild` tinytext,
@@ -129,6 +128,8 @@ CREATE TABLE `Room` (
   `total` int(11) DEFAULT NULL,
   `hotel_id` int(11) DEFAULT NULL,
   `roomType` varchar(50) DEFAULT NULL,
+  `breakfast` varchar(50)DEFAULT NULL,
+  `peopleNum` int(11)DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -139,7 +140,7 @@ CREATE TABLE `Room` (
 
 BEGIN;
 /*!40000 ALTER TABLE `Room` DISABLE KEYS */;
-INSERT INTO `Room` VALUES (2,199,20,20,1,'BigBed'),(3,299,30,30,1,'DoubleBed'),(4,399,10,10,1,'Family'),(5,122,7,0,1,'BigBed'),(6,399,10,10,2,'Family');
+INSERT INTO `Room` VALUES (2,199,20,20,1,'大床房','No','2'),(3,299,30,30,1,'双床房','Yes','2'),(4,399,10,10,1,'家庭房','Yes','3'),(5,122,7,0,2,'大床房','No','2'),(6,399,10,10,2,'家庭房','Yes','3');
 /*!40000 ALTER TABLE `Room` ENABLE KEYS */;
 COMMIT;
 
@@ -158,11 +159,10 @@ CREATE TABLE `User` (
   `phonenumber` varchar(255) DEFAULT NULL,
   `credit` double(255,0) DEFAULT NULL,
   `usertype` varchar(255) DEFAULT NULL,
-  /*
-  'membertype' varchar(255) default null,
+  `manageho_id` varchar(11) DEFAULT NULL,
+  /*'membertype' varchar(255) default null,
   'birthdate' date default null,
-  'companyname' varchar(255) default null,
- */
+  'companyname' varchar(255) default null,*/
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -173,7 +173,7 @@ CREATE TABLE `User` (
 
 BEGIN;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES (4,'1012681@qq.com','123456','测试一号','12345678919',100,'Client'),(5,'123@qq.com','123456','测试二号','12345678911',100,'Client'),(6,'333@qq.com','123456',NULL,NULL,NULL,'HotelManager');
+INSERT INTO `User` VALUES (4,'1012681@qq.com','123456','测试一号','12345678919',100,'Client',NULL),(5,'123@qq.com','123456','测试二号','12345678911',100,'Client',NULL),(6,'333@qq.com','123456',NULL,NULL,NULL,'HotelManager','1');
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 COMMIT;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

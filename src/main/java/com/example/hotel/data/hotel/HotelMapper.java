@@ -19,4 +19,6 @@ public interface HotelMapper {
     Hotel selectById(@Param("id") Integer id);
 
     int deleteHotel(int hotelId);
+
+    void updateHotelInfo(int hotelId,String describe);
 }

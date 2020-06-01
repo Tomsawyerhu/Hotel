@@ -36,6 +36,9 @@ const user = {
         set_userId: (state, data) => {
             state.userId = data
         },
+        set_user_hotel_id:(state, data) => {
+            state.user_hotel_id = data
+        },
         set_userInfo: (state, data) => {
             state.userInfo = {
                 ...state.userInfo,

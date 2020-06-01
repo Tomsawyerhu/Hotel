@@ -1,6 +1,7 @@
 package com.example.hotel.bl.hotel;
 
 import com.example.hotel.po.HotelRoom;
+import com.example.hotel.vo.ResponseVO;
 
 import java.util.List;
 
@@ -19,16 +20,13 @@ public interface RoomService {
      *
      * @param hotelRoom
      */
-    void insertRoomInfo(HotelRoom hotelRoom);
+    ResponseVO insertRoomInfo(HotelRoom hotelRoom);
 
     /**
-     * 预订酒店后更新客房房间数量
-     *
-     * @param hotelId
-     * @param roomType
-     * @param rooms
+     * 修改酒店房间信息
+     * @param hotelRoom
      */
-    void updateRoomInfo(Integer hotelId, String roomType, Integer rooms);
+    ResponseVO updateRoomInfo(HotelRoom hotelRoom);
 
     /**
      * 增加制定酒店剩余客房数量
@@ -38,7 +36,9 @@ public interface RoomService {
      * @param rooms
      */
 
+
     void addRoomNum(Integer hotelId, String roomType, Integer rooms);
+
 
     /**
      * 减少制定酒店剩余客房数量
@@ -47,7 +47,9 @@ public interface RoomService {
      * @param roomType
      * @param rooms
      */
+
     void subRoomNum(Integer hotelId, String roomType, Integer rooms);
+
 
     /**
      * 获取酒店指定房间剩余数量
@@ -57,4 +59,9 @@ public interface RoomService {
      * @return
      */
     int getRoomCurNum(Integer hotelId, String roomType);
+
+    /**
+     * @param roomId
+     */
+    void deleteRoom(Integer roomId);
 }

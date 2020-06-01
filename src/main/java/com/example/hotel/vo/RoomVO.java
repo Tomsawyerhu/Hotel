@@ -1,13 +1,13 @@
 package com.example.hotel.vo;
 
-import com.example.hotel.enums.RoomType;
-
 public class RoomVO {
     private Integer id;
     private String roomType;
     private Double price;
     private Integer curNum;
     private Integer total;
+    private String breakfast ;
+    private Integer peopleNum;
 
     public Integer getId() {
         return id;
@@ -47,5 +47,21 @@ public class RoomVO {
 
     public void setTotal(Integer total) {
         this.total = total;
+    }
+
+    public String getbreakfast() {
+        return breakfast;
+    }
+
+    public void setbreakfast(String breakfast) {
+        this.breakfast = breakfast;
+    }
+
+    public int getpeopleNum() {
+        return peopleNum;
+    }
+
+    public void setpeopleNum(int peopleNum) {
+        this.peopleNum = peopleNum;
     }
 }

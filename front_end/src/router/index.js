@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../views/login.vue'
-
-Vue.use(VueRouter)
-const routes = [
+//配置路由相关信息
+Vue.use(VueRouter)//安装插件
+const routes = [//映射关系
   {
     path: '/login',
     name: 'login',
@@ -11,14 +11,14 @@ const routes = [
   },
   {
     path: '/',
-    redirect: '/NJUSE'
+    redirect: '/NJUSE'//重定向
   },
   {
     path: '/NJUSE',
     name: 'layout',
     redirect: '/hotel/hotelList',
-    component: ()=> import('@/views/layout'),
-    children: [
+    component: ()=> import('@/views/layout'),//懒加载
+    children: [//嵌套路由
       {
         path: '/hotel/hotelList',
         name: 'hotelList',
@@ -28,6 +28,11 @@ const routes = [
         path: '/hotel/hotelDetail/:hotelId',
         name: 'hotelDetail',
         component: () => import('@/views/hotel/hotelDetail')
+      },
+      {
+        path: '/hotel/hotelDetailEdit/:hotelId',
+        name: 'hotelDetailEdit',
+        component: () => import('@/views/hotel/hotelDetailEdit')
       },
       {
         path: '/user/info/:userId',
@@ -53,7 +58,7 @@ const routes = [
   },
 ]
 const createRouter = () => new VueRouter({
-  // mode: 'history', // require service support
+  mode: 'history', // require service support(history model,hash model)
   scrollBehavior: () => ({ y: 0 }),
   routes
 })
@@ -64,4 +69,4 @@ export function resetRouter() {
   router.matcher = newRouter.matcher // reset router
 }
 
-export default router
+export default router//导出router对象

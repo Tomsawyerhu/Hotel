@@ -21,10 +21,33 @@ public interface AdminService {
     ResponseVO addManager(UserForm userForm);
 
     /**
+     * 添加网站营销人员账号
+     * @param userForm
+     * @return
+     */
+    ResponseVO addStaff(UserForm userForm);
+
+    /**
      * 获得所有酒店管理人员信息
      * @return
      */
     List<UserVO> getAllManagers();
 
+    /**
+     * 获得所有用户的信息
+     * @return
+     */
+    List<UserVO> getAllClients();
+    /**
+     * 获得所有网站营销人员的信息
+     * @return
+     */
+    List<UserVO> getAllStaff();
 
+    /**
+     *
+     * @param userId
+     * @return
+     */
+    ResponseVO deleteUser(Integer userId);
 }

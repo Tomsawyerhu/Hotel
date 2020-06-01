@@ -23,6 +23,7 @@ public class AdminServiceImpl implements AdminService {
     private final static String ACCOUNT_EXIST = "账号已存在";
     @Autowired
     AdminMapper adminMapper;
+
     @Override
     public ResponseVO addManager(UserForm userForm) {
         User user = new User();
@@ -39,6 +40,20 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    public ResponseVO addStaff(UserForm userForm) {
+        User user = new User();
+        user.setEmail(userForm.getEmail());
+        user.setPassword(userForm.getPassword());
+        user.setUserType(UserType.MarketingStaff);
+        try {
+            adminMapper.addStaff(user);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseVO.buildFailure(ACCOUNT_EXIST);
+        }
+        return ResponseVO.buildSuccess(true);
+    }
+    @Override
     public List<UserVO> getAllManagers() {
         List<UserVO> managerVOs = new ArrayList<>();
         List<User> managers = adminMapper.getAllManagers();
@@ -48,5 +63,49 @@ public class AdminServiceImpl implements AdminService {
             managerVOs.add(managerVO);
         }
         return managerVOs;
+    }
+
+    @Override
+    public List<UserVO> getAllClients() {
+        List<UserVO> UsersVOs = new ArrayList<>();
+        List<User> clients = adminMapper.getAllClients();
+        for(User client: clients){
+            UserVO clientVO = new UserVO();
+            BeanUtils.copyProperties(client,clientVO);
+            UsersVOs.add(clientVO);
+        }
+        return UsersVOs;
+    }
+
+    @Override
+    public List<UserVO> getAllStaff() {
+        List<UserVO> UsersVOs = new ArrayList<>();
+        List<User> staffs = adminMapper.getAllStaff();
+        for(User staff: staffs){
+            UserVO staffVO = new UserVO();
+            BeanUtils.copyProperties(staff,staffVO);
+            UsersVOs.add(staffVO);
+        }
+        return UsersVOs;
+    }
+
+    @Override
+    public ResponseVO deleteUser(Integer userId){
+        List<UserVO> m=getAllClients();
+        m.addAll(getAllStaff());
+        m.addAll(getAllManagers());
+        boolean exist=false;
+        for(UserVO userVO:m){
+            if(userVO.getId().equals(userId)){
+                exist=true;
+                break;
+            }
+        }
+        if(exist){
+            adminMapper.deleteUser(userId);
+            return ResponseVO.buildSuccess("删除成功");
+        }
+        else return ResponseVO.buildFailure("删除失败");
+
     }
 }

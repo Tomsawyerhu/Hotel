@@ -5,8 +5,6 @@ import com.example.hotel.bl.hotel.RoomService;
 import com.example.hotel.bl.order.OrderService;
 import com.example.hotel.bl.user.AccountService;
 import com.example.hotel.data.hotel.HotelMapper;
-import com.example.hotel.data.hotel.RoomMapper;
-import com.example.hotel.data.user.AccountMapper;
 import com.example.hotel.enums.BizRegion;
 import com.example.hotel.enums.HotelStar;
 import com.example.hotel.enums.UserType;
@@ -58,19 +56,19 @@ public class HotelServiceImpl implements HotelService {
         hotelMapper.insertHotel(hotel);
     }
 
+    /*@Override
+    public void updateRoomInfo(int Id,String breakfast,double price,int peopleNum) {
+        roomService.updateRoomInfo(Id,breakfast,price,peopleNum);
+    }*/
+
     @Override
-    public void updateRoomInfo(Integer hotelId, String roomType, Integer rooms) {
-        roomService.updateRoomInfo(hotelId, roomType, rooms);
+    public void addRoomNum(Integer hotelId, String roomType, Integer rooms){
+        roomService.addRoomNum(hotelId,roomType,rooms);
     }
 
     @Override
-    public void addRoomNum(Integer hotelId, String roomType, Integer rooms) {
-        roomService.addRoomNum(hotelId, roomType, rooms);
-    }
-
-    @Override
-    public void subRoomNum(Integer hotelId, String roomType, Integer rooms) {
-        roomService.subRoomNum(hotelId, roomType, rooms);
+    public void subRoomNum(Integer hotelId, String roomType, Integer rooms){
+        roomService.subRoomNum(hotelId,roomType,rooms);
     }
 
     @Override
@@ -96,6 +94,26 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
+    public ResponseVO updateHotelInfo(HotelVO hotelVO){
+        int hotelId=hotelVO.getId();
+        List<HotelVO> hotelList=retrieveHotels();
+        boolean HotelExists=false;
+        for(HotelVO hotelVO1:hotelList){
+            if(hotelId==hotelVO1.getId()){
+                HotelExists=true;
+                break;
+            }
+        }
+        if(HotelExists){
+            hotelMapper.updateHotelInfo(hotelId,hotelVO.getDescription());
+            return ResponseVO.buildSuccess();
+        }
+        else{
+            return ResponseVO.buildFailure("未找到此酒店");
+        }
+    }
+
+    @Override
     public List<HotelVO> retrieveUserOrderedHotels(Integer userId) { //返回客户预定过的酒店列表
         List<HotelVO> userOrderedHotels = new ArrayList<>();
         List<OrderVO> userOrders = orderService.getUserOrders(userId);
@@ -117,6 +135,7 @@ public class HotelServiceImpl implements HotelService {
         }
         return userOrderedHotels;
     }
+
 
     @Override
     public List<HotelVO> searchHotel(Map<String, String> conditions) {
@@ -187,9 +206,16 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public HotelVO retrieveHotelDetails(Integer hotelId) {
+        /* System.out.println(hotelId);*/
         Hotel hotel = hotelMapper.selectById(hotelId);
         HotelVO hotelVO = new HotelVO();
         BeanUtils.copyProperties(hotel, hotelVO);
+        hotelVO.setBizRegion(hotel.getBizRegion().toString());
+        hotelVO.setHotelStar(hotel.getHotelStar().toString());
+        /*System.out.println(hotelVO.getBizRegion());
+        System.out.println(hotelVO.getHotelStar());
+        System.out.println(hotelVO.getRate());
+        System.out.println(hotelVO.getPhoneNum());*/
         List<HotelRoom> rooms = roomService.retrieveHotelRoomInfo(hotelId);
         List<RoomVO> roomVOS = rooms.stream().map(r -> {
             RoomVO roomVO = new RoomVO();
@@ -198,6 +224,8 @@ public class HotelServiceImpl implements HotelService {
             roomVO.setRoomType(r.getRoomType().toString());
             roomVO.setCurNum(r.getCurNum());
             roomVO.setTotal(r.getTotal());
+            roomVO.setbreakfast(r.getbreakfast());
+            roomVO.setpeopleNum(r.getpeopleNum());
             return roomVO;
         }).collect(Collectors.toList());
         hotelVO.setRooms(roomVOS);

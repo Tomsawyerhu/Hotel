@@ -11,7 +11,6 @@ import com.example.hotel.po.User;
 import com.example.hotel.vo.OrderVO;
 import com.example.hotel.vo.ResponseVO;
 import com.example.hotel.vo.UserVO;
-import com.sun.org.apache.xpath.internal.operations.Or;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -64,7 +63,7 @@ public class OrderServiceImpl implements OrderService {
             Order order = new Order();
             BeanUtils.copyProperties(orderVO, order);
             orderMapper.addOrder(order);
-            hotelService.updateRoomInfo(orderVO.getHotelId(), orderVO.getRoomType(), orderVO.getRoomNum()); //这里的update是原有房间数减去这次订单房间数
+            hotelService.subRoomNum(orderVO.getHotelId(), orderVO.getRoomType(), orderVO.getRoomNum()); //这里的update是原有房间数减去这次订单房间数
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return ResponseVO.buildFailure(RESERVE_ERROR);
