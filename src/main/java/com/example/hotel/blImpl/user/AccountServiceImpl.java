@@ -42,21 +42,25 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public User login(UserForm userForm) {
+    public UserVO login(UserForm userForm) {
         User user = accountMapper.getAccountByName(userForm.getEmail());
         if (null == user || !user.getPassword().equals(userForm.getPassword())) {
             return null;
         }
-        return user;
+        UserVO userVO = new UserVO();
+        BeanUtils.copyProperties(user,userVO);
+        return userVO;
     }
 
     @Override
-    public User getUserInfo(int id) {
+    public UserVO getUserInfo(int id) {
         User user = accountMapper.getAccountById(id);
         if (user == null) {
             return null;
         }
-        return user;
+        UserVO userVO = new UserVO();
+        BeanUtils.copyProperties(user,userVO);
+        return userVO;
     }
 
     @Override

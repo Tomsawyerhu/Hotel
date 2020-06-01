@@ -3,6 +3,7 @@ package com.example.hotel.bl.admin;
 import com.example.hotel.po.User;
 import com.example.hotel.vo.ResponseVO;
 import com.example.hotel.vo.UserForm;
+import com.example.hotel.vo.UserVO;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ public interface AdminService {
      * 获得所有酒店管理人员信息
      * @return
      */
-    List<User> getAllManagers();
+    List<UserVO> getAllManagers();
 
 
 }

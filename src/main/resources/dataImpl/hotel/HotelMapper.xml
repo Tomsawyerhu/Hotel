@@ -21,7 +21,7 @@
     </delete>
 
 
-    <resultMap id="Hotel" type="com.example.hotel.vo.HotelVO">
+    <resultMap id="Hotel" type="com.example.hotel.po.Hotel">
         <id column="id" property="id"></id>
         <result column="address" property="address"></result>
         <result column="bizRegion" property="bizRegion"></result>

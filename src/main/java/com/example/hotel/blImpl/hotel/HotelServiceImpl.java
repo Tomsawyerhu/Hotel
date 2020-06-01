@@ -15,9 +15,8 @@ import com.example.hotel.po.HotelRoom;
 import com.example.hotel.po.Order;
 import com.example.hotel.po.User;
 import com.example.hotel.util.ServiceException;
-import com.example.hotel.vo.CouponVO;
-import com.example.hotel.vo.HotelVO;
-import com.example.hotel.vo.RoomVO;
+import com.example.hotel.vo.*;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,7 +42,7 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public void addHotel(HotelVO hotelVO) throws ServiceException {
-        User manager = accountService.getUserInfo(hotelVO.getManagerId());
+        UserVO manager = accountService.getUserInfo(hotelVO.getManagerId());
         if (manager == null || !manager.getUserType().equals(UserType.HotelManager)) {
             throw new ServiceException("管理员不存在或者无权限！创建酒店失败！");
         }
@@ -86,13 +85,20 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public List<HotelVO> retrieveHotels() {
-        return hotelMapper.selectAllHotel();
+        List<HotelVO> res = new ArrayList<>();
+        List<Hotel> hotels = hotelMapper.selectAllHotel();
+        for (Hotel hotel : hotels) {
+            HotelVO hotelVO = new HotelVO();
+            BeanUtils.copyProperties(hotel, hotelVO);
+            res.add(hotelVO);
+        }
+        return res;
     }
 
     @Override
     public List<HotelVO> retrieveUserOrderedHotels(Integer userId) { //返回客户预定过的酒店列表
         List<HotelVO> userOrderedHotels = new ArrayList<>();
-        List<Order> userOrders = orderService.getUserOrders(userId);
+        List<OrderVO> userOrders = orderService.getUserOrders(userId);
         List<Integer> userOrderedHotelId = new ArrayList<>();
         for (int i = 0; i < userOrders.size(); i++) {
             boolean flag = true;
@@ -115,17 +121,36 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public List<HotelVO> searchHotel(Map<String, String> conditions) {
         List<HotelVO> res = new ArrayList<>();
-        List<HotelVO> allHotels = hotelMapper.selectAllHotel();
+        List<Hotel> allHotels = hotelMapper.selectAllHotel();
         String province = conditions.get("province");
         String city = conditions.get("city");
         String area = conditions.get("area");
-        int star = Integer.parseInt(conditions.get("star"));
-        for (HotelVO hotel : allHotels) {
+        String name = conditions.get("name");
+        String star = conditions.get("star");
+        int starNum = 0; //没传入star则认为最低星级为0
+        if (star != null) {
+            starNum = Integer.parseInt(conditions.get("star"));
+        }
+        for (Hotel hotel : allHotels) {
             String hotelAddr = hotel.getAddress();
             boolean isFit = true;
             //首先判断星级是否符合,星级小于star则不符合
-            if (Integer.parseInt(hotel.getHotelStar()) < star) {
+            if (Integer.parseInt(hotel.getHotelStar().toString()) < starNum) {
                 isFit = false;
+            }
+            //名称非空则判断名称的匹配，cnt用来计数搜索条件的名称与hotelName匹配的字符个数，cnt与hotelNameLen绝对值差在2以内则符合
+            if(name!=null){
+                String hotelName = hotel.getHotelName();
+                int hotelNameLen = hotelName.length();
+                int cnt = 0;
+                for(int i=0;i<name.length();i++){
+                    if(hotelName.indexOf(name.charAt(i))!=-1){
+                        cnt++;
+                    }
+                }
+                if(Math.abs((cnt-hotelNameLen))>2){
+                    isFit = false;
+                }
             }
             //province非空则判断hotelAddr中是否包含province，不包含则不符合
             if (province != null) {
@@ -147,7 +172,9 @@ public class HotelServiceImpl implements HotelService {
             }
             //isFit为true表示满足条件，把该酒店加入结果
             if (isFit) {
-                res.add(hotel);
+                HotelVO hotelVO = new HotelVO();
+                BeanUtils.copyProperties(hotel, hotelVO);
+                res.add(hotelVO);
             }
         }
         if (!res.isEmpty()) {
@@ -160,7 +187,9 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public HotelVO retrieveHotelDetails(Integer hotelId) {
-        HotelVO hotelVO = hotelMapper.selectById(hotelId);
+        Hotel hotel = hotelMapper.selectById(hotelId);
+        HotelVO hotelVO = new HotelVO();
+        BeanUtils.copyProperties(hotel, hotelVO);
         List<HotelRoom> rooms = roomService.retrieveHotelRoomInfo(hotelId);
         List<RoomVO> roomVOS = rooms.stream().map(r -> {
             RoomVO roomVO = new RoomVO();

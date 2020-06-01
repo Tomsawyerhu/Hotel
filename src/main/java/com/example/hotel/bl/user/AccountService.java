@@ -22,7 +22,7 @@ public interface AccountService {
      *
      * @return
      */
-    User login(UserForm userForm);
+    UserVO login(UserForm userForm);
 
     /**
      * 获取用户个人信息
@@ -30,7 +30,7 @@ public interface AccountService {
      * @param id
      * @return
      */
-    User getUserInfo(int id);
+    UserVO getUserInfo(int id);
 
     /**
      * 更新用户个人信息

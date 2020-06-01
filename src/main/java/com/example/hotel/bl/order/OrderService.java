@@ -25,13 +25,13 @@ public interface OrderService {
      *
      * @return
      */
-    List<Order> getAllOrders();
+    List<OrderVO> getAllOrders();
 
     /**
      * 获得所有异常订单
      * @return
      */
-    List<Order> getAbnormalOrders();
+    List<OrderVO> getAbnormalOrders();
 
     /**
      * 获得指定用户的所有订单信息
@@ -39,7 +39,7 @@ public interface OrderService {
      * @param userid
      * @return
      */
-    List<Order> getUserOrders(int userid);
+    List<OrderVO> getUserOrders(int userid);
 
     /**
      * 撤销订单
@@ -62,7 +62,7 @@ public interface OrderService {
      * @param hotelId
      * @return
      */
-    List<Order> getHotelOrders(Integer hotelId);
+    List<OrderVO> getHotelOrders(Integer hotelId);
 
     /**
      * 根据orderId获取相应order
@@ -79,7 +79,7 @@ public interface OrderService {
      * @param hotelId
      * @return
      */
-    List<Order> getUserOrdersInCertainHotel(Integer userId, Integer hotelId);
+    List<OrderVO> getUserOrdersInCertainHotel(Integer userId, Integer hotelId);
 
 
     /**
