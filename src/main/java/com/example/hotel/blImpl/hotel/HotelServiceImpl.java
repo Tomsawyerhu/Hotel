@@ -62,13 +62,13 @@ public class HotelServiceImpl implements HotelService {
     }*/
 
     @Override
-    public void addRoomNum(Integer hotelId, String roomType, Integer rooms){
-        roomService.addRoomNum(hotelId,roomType,rooms);
+    public void addRoomNum(Integer hotelId, String roomType, Integer rooms) {
+        roomService.addRoomNum(hotelId, roomType, rooms);
     }
 
     @Override
-    public void subRoomNum(Integer hotelId, String roomType, Integer rooms){
-        roomService.subRoomNum(hotelId,roomType,rooms);
+    public void subRoomNum(Integer hotelId, String roomType, Integer rooms) {
+        roomService.subRoomNum(hotelId, roomType, rooms);
     }
 
     @Override
@@ -94,21 +94,20 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public ResponseVO updateHotelInfo(HotelVO hotelVO){
-        int hotelId=hotelVO.getId();
-        List<HotelVO> hotelList=retrieveHotels();
-        boolean HotelExists=false;
-        for(HotelVO hotelVO1:hotelList){
-            if(hotelId==hotelVO1.getId()){
-                HotelExists=true;
+    public ResponseVO updateHotelInfo(HotelVO hotelVO) {
+        int hotelId = hotelVO.getId();
+        List<HotelVO> hotelList = retrieveHotels();
+        boolean HotelExists = false;
+        for (HotelVO hotelVO1 : hotelList) {
+            if (hotelId == hotelVO1.getId()) {
+                HotelExists = true;
                 break;
             }
         }
-        if(HotelExists){
-            hotelMapper.updateHotelInfo(hotelId,hotelVO.getDescription());
+        if (HotelExists) {
+            hotelMapper.updateHotelInfo(hotelId, hotelVO.getDescription());
             return ResponseVO.buildSuccess();
-        }
-        else{
+        } else {
             return ResponseVO.buildFailure("未找到此酒店");
         }
     }
@@ -152,22 +151,23 @@ public class HotelServiceImpl implements HotelService {
         }
         for (Hotel hotel : allHotels) {
             String hotelAddr = hotel.getAddress();
+            String hotelName = hotel.getName();
             boolean isFit = true;
             //首先判断星级是否符合,星级小于star则不符合
             if (Integer.parseInt(hotel.getHotelStar().toString()) < starNum) {
                 isFit = false;
             }
-            //名称非空则判断名称的匹配，cnt用来计数搜索条件的名称与hotelName匹配的字符个数，cnt与hotelNameLen绝对值差在2以内则符合
-            if(name!=null){
-                String hotelName = hotel.getName();
-                int hotelNameLen = hotelName.length();
-                int cnt = 0;
-                for(int i=0;i<name.length();i++){
-                    if(hotelName.indexOf(name.charAt(i))!=-1){
-                        cnt++;
-                    }
+            //
+            if (name != null) {
+                if(name.contains("酒店")){
+                    name = name.substring(0,name.length()-2); //去掉酒店两字的影响
                 }
-                if(Math.abs((cnt-hotelNameLen))>2){
+                if(hotelName.contains("酒店")){
+                    hotelName = hotelName.substring(0,hotelName.length()-2);
+                }
+                //通过levenshtein算法计算两个酒店名称的相似度，相似度<=0.5则认为不符合
+                double similarity = levenshtein(name,hotelName);
+                if(similarity<0.5){
                     isFit = false;
                 }
             }
@@ -203,19 +203,18 @@ public class HotelServiceImpl implements HotelService {
         }
     }
 
+    /**
+     * @param hotelId
+     * @return
+     */
 
     @Override
     public HotelVO retrieveHotelDetails(Integer hotelId) {
-        /* System.out.println(hotelId);*/
         Hotel hotel = hotelMapper.selectById(hotelId);
         HotelVO hotelVO = new HotelVO();
         BeanUtils.copyProperties(hotel, hotelVO);
         hotelVO.setBizRegion(hotel.getBizRegion().toString());
         hotelVO.setHotelStar(hotel.getHotelStar().toString());
-        /*System.out.println(hotelVO.getBizRegion());
-        System.out.println(hotelVO.getHotelStar());
-        System.out.println(hotelVO.getRate());
-        System.out.println(hotelVO.getPhoneNum());*/
         List<HotelRoom> rooms = roomService.retrieveHotelRoomInfo(hotelId);
         List<RoomVO> roomVOS = rooms.stream().map(r -> {
             RoomVO roomVO = new RoomVO();
@@ -233,10 +232,52 @@ public class HotelServiceImpl implements HotelService {
         return hotelVO;
     }
 
-
     /**
-     * @param hotelId
+     * 模糊匹配的一个算法，返回两个酒店名字的相似度，若酒店名称中都包含“酒店”两字，则都需要去掉
+     * @param str1
+     * @param str2
      * @return
      */
+    private double levenshtein(String str1, String str2) {
+        //计算两个字符串的长度。
+        int len1 = str1.length();
+        int len2 = str2.length();
+        //建立数组，比字符长度大一个空间
+        int[][] dif = new int[len1 + 1][len2 + 1];
+        //赋初值，步骤B。
+        for (int a = 0; a <= len1; a++) {
+            dif[a][0] = a;
+        }
+        for (int a = 0; a <= len2; a++) {
+            dif[0][a] = a;
+        }
+        //计算两个字符是否一样，计算左上的值
+        int temp;
+        for (int i = 1; i <= len1; i++) {
+            for (int j = 1; j <= len2; j++) {
+                if (str1.charAt(i - 1) == str2.charAt(j - 1)) {
+                    temp = 0;
+                } else {
+                    temp = 1;
+                }
+                //取三个值中最小的
+                dif[i][j] = min(dif[i - 1][j - 1] + temp, dif[i][j - 1] + 1,
+                        dif[i - 1][j] + 1);
+            }
+        }
+        //计算相似度
+        float similarity = 1 - (float) dif[len1][len2] / Math.max(str1.length(), str2.length());
+        return similarity;
+    }
 
+    //得到最小值
+    private int min(int... is) {
+        int min = Integer.MAX_VALUE;
+        for (int i : is) {
+            if (min > i) {
+                min = i;
+            }
+        }
+        return min;
+    }
 }
