@@ -30,7 +30,7 @@ public class TargetMoneyCouponStrategyImplTest {
         coupon1.setCouponType(3);
         coupon2.setCouponType(3);
         coupon1.setTargetMoney(400.0);
-        coupon1.setTargetMoney(600.0);
+        coupon2.setTargetMoney(600.0);
         assertEquals(true, targetMoneyCouponStrategy.isMatch(orderVO, coupon1));
         assertEquals(false, targetMoneyCouponStrategy.isMatch(orderVO, coupon2));
     }

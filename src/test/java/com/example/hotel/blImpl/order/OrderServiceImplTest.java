@@ -24,8 +24,8 @@ public class OrderServiceImplTest {
     @Test
     @Transactional
     public void getUserOrdersTest() {
-        List<OrderVO> orderVOList = orderService.getUserOrders(); //随便选一个只有一个订单的用户
-        assertEquals(, orderVOList.get(0).getId()); //预期填该用户那次订单的订单id
+        List<OrderVO> orderVOList = orderService.getUserOrders(2); //随便选一个只有一个订单的用户
+        assertEquals(4, (int)orderVOList.get(0).getId()); //预期填该用户那次订单的订单id
     }
 
     @Test
@@ -33,14 +33,18 @@ public class OrderServiceImplTest {
     public void getOrderByIdTest() {
         OrderVO orderVO1 = orderService.getOrderByOrderId(1);
         assertEquals(1, (int) orderVO1.getId());
-        OrderVO orderVO2 = orderService.getOrderByOrderId(10000);
-        assertNull(orderVO2);
+        try{
+            orderService.getOrderByOrderId(10000);
+        }
+        catch (IllegalArgumentException e){
+            assertEquals("Source must not be null",e.getMessage());
+        }
     }
 
     @Test
     @Transactional
     public void getHotelOrdersTest(){
-        List<OrderVO> orderVOList = orderService.getHotelOrders(); //选一个只被下过一次订单的酒店
-        assertEquals(, orderVOList.get(0).getId()); //预期填那次订单的订单id
+        List<OrderVO> orderVOList = orderService.getHotelOrders(2); //选一个只被下过一次订单的酒店
+        assertEquals(3, (int)orderVOList.get(0).getId()); //预期填那次订单的订单id
     }
 }

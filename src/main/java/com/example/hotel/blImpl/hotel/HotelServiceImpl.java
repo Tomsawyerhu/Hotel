@@ -174,6 +174,7 @@ public class HotelServiceImpl implements HotelService {
                     isFit = false;
                 }
             }
+            if(hotelAddr!=null){
             //province非空则判断hotelAddr中是否包含province，不包含则不符合
             if (province != null) {
                 if (!hotelAddr.contains(province)) {
@@ -191,6 +192,7 @@ public class HotelServiceImpl implements HotelService {
                 if (!hotelAddr.contains(area)) {
                     isFit = false;
                 }
+            }
             }
             //isFit为true表示满足条件，把该酒店加入结果
             if (isFit) {

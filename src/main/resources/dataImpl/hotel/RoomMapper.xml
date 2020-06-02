@@ -24,8 +24,8 @@
         update Room set curNum=curNum-#{curNum} where hotel_id=#{hotelId} and roomType=#{roomType}
     </update>
 
-    <select id="getRoomCurNum" resultType="int">
-        select curNum from Room where hotel_id=#{hotelId} and roomType=#{roomType} and bedType=#{bedType}
+    <select id="getRoomCurNum" resultType="Integer">
+        select curNum from Room where hotel_id=#{hotelId} and roomType=#{roomType}
     </select>
 
     <delete id="deleteRoom" >

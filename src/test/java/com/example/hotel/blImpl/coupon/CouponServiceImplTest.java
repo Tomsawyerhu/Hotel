@@ -32,9 +32,9 @@ public class CouponServiceImplTest {
     @Test
     @Transactional
     public void getCouponByIdTest(){
-        Coupon coupon1 = couponService.getCouponById(3);
-        assertEquals(3,coupon1.getId());
-        Coupon coupon2 = couponService.getCouponById(5);
-        assertEquals(5,coupon2.getId());
+        Coupon coupon1 = couponService.getCouponById(1);
+        assertEquals(1,coupon1.getId());
+        Coupon coupon2 = couponService.getCouponById(2);
+        assertEquals(2,coupon2.getId());
     }
 }

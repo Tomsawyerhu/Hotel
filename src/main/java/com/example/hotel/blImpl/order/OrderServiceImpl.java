@@ -47,7 +47,8 @@ public class OrderServiceImpl implements OrderService {
     public ResponseVO addOrder(OrderVO orderVO) {
         int reserveRoomNum = orderVO.getRoomNum();
         int curNum = hotelService.getRoomCurNum(orderVO.getHotelId(), orderVO.getRoomType());
-        //System.out.println(curNum);
+        System.out.println(orderVO.getHotelId());
+        System.out.println(orderVO.getRoomType());
         if (reserveRoomNum > curNum) {
             return ResponseVO.buildFailure(ROOMNUM_LACK);
         }

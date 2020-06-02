@@ -44,7 +44,8 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public UserVO login(UserForm userForm) {
         User user = accountMapper.getAccountByName(userForm.getEmail());
-        if (null == user || !user.getPassword().equals(userForm.getPassword())) {
+        System.out.println(userForm.getPassword());
+        if (user==null || !user.getPassword().equals(userForm.getPassword())) {
             return null;
         }
         UserVO userVO = new UserVO();
@@ -65,33 +66,39 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public ResponseVO updateUserInfo(int id, String username, String phonenumber) {
+        int index=1;
         try {
-            accountMapper.updateAccount(id, username, phonenumber);
+            index=accountMapper.updateAccount(id, username, phonenumber);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return ResponseVO.buildFailure(UPDATE_ERROR);
         }
+        if(index<=0){return ResponseVO.buildFailure(UPDATE_ERROR);}
         return ResponseVO.buildSuccess(true);
     }
 
     public ResponseVO modifyPassword(int id, String password) {
+        int index=1;
         try {
-            accountMapper.modifyPassword(id, password);
+            index=accountMapper.modifyPassword(id, password);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return ResponseVO.buildFailure(UPDATE_ERROR);
         }
+        if(index<=0){return ResponseVO.buildFailure(UPDATE_ERROR);}
         return ResponseVO.buildSuccess(true);
     }
 
     @Override
     public ResponseVO addCreditByAnnulAbnormalOrder(int userid, double amount) {
+        int index=1;
         try {
-            accountMapper.addCreditById(userid, amount);
+            index=accountMapper.addCreditById(userid, amount);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return ResponseVO.buildFailure(ACCOUNT_DONT_EXIST);
         }
+        if(index<=0){return ResponseVO.buildFailure(ACCOUNT_DONT_EXIST);}
         return ResponseVO.buildSuccess(true);
     }
 

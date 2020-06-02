@@ -260,6 +260,7 @@
                             createDate: '',
                             price: this.checkedList.length > 0 ? this.finalPrice: this.totalPrice
                         }
+                        console.log(data)
                         this.addOrder(data)
                     }
                 });

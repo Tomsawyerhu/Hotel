@@ -27,7 +27,7 @@ public class AccountServiceImplTest {
     @Transactional
     public void registerAccountTest() {
         UserVO userVO = new UserVO();
-        userVO.setEmail(""); //这里设置一个数据库里已有的邮箱即可
+        userVO.setEmail("1@qq.com"); //这里设置一个数据库里已有的邮箱即可
         ResponseVO responseVO = accountService.registerAccount(userVO);
         assertEquals(ACCOUNT_EXIST, responseVO.getMessage());
     }
@@ -38,11 +38,14 @@ public class AccountServiceImplTest {
         UserForm userForm1 = new UserForm(); //登录失败
         UserForm userForm2 = new UserForm(); //登录成功
         userForm1.setEmail("000@qq.com");
-        userForm2.setEmail(); //这里设置一个数据库里已有的邮箱
+        userForm2.setEmail("1@qq.com"); //这里设置一个数据库里已有的邮箱
+        userForm1.setPassword("e10adc3949");
+        userForm2.setPassword("e10adc3949");
         UserVO user1 = accountService.login(userForm1);
         UserVO user2 = accountService.login(userForm2);
         assertEquals(null,user1);
-        assertEquals(,user2.getId()); //这里填用户的id
+        System.out.println(user2.getId());
+        assertEquals(1,(int)user2.getId()); //这里填用户的id
     }
 
     @Test
@@ -51,13 +54,14 @@ public class AccountServiceImplTest {
         UserVO user1 = accountService.getUserInfo(1000); //这里填一个数据库里不存在的用户id值
         UserVO user2 = accountService.getUserInfo(1);
         assertEquals(null,user1);
-        assertEquals(2,(int)user2.getId());
+        assertEquals(1,(int)user2.getId());
     }
 
     @Test
     @Transactional
     public void updateUserInfoTest(){
         ResponseVO responseVO = accountService.updateUserInfo(1000,"67","123456");
+        System.out.println(responseVO.getSuccess());
         assertEquals(UPDATE_ERROR,responseVO.getMessage());
     }
 
