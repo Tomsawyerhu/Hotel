@@ -15,7 +15,7 @@
                         <a-divider type="vertical"></a-divider>
                         <a-button type="info" size="small" @click="showCoupon(record)">优惠策略</a-button>
                         <a-divider type="vertical"></a-divider>-->
-                        <!--上述为其他人员需要实现的方法-->
+
                         <a-popconfirm
                                 title="确定想删除该酒店吗？"
                                 @confirm="deleteHotel(record)"

@@ -26,7 +26,7 @@ public class CouponServiceImplTest {
         orderVO.setHotelId(1); //选择HotelId=1的酒店，在这家酒店设置一张大于500的满减优惠即可
         orderVO.setPrice(500.0);
         List<Coupon> availableCoupons= couponService.getMatchOrderCoupon(orderVO);
-        assertEquals(,availableCoupons.get(0).getId());//这里expected就填预期的那张优惠券的id
+        assertEquals(1,availableCoupons.get(0).getId());//这里expected就填预期的那张优惠券的id
     }
 
     @Test

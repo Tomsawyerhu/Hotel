@@ -138,6 +138,7 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public List<HotelVO> searchHotel(Map<String, String> conditions) {
+        System.out.println(conditions);
         List<HotelVO> res = new ArrayList<>();
         List<Hotel> allHotels = hotelMapper.selectAllHotel();
         String province = conditions.get("province");
@@ -150,11 +151,12 @@ public class HotelServiceImpl implements HotelService {
             starNum = Integer.parseInt(conditions.get("star"));
         }
         for (Hotel hotel : allHotels) {
+            System.out.println(hotel);
             String hotelAddr = hotel.getAddress();
             String hotelName = hotel.getName();
             boolean isFit = true;
             //首先判断星级是否符合,星级小于star则不符合
-            if (Integer.parseInt(hotel.getHotelStar().toString()) < starNum) {
+            if (hotel.getHotelStar().getStarAsNumber() < starNum) {
                 isFit = false;
             }
             //
@@ -167,6 +169,7 @@ public class HotelServiceImpl implements HotelService {
                 }
                 //通过levenshtein算法计算两个酒店名称的相似度，相似度<=0.5则认为不符合
                 double similarity = levenshtein(name,hotelName);
+                //System.out.println("相似度"+similarity);
                 if(similarity<0.5){
                     isFit = false;
                 }

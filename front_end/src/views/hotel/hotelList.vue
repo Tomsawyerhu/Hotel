@@ -1,21 +1,27 @@
 <template>
     <div class="hotelList">
-        <a-layout>
+        <a-layout >
             <a-layout-content style="min-width: 800px">
                 <a-spin :spinning="hotelListLoading">
                     <div class="card-wrapper">
                         <HotelCard :hotel="item" v-for="item in hotelList" :key="item.index" @click.native="jumpToDetails(item.id)"></HotelCard>
                         <div v-for="item in emptyBox" :key="item.name" class="emptyBox ant-col-xs-7 ant-col-lg-5 ant-col-xxl-3">
                         </div>
-                        <a-pagination showQuickJumper :total="hotelList.totalElements" :defaultCurrent="1" @change="pageChange"></a-pagination>
-                        <a-icon
-                                class="trigger"
-                                type="search"
-                                @click="showSearch"
-                        />
+
                     </div>
                 </a-spin>
             </a-layout-content>
+            <a-layout-sider style="background-color:#f0f2f5;width: 200px">
+                搜索
+                <a-icon
+                        class="trigger"
+                        type="search"
+                        @click="showSearch"
+                />
+            </a-layout-sider>
+
+            <a-pagination showQuickJumper :total="hotelList.totalElements" :defaultCurrent="1" @change="pageChange"></a-pagination>
+
         </a-layout>
         <a-drawer
                 title="条件搜索"
@@ -34,7 +40,6 @@
                 <a-form-item label="酒店地址">
                     <a-cascader
                             :options="addrOptions"
-                            :load-data="loadData"
                             placeholder="请选择地址"
                             change-on-select
                             v-decorator="['hotelAddr']"
@@ -77,11 +82,92 @@
             value: '江苏',
             label: '江苏',
             isLeaf: false,
+            children:[{
+                value: '无锡',
+                label: '无锡',
+                isLeaf: false,
+                children:[{
+                    value: '滨湖区',
+                    label: '滨湖区',
+                    isLeaf: true,
+                },
+                    {
+                        value: '锡山区',
+                        label: '锡山区',
+                        isLeaf: true,
+                    },
+                    {
+                        value: '惠山区',
+                        label: '惠山区',
+                        isLeaf: true,
+                    },
+                    {
+                        value: '梁溪区',
+                        label: '崇安区',
+                        isLeaf: true,
+                    },
+                    {
+                        value: '新吴区',
+                        label: '新吴区',
+                        isLeaf: true,
+                    },
+
+                ]
+            },{
+                value: '常州',
+                label: '常州',
+                isLeaf: false,
+                children:[{
+                    value: '天宁区',
+                    label: '天宁区',
+                    isLeaf: true,
+                    },
+                    {
+                        value: '鼓楼区',
+                        label: '鼓楼区',
+                        isLeaf: true,
+                    },
+                    {
+                        value: '新北区',
+                        label: '新北区',
+                        isLeaf: true,
+                    },
+                    {
+                        value: '武进区',
+                        label: '武进区',
+                        isLeaf: true,
+                    },
+                    {
+                        value: '金坛区',
+                        label: '金坛区',
+                        isLeaf: true,
+                    },
+                ]
+            }]
         },
         {
             value: '浙江',
             label: '浙江',
             isLeaf: false,
+            children:[{
+                value: '杭州',
+                label: '杭州',
+                isLeaf: true
+            },{
+                value: '湖州',
+                label: '湖州',
+                isLeaf: true
+            },
+                {
+                    value: '绍兴',
+                    label: '绍兴',
+                    isLeaf: true
+                },
+                {
+                    value: '宁波',
+                    label: '宁波',
+                    isLeaf: true
+                }]
         },
     ]
     export default {
@@ -116,6 +202,7 @@
             ]),
             ...mapActions([
                 'getHotelList',
+                'searchHotel'
             ]),
 
             pageChange(page, pageSize) {
@@ -138,16 +225,27 @@
             search(){
                 let data={}
                 if(!this.nameProhibited){
-                    data.hotelName=this.form.getFieldValue("hotelName")
+                    data.name=this.form.getFieldValue("hotelName")
                 }
                 if(!this.addrProhibited){
                     //此处返回Array对象
-                    data.hotelAddr=this.form.getFieldValue("hotelAddr")
+                    let arrays=this.form.getFieldValue("hotelAddr")
+                    if(!arrays===undefined) {
+                        if (arrays.length >= 1) {
+                            data.province = arrays[0]
+                        }
+                        if (arrays.length >= 2) {
+                            data.city = arrays[1]
+                        }
+                        if (arrays.length >= 3) {
+                            data.area = arrays[2]
+                        }
+                    }
                 }
                 if(!this.starProhibited){
-                    data.hotelStar=this.rate
+                    data.star=this.rate
                 }
-                console.log(data)
+                this.searchHotel(data)
 
             },
             cancel(){
@@ -161,28 +259,6 @@
             },
             change3(e){
                 this.starProhibited=!e.target.checked
-            },
-            loadData(selectedOptions) {
-                //console.log(selectedOptions)
-                const targetOption = selectedOptions[selectedOptions.length - 1];
-                targetOption.loading = true;
-
-                // load options lazily
-                setTimeout(() => {
-                    targetOption.loading = false;
-                    targetOption.children = [
-                        //此处要改为具体的地址
-                        {
-                            label: 'xx',
-                            value: 'xx',
-                        },
-                        {
-                            label: 'yy',
-                            value: 'yy',
-                        },
-                    ];
-                    this.addrOptions=[...this.addrOptions]
-                }, 1000);
             },
         },
         beforeCreate() {

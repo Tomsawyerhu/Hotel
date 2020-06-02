@@ -104,6 +104,22 @@ public class Hotel {
     public void setManagerId(Integer managerId) {
         this.managerId = managerId;
     }
+
+    @Override
+    public String toString() {
+        return "Hotel{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", bizRegion=" + bizRegion +
+                ", hotelStar=" + hotelStar +
+                ", rate=" + rate +
+                ", description='" + description + '\'' +
+                ", phoneNum='" + phoneNum + '\'' +
+                ", managerId=" + managerId +
+                ", rooms=" + rooms +
+                '}';
+    }
     /*private Integer id;
     private String hotelName;
     private String address;

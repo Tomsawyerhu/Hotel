@@ -61,7 +61,7 @@ public class HotelController {
         return ResponseVO.buildSuccess(hotelService.retrieveHotelDetails(hotelId));
     }
 
-    @GetMapping("/searchHotel")
+    @PostMapping("/searchHotel")
     public ResponseVO searchHotel(@RequestBody Map<String, String> conditons) {
         return ResponseVO.buildSuccess(hotelService.searchHotel(conditons));
     }

@@ -15,4 +15,11 @@ public enum HotelStar {
     public String toString() {
         return value;
     }
+
+    public int getStarAsNumber(){
+        if(this.value.equals("三星级")) return 3;
+        if(this.value.equals("四星级")) return 4;
+        if(this.value.equals("五星级")) return 5;
+        return -1;
+    }
 }

@@ -4,6 +4,7 @@ import {
     getHotelsAPI,
     getHotelByIdAPI,
     UpdateHotelByIdAPI,
+    searchHotelAPI
 } from '@/api/hotel'
 import {
     reserveHotelAPI
@@ -129,12 +130,23 @@ const hotel = {
         },
         updateHotelInfo:async ({state,commit},data)=>{
             const res=await UpdateHotelByIdAPI(data)
-            console.log(res)
+            //console.log(res)
             if(res){
                 message.success('更新成功')
                 commit('set_descEditVisible', false)
             }
+        },
+        searchHotel:async ({state,commit},data)=>{
+            const res= await  searchHotelAPI(data)
+            console.log(res)
+            if(res){
+                commit('set_hotelList', res)
+                message.success('搜索成功')
+            }else{
+                message.error('搜索失败')
+            }
         }
+
     }
 }
 

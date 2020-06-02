@@ -29,6 +29,7 @@ public class AccountController {
 
     @PostMapping("/register")
     public ResponseVO registerAccount(@RequestBody UserVO userVO) {
+        System.out.println(userVO.getUserType());
         return accountService.registerAccount(userVO);
     }
 
