@@ -114,6 +114,26 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
+    public ResponseVO updateHotelManager(HotelVO hotelVO){
+        int hotelId=hotelVO.getId();
+        List<HotelVO> hotelList=retrieveHotels();
+        boolean HotelExists=false;
+        for(HotelVO hotelVO1:hotelList){
+            if(hotelId==hotelVO1.getId()){
+                HotelExists=true;
+                break;
+            }
+        }
+        if(HotelExists){
+            hotelMapper.updateHotelManager(hotelId,hotelVO.getManagerId());
+            return ResponseVO.buildSuccess();
+        }
+        else{
+            return ResponseVO.buildFailure("未找到此酒店");
+        }
+    }
+
+    @Override
     public List<HotelVO> retrieveUserOrderedHotels(Integer userId) { //返回客户预定过的酒店列表
         List<HotelVO> userOrderedHotels = new ArrayList<>();
         List<OrderVO> userOrders = orderService.getUserOrders(userId);

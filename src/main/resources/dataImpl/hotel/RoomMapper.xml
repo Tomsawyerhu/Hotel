@@ -12,8 +12,12 @@
         select * from Room where hotel_id=#{hotelId}
     </select>
 
+    <select id="getRoomById" resultMap="room">
+        select * from Room where id=#{roomId}
+    </select>
+
     <update id="updateRoomInfo">
-        update Room set price=#{price},breakfast=#{breakfast},peopleNum=#{peopleNum} where id=#{Id}
+        update Room set price=#{price},breakfast=#{breakfast},peopleNum=#{peopleNum},total=#{total} where id=#{Id}
     </update>
 
     <update id="addRoomNum">

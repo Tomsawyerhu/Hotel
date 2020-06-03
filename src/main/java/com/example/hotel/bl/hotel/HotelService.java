@@ -80,6 +80,14 @@ public interface HotelService {
     ResponseVO updateHotelInfo(HotelVO hotelVO);
 
     /**
+     * 更改某家酒店的详细信息
+     *
+     * @param
+     * @return
+     */
+    ResponseVO updateHotelManager(HotelVO hotelVO);
+
+    /**
      * 获得用户预定过的酒店列表
      *
      * @param userId

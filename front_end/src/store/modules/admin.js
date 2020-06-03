@@ -23,7 +23,8 @@ const admin = {
         addStaffModalVisible:false,
         addManagerParams: {
             email:'',
-            password:''
+            password:'',
+            hotelId:0
         },
         targetAccount:{
             id:0,
@@ -110,13 +111,15 @@ const admin = {
             if(res) {
                 commit('set_addManagerParams',{
                     email:'',
-                    password:''
+                    password:'',
+                    hotelId:0
                 })
                 commit('set_addManagerModalVisible', false)
                 message.success('添加成功')
                 dispatch('getManagerList')
                 dispatch('getClientList')
                 dispatch('getStaffList')
+                dispatch('getHotelList')
             }else{
                 message.error('添加失败')
             }

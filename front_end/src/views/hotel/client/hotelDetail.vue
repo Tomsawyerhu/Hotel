@@ -32,7 +32,7 @@
                             <a-rate style="font-size: 15px" :value="currentHotelInfo.rate" disabled allowHalf/>
                         </div>
                         <div class="items" v-if="currentHotelInfo.description">
-                            <span class="label">酒店详情:</span>
+                            <span class="label">酒店简介:</span>
                             <span class="value">{{ currentHotelInfo.description }}</span>
                             <!--<span>{{ currentHotelInfo.rooms }}</span>-->
                         </div>
@@ -56,9 +56,9 @@
 </template>
 <script>
     import { mapGetters, mapActions, mapMutations } from 'vuex'
-    import RoomList from './components/roomList'
-    import OrderList from '../order/components/userOrderList'
-    import hotel from "../../store/modules/hotel";
+    import RoomList from './roomList'
+    import OrderList from '@/views/order/components/userOrderList'
+    import hotel from "../../../store/modules/hotel";
 
     export default {
         name: 'hotelDetail',

@@ -21,4 +21,7 @@ public interface HotelMapper {
     int deleteHotel(int hotelId);
 
     void updateHotelInfo(int hotelId,String describe);
+
+    void updateHotelManager(int hotelId,int managerId);
+
 }

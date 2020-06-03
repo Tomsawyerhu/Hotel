@@ -1,12 +1,14 @@
 package com.example.hotel.blImpl.admin;
 
 import com.example.hotel.bl.admin.AdminService;
+import com.example.hotel.bl.user.AccountService;
+import com.example.hotel.bl.hotel.HotelService;
 import com.example.hotel.data.admin.AdminMapper;
+import com.example.hotel.data.user.AccountMapper;
 import com.example.hotel.enums.UserType;
 import com.example.hotel.po.User;
-import com.example.hotel.vo.ResponseVO;
-import com.example.hotel.vo.UserForm;
-import com.example.hotel.vo.UserVO;
+import com.example.hotel.vo.*;
+import org.apache.ibatis.jdbc.Null;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,22 +23,40 @@ import java.util.List;
 @Service
 public class AdminServiceImpl implements AdminService {
     private final static String ACCOUNT_EXIST = "账号已存在";
+    private final static String EXIT_MANAGER= "该酒店已有管理人员";
     @Autowired
     AdminMapper adminMapper;
+    @Autowired
+    AccountMapper accountMapper;
+
+    @Autowired
+    private HotelService hotelService;
 
     @Override
-    public ResponseVO addManager(UserForm userForm) {
+    public ResponseVO addManager(UserFormLink userForm) {
         User user = new User();
         user.setEmail(userForm.getEmail());
         user.setPassword(userForm.getPassword());
         user.setUserType(UserType.HotelManager);
-        try {
-            adminMapper.addManager(user);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return ResponseVO.buildFailure(ACCOUNT_EXIST);
+        user.setManage_hotelId(userForm.getHotelId());
+        /*System.out.println(user.getPassword());
+        System.out.println(user.getManage_hotelId());
+        System.out.println(user.getUserType());*/
+        HotelVO hotelVO=hotelService.retrieveHotelDetails(Integer.parseInt(userForm.getHotelId()));
+        /*System.out.println(hotelVO.getManagerId());*/
+        if(hotelVO.getManagerId()==null){
+            try {
+                adminMapper.addManager(user);
+                user=accountMapper.getAccountByName(userForm.getEmail());
+                hotelVO.setManagerId(user.getId());
+                hotelService.updateHotelManager(hotelVO);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                return ResponseVO.buildFailure(ACCOUNT_EXIST);
+            }
+            return ResponseVO.buildSuccess(true);
         }
-        return ResponseVO.buildSuccess(true);
+        else return ResponseVO.buildFailure(EXIT_MANAGER);
     }
 
     @Override

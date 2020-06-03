@@ -18,6 +18,9 @@
         update Hotel set description =#{describe} where id=#{hotelId}
     </update>
 
+    <update id="updateHotelManager">
+        update Hotel set managerId =#{managerId} where id=#{hotelId}
+    </update>
     <!--删除酒店-->
     <delete id="deleteHotel" >
         delete from Hotel where id=#{hotelId}

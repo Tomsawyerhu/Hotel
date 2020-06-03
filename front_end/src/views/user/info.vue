@@ -97,7 +97,7 @@
     import {mapActions, mapGetters, mapMutations} from 'vuex'
     import orderDetail from '../order/components/orderDetail'
     import OrderList from "../order/components/userOrderList"
-    import UserOrderedHotelList from "../hotel/userOrderedHotelList";
+    import UserOrderedHotelList from "../hotel/client/userOrderedHotelList";
     import test from "../test";
 
     export default {
