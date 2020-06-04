@@ -41,7 +41,7 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public void addHotel(HotelVO hotelVO) throws ServiceException {
         UserVO manager = accountService.getUserInfo(hotelVO.getManagerId());
-        if (manager == null || !manager.getUserType().equals(UserType.HotelManager)) {
+        if (manager == null || !manager.getUserType().equals(UserType.Admin)) {
             throw new ServiceException("管理员不存在或者无权限！创建酒店失败！");
         }
         Hotel hotel = new Hotel();
