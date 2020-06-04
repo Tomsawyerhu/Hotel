@@ -17,7 +17,7 @@
     </select>
 
     <update id="updateRoomInfo">
-        update Room set price=#{price},breakfast=#{breakfast},peopleNum=#{peopleNum},total=#{total} where id=#{Id}
+        update Room set price=#{price},breakfast=#{breakfast},peopleNum=#{peopleNum},total=#{total},curNum=#{curNum} where id=#{Id}
     </update>
 
     <update id="addRoomNum">

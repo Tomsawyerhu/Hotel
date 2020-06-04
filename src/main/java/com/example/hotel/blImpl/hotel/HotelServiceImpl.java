@@ -258,5 +258,7 @@ public class HotelServiceImpl implements HotelService {
      * @param hotelId
      * @return
      */
-
+    public void deLink(Integer hotelId){
+        hotelMapper.deLink(hotelId);
+    }
 }

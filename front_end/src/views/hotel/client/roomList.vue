@@ -57,13 +57,13 @@
         },
         {
             title: '现有房间',
-            key: '',
-            dataIndex: 'peopleNum',
+            key: 'curNum',
+            dataIndex: 'curNum',
         },
         {
-            title: '入住人数',
-            key: 'peopleNum',
-            dataIndex: 'peopleNum',
+            title: '总共房间',
+            key: 'total',
+            dataIndex: 'total',
         },
         {
             title: '房价',

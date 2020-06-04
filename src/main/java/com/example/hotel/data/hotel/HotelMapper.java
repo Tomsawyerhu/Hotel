@@ -24,4 +24,6 @@ public interface HotelMapper {
 
     void updateHotelManager(int hotelId,int managerId);
 
+    void deLink(int hotelId);
+
 }

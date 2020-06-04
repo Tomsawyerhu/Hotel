@@ -6,7 +6,7 @@
                     <!--<p>{{userList}}</p>-->
                 </div>
                 <a-table
-                        :columns="columns"
+                        :columns="columns2"
                         :dataSource="clientList"
                         bordered
                 >
@@ -23,10 +23,10 @@
             </a-tab-pane>
             <a-tab-pane tab="酒店管理人员账户" key="2">
                 <div style="width: 100%; text-align: right; margin:20px 0">
-                    <!--<p>{{managerList}}</p>-->
+                    {{managerList}}
                 </div>
                 <a-table
-                        :columns="columns"
+                        :columns="columns1"
                         :dataSource="managerList"
                         bordered
                 >
@@ -46,7 +46,7 @@
                     <!--<p>{{staffList}}</p>-->
                 </div>
                 <a-table
-                        :columns="columns"
+                        :columns="columns2"
                         :dataSource="staffList"
                         bordered
                 >
@@ -69,9 +69,36 @@
 <script>
     import { mapGetters, mapMutations, mapActions } from 'vuex'
     import AddManagerModal from './components/addManagerModal'
-    /*import editUserInfo from "./components/editUserInfo";*/
+    import editUserInfo from "./components/editUserInfo";
     import addStaffModal from "./components/addStaffModal";
-    const columns = [
+    const columns1 = [
+        {
+            title: '用户邮箱',
+            dataIndex: 'email',
+        },
+        {
+            title: '用户名',
+            dataIndex: 'userName',
+        },
+        {
+            title: '用户手机号',
+            dataIndex: 'phoneNumber',
+        },
+        {
+            title: '信用值',
+            dataIndex: 'credit',
+        },
+        {
+            title:'管理的酒店的编号',
+            dataIndex:'manage_hotelId'
+        },
+        {
+            title: '操作',
+            key: 'action',
+            scopedSlots: { customRender: 'action' },
+        },
+    ];
+    const columns2 = [
         {
             title: '用户邮箱',
             dataIndex: 'email',
@@ -100,14 +127,15 @@
             return {
                 formLayout: 'horizontal',
                 pagination: {},
-                columns,
+                columns1,
+                columns2,
                 data: [],
                 form: this.$form.createForm(this, { name: 'manageUser' }),
             }
         },
         components: {
             AddManagerModal,
-            /*editUserInfo,*/
+            editUserInfo,
             addStaffModal
         },
         computed: {
@@ -134,7 +162,9 @@
             ...mapMutations([
                 'set_addManagerModalVisible',
                 'set_targetAccount',
-                'set_addStaffModalVisible'
+                'set_addStaffModalVisible',
+                'set_editUser',
+                'set_UserInfoEditVisible'
             ]),
             addManager(){
                 this.set_addManagerModalVisible(true)
@@ -147,7 +177,9 @@
                 this.deleteAccount()
             },
             edit(record){
-
+                this.set_targetAccount(record)
+                console.log(record)
+                this.$store.commit('set_UserInfoEditVisible',true)
             },
 
         }

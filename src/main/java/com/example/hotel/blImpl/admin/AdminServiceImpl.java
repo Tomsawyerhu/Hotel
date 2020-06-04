@@ -115,13 +115,16 @@ public class AdminServiceImpl implements AdminService {
         m.addAll(getAllStaff());
         m.addAll(getAllManagers());
         boolean exist=false;
+        UserVO uservo=null;
         for(UserVO userVO:m){
             if(userVO.getId().equals(userId)){
                 exist=true;
+                uservo=userVO;
                 break;
             }
         }
         if(exist){
+            if(uservo.getManage_hotelId()!=null){hotelService.deLink(Integer.parseInt(uservo.getManage_hotelId()));}
             adminMapper.deleteUser(userId);
             return ResponseVO.buildSuccess("删除成功");
         }

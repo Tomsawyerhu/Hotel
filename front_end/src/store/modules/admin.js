@@ -6,6 +6,7 @@ import {
     deleteAccountAPI,
     addStaffAPI
 } from '@/api/admin'
+import {updateUserInfoAPI}from '@/api/user'
 import { message } from 'ant-design-vue'
 
 const admin = {
@@ -26,6 +27,7 @@ const admin = {
             password:'',
             hotelId:0
         },
+        UserInfoEditVisible:false,
         targetAccount:{
             id:0,
             email:'',
@@ -64,9 +66,26 @@ const admin = {
         },
         set_addStaffModalVisible:function (state,data) {
             state.addStaffModalVisible=data
-        }
+        },
+        set_UserInfoEditVisible:function (state,data) {
+            state.UserInfoEditVisible=data
+        },
     },
     actions: {
+        updateAccountInfo: async({ state, commit,dispatch }) => {
+            console.log(state.targetAccount)
+            const res = await updateUserInfoAPI(state.targetAccount)
+            if(res){
+                dispatch('getManagerList')
+                dispatch('getStaffList')
+                dispatch('getClientList')
+                dispatch('getHotelList')
+                //console.log(state.orderList[1])
+                message.success('更改成功')
+                commit('set_UserInfoEditVisible',false)
+            }
+            else message.error('更改失败')
+        },
         getManagerList: async({ commit }) => {
             const res = await getManagerListAPI()
             if(res){

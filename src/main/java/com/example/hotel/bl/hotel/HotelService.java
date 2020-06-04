@@ -121,5 +121,10 @@ public interface HotelService {
      */
     int deleteHotel(Integer hotelId);
 
+    /**
+     * 解除酒店和酒店工作人员的绑定
+     * @param hotelId
+     */
+    void deLink(Integer hotelId);
 
 }

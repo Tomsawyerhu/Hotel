@@ -2,6 +2,8 @@ import {addHotelAPI, addRoomAPI,deleteHotelAPI,updateRoomAPI,deleteRoomAPI} from
 import {getAllOrdersAPI,cancelOrderAPI} from '@/api/order'
 import {hotelAllCouponsAPI, hotelTargetMoneyAPI,hotelTimeAPI,hotelMultiRoomAPI} from '@/api/coupon'
 import {message} from 'ant-design-vue'
+import {updateUserInfoAPI} from "../../api/user";
+import {getHotelByIdAPI} from "../../api/hotel";
 
 const hotelManager = {
     state: {
@@ -120,11 +122,12 @@ const hotelManager = {
                 message.error('更新失败')
             }
         },
-        addNewRoom:async ({state,commit},data)=>{
+        addNewRoom:async ({state,commit,dispatch},data)=>{
             const res=await addRoomAPI(data)
             //console.log(res)
             if(res){
                 commit('set_addRoomVisible', false)
+                dispatch('getHotelById')
                 message.success('添加成功')
             }
             else{

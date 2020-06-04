@@ -76,6 +76,7 @@
         <AddHotelModal></AddHotelModal>
         <AddRoomModal></AddRoomModal>
         <Coupon></Coupon>
+        <EditManager></EditManager>
     </div>
 </template>
 <script>
@@ -86,6 +87,7 @@
     import OrderDetail from '../order/components/orderDetail'
     import OrderDetails from "../order/components/orderDetail";
     import addManagerModal from "../admin/components/addManagerModal";
+    import EditManager from "@/views/admin/components/editUserInfo"
     const moment = require('moment')
     const columns1 = [
         {
@@ -174,7 +176,8 @@
             AddHotelModal,
             AddRoomModal,
             Coupon,
-            addManagerModal
+            addManagerModal,
+            EditManager
         },
         computed: {
             ...mapGetters([
@@ -201,7 +204,9 @@
                 'set_activeHotelId',
                 'set_currentOrderId',
                 'set_currentHotelInfo',
-                'set_addManagerModalVisible'
+                'set_addManagerModalVisible',
+                'set_targetAccount',
+                'set_UserInfoEditVisible'
             ]),
             ...mapActions([
                 'getHotelList',
@@ -246,7 +251,11 @@
                 this.set_currentHotelInfo(record)
                 this.set_addManagerModalVisible(true)
             },
-            editManager(record){}
+            editManager(record){
+                this.set_targetAccount(record)
+                console.log(record)
+                this.$store.commit('set_UserInfoEditVisible',true)
+            }
         }
     }
 </script>

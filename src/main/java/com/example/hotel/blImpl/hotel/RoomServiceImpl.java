@@ -60,7 +60,8 @@ public class RoomServiceImpl implements RoomService {
 
         if (Exists) {
             if((old_one.getTotal()-old_one.getCurNum())>hotelRoom.getTotal()){return ResponseVO.buildFailure("录入房间总量不正确");}
-            roomMapper.updateRoomInfo(hotelRoom.getId(),hotelRoom.getbreakfast(),hotelRoom.getPrice(),hotelRoom.getpeopleNum(),hotelRoom.getTotal());
+            hotelRoom.setCurNum(hotelRoom.getTotal()-old_one.getTotal()+old_one.getCurNum());
+            roomMapper.updateRoomInfo(hotelRoom.getId(),hotelRoom.getbreakfast(),hotelRoom.getPrice(),hotelRoom.getpeopleNum(),hotelRoom.getTotal(),hotelRoom.getCurNum());
             return ResponseVO.buildSuccess("更新成功");
         } else {
             return ResponseVO.buildFailure("未找到当前客房");
