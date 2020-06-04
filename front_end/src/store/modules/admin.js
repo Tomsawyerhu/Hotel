@@ -4,7 +4,8 @@ import {
     getClientListAPI,
     getStaffListAPI,
     deleteAccountAPI,
-    addStaffAPI
+    addStaffAPI,
+    deleteHotelAPI
 } from '@/api/admin'
 import {updateUserInfoAPI}from '@/api/user'
 import { message } from 'ant-design-vue'
@@ -154,7 +155,20 @@ const admin = {
             }else{
                 message.error('添加失败')
             }
-        }
+        },
+        deleteHotelById:async({state,commit,dispatch},data)=>{
+            const res = await deleteHotelAPI(data)
+            //console.log(state.activeHotelId)
+            if(res){
+                //刷新页面
+                //location.reload();
+                dispatch('getHotelList')
+                dispatch('getAllOrders')
+                message.success('删除成功')
+            }else{
+                message.error("删除失败")
+            }
+        },
 
     }
 }

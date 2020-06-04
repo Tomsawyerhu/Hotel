@@ -17,13 +17,20 @@
                         <a-button type="primary" @click="edit(record)">修改账户信息</a-button>
                         <!--{{record}}-->
                         <a-divider type="vertical"></a-divider>
-                        <a-button type="danger" @click="delete_(record)">删除用户</a-button>
+                        <a-popconfirm
+                                title="确定想删除该用户吗？"
+                                @confirm="delete_(record)"
+                                okText="确定"
+                                cancelText="取消"
+                        >
+                            <a-button type="danger" >删除用户</a-button>
+                        </a-popconfirm>
                     </span>
                 </a-table>
             </a-tab-pane>
             <a-tab-pane tab="酒店管理人员账户" key="2">
                 <div style="width: 100%; text-align: right; margin:20px 0">
-                    {{managerList}}
+                    <!--{{managerList}}-->
                 </div>
                 <a-table
                         :columns="columns1"
@@ -36,7 +43,14 @@
                     <span slot="action" slot-scope="text, record">
                         <a-button type="primary" @click="edit(record)">修改账户信息</a-button>
                         <a-divider type="vertical"></a-divider>
-                        <a-button type="danger" @click="delete_(record)">删除用户</a-button>
+                        <a-popconfirm
+                                title="确定想删除该用户吗？"
+                                @confirm="delete_(record)"
+                                okText="确定"
+                                cancelText="取消"
+                        >
+                            <a-button type="danger" >删除用户</a-button>
+                        </a-popconfirm>
                     </span>
                 </a-table>
             </a-tab-pane>
@@ -56,7 +70,14 @@
                     <span slot="action" slot-scope="text, record">
                         <a-button type="primary" @click="edit(record)">修改账户信息</a-button>
                         <a-divider type="vertical"></a-divider>
-                        <a-button type="danger" @click="delete_(record)">删除用户</a-button>
+                        <a-popconfirm
+                                title="确定想删除该用户吗？"
+                                @confirm="delete_(record)"
+                                okText="确定"
+                                cancelText="取消"
+                        >
+                            <a-button type="danger" >删除用户</a-button>
+                        </a-popconfirm>
                     </span>
                 </a-table>
             </a-tab-pane>

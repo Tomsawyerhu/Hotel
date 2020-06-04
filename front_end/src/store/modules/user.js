@@ -70,7 +70,7 @@ const user = {
                     } else if (state.userInfo.userType == "Admin") {
                         router.push('/admin/manageUser')
                     } else if (state.userInfo.userType == "HotelManager") {
-                        router.push('/hotelManager/manageHotel')
+                        router.push('/hotel/hotelDetailEdit/'+state.userInfo.manage_hotelId)
                     } else {
                         router.push('/hotel/hotelList')
                     }

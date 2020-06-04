@@ -26,6 +26,14 @@
                 <span slot="action" slot-scope="text, record">
                     <!--<p>{{record}}</p>-->
                     <a-button type="primary" @click="edit(record)" v-if="userInfo.userType=='HotelManager'">编辑</a-button>
+                    <a-divider type="vertical"></a-divider>
+                    <a-popconfirm
+                            title="确定想删除该此房间吗？"
+                            @confirm="deleteRoom(record)"
+                            okText="确定"
+                            cancelText="取消"
+                    >
+                        <a-button type="danger" >删除此房间</a-button></a-popconfirm>
                 </span>
                 <!--<span slot="action" slot-scope="text, record" v-if="key===2">
                     <a-button type="primary" @click="order(record)">编辑</a-button>
@@ -100,7 +108,8 @@
             ...mapGetters([
                 'orderModalVisible',
                 'roomEditVisible',
-                'userInfo'
+                'userInfo',
+                'currentRoom'
             ])
         },
         mounted() {
@@ -115,7 +124,8 @@
                 'set_addRoomVisible'
             ]),
             ...mapActions([
-
+                'deleteRoom',
+                'getHotelById'
             ]),
             order(record) {
                 this.set_currentOrderRoom(record)
@@ -128,6 +138,12 @@
             },
             addRoom(){
                 this.set_addRoomVisible(true)
+            },
+            deleteRoom(record){
+                this.set_currentRoom(record)
+                console.log(this.currentRoom)
+                this.$store.dispatch('deleteRoom',this.currentRoom.id).then(this.$store.dispatch('getHotelById'))
+                this.$store.dispatch('getHotelById')
             }
         }
     }

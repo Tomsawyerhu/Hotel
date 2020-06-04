@@ -2,6 +2,7 @@ package com.example.hotel.controller.admin;
 
 import com.example.hotel.bl.admin.AdminService;
 import com.example.hotel.blImpl.admin.AdminServiceImpl;
+import com.example.hotel.bl.hotel.HotelService;
 import com.example.hotel.vo.ResponseVO;
 import com.example.hotel.vo.UserForm;
 import com.example.hotel.vo.UserFormLink;
@@ -17,6 +18,10 @@ import org.springframework.web.bind.annotation.*;
 public class AdminController {
     @Autowired
     AdminService adminService;
+
+    @Autowired
+    HotelService hotelService;
+
 
     @PostMapping("/addManager")
     public ResponseVO addManager(@RequestBody UserFormLink userForm) {
@@ -49,5 +54,7 @@ public class AdminController {
     public ResponseVO deleteAccount(@PathVariable Integer userId) { return adminService.deleteUser(userId);
     }
 
-
+    @PostMapping("/deleteHotel/{hotelId}")
+    public ResponseVO deleteHotel(@PathVariable Integer hotelId) { return ResponseVO.buildSuccess(hotelService.deleteHotel(hotelId));
+    }
 }

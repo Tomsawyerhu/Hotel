@@ -14,10 +14,11 @@
             <a-menu-item key="2" @click="jumpToUserInfo" >
                 <a-icon type="user" />个人中心
             </a-menu-item>
-            <a-menu-item key="3" @click="selectMenu" v-if="userInfo.userType=='HotelManager'&&num!=null">
+            <a-menu-item key="3" @click="selectMenu" v-if="userInfo.userType=='HotelManager'&&this.userInfo.manage_hotelId!=null">
                 <!--<li v-if="userInfo.user_hotel_id!=null">-->
                 <!--<router-link :to="add_+userInfo.user_hotel_id">-->
-                    <router-link :to="add_+num">
+                <!--{{userInfo}}-->
+                    <router-link :to="add_+this.userInfo.manage_hotelId">
                         <a-icon type="switcher" />酒店信息管理
                     </router-link>
                 <!--<a-menu-item key="3" @click="selectMenu" v-if="userInfo.userType=='HotelManager'">
@@ -80,13 +81,13 @@
             return {
                 current: ['1'],
                 add_:"/hotel/hotelDetailEdit/",
-                num:"1"
             }
         },
         computed: {
             ...mapGetters([
                 'userId',
-                'userInfo'
+                'userInfo',
+
             ])
         },
         mounted() {

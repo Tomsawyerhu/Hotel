@@ -190,18 +190,7 @@ const hotelManager = {
                 message.error('添加失败');
             }
         },
-        /* deleteHotelById:async({state,commit})=>{
-             const res = await deleteHotelAPI(state.activeHotelId)
-             //console.log(state.activeHotelId)
-             if(res){
-                 //刷新页面
-                 location.reload();
-                 message.success('删除成功')
-             }else{
-                 message.error("删除失败")
-             }
-         },
-         deleteOrderById:async({state,commit},id)=>{
+        /* deleteOrderById:async({state,commit},id)=>{
              const res = await cancelOrderAPI(id)
              //console.log(state.activeHotelId)
              if(res){

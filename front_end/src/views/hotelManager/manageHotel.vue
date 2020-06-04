@@ -25,7 +25,7 @@
                             <a-button type="danger" size="small">删除酒店</a-button>   <!--不同级别的按钮，在ant-design里可以看到-->
                         </a-popconfirm>
                         <!--{{userInfo}}-->
-                        {{record}}
+                        <!--{{record}}-->
                         <a-divider type="vertical"></a-divider>
                         <a-button type="primary" size="small"  v-if="record.managerId==NULL" @click="addManager(record)">添加酒店工作人员</a-button>
                         <a-button type="primary" size="small"  v-if="record.managerId!=NULL" @click="editManager(record)">修改酒店工作人员的信息</a-button>
@@ -214,7 +214,8 @@
                 'getHotelCoupon',
                 'getOrderDetails',
                 'getHotelById',
-                'addManager'
+                'addManager',
+                'deleteHotelById'
             ]),
             setShowDetailFalse(){
                 // console.log("false")
@@ -235,8 +236,8 @@
                 this.set_couponVisible(true)
                 this.getHotelCoupon()
             },
-            deleteHotel(){
-
+            deleteHotel(record){
+                this.deleteHotelById(record.id)
             },
             deleteOrder(){
 

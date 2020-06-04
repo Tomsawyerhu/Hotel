@@ -30,7 +30,6 @@
             />
         </a-form-item>
         </a-form>
-        <a-button type="primary" @click="deleteRoom">删除此房间</a-button>
     </a-modal>
 </template>
 
@@ -78,10 +77,6 @@
                 this.updateRoomInfo(this.currentRoom).then(this.getHotelById())
                 this.$store.commit('set_roomEditVisible',false)
                 this.getHotelById()
-            },
-            deleteRoom(){
-                this.$store.dispatch('deleteRoom',this.currentRoom.id).then(this.$store.dispatch('getHotelById'))
-                this.$store.dispatch('getHotelById')
             }
         }
     }
