@@ -2,7 +2,8 @@ import {addHotelAPI, addRoomAPI,deleteHotelAPI,updateRoomAPI,deleteRoomAPI} from
 import {getAllOrdersAPI,cancelOrderAPI} from '@/api/order'
 import {hotelAllCouponsAPI, hotelTargetMoneyAPI,hotelTimeAPI,hotelMultiRoomAPI} from '@/api/coupon'
 import {message} from 'ant-design-vue'
-import addNewRoom from "../../views/hotel/edit/addNewRoom";
+import {updateUserInfoAPI} from "../../api/user";
+import {getHotelByIdAPI} from "../../api/hotel";
 
 const hotelManager = {
     state: {
@@ -109,21 +110,24 @@ const hotelManager = {
                 message.error('添加失败')
             }
         },
-        updateRoomInfo: async({ state, commit },data) => {
-            console.log(data)
+        updateRoomInfo: async({ state, commit,dispatch },data) => {
+            //console.log(data)
             const res = await updateRoomAPI(data)
-            //console.log(res)
+            console.log(res)
             if(res){
                 message.success('更新成功')
                 commit('set_roomEditVisible', false)
-                commit('getHotelById')
+            }
+            else{
+                message.error('更新失败')
             }
         },
-        addNewRoom:async ({state,commit},data)=>{
+        addNewRoom:async ({state,commit,dispatch},data)=>{
             const res=await addRoomAPI(data)
-            console.log(res)
+            //console.log(res)
             if(res){
                 commit('set_addRoomVisible', false)
+                dispatch('getHotelById')
                 message.success('添加成功')
             }
             else{
@@ -151,6 +155,7 @@ const hotelManager = {
             const res = await deleteRoomAPI(data)
             console.log(res)
             if(res){
+                commit('set_roomEditVisible',false)
                 message.success('删除成功')
             }else{
                 message.error('删除失败')

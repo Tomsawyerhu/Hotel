@@ -16,6 +16,12 @@ public interface RoomService {
     List<HotelRoom> retrieveHotelRoomInfo(Integer hotelId);
 
     /**
+     * 获取指定房间的信息
+     * @param roomId
+     * @return
+     */
+    HotelRoom retrieveRoomById(Integer roomId);
+    /**
      * 添加酒店客房信息
      *
      * @param hotelRoom

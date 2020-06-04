@@ -26,7 +26,6 @@
                 <span slot="action" slot-scope="text, record">
                     <a-button type="primary" @click="order(record)" v-if="userInfo.userType=='Client'">预定</a-button>
                     <!--<p>{{record}}</p>-->
-                    <a-button type="primary" @click="edit(record)" v-else-if="userInfo.userType=='HotelManager'">编辑</a-button>
                 </span>
                 <!--<span slot="action" slot-scope="text, record" v-if="key===2">
                     <a-button type="primary" @click="order(record)">编辑</a-button>
@@ -35,15 +34,11 @@
             </a-table>
         </div>
         <OrderModal></OrderModal>
-        <roomEdit></roomEdit>
-        <addNewRoom></addNewRoom>
     </div>
 </template>
 <script>
     import { mapGetters, mapActions, mapMutations } from 'vuex'
     import OrderModal from './orderModal'
-    import roomEdit from "../edit/roomEdit";
-    import addNewRoom from "../edit/addNewRoom";
     const columns = [
         {
             title: '房型',
@@ -59,6 +54,16 @@
             title: '入住人数',
             key: 'peopleNum',
             dataIndex: 'peopleNum',
+        },
+        {
+            title: '现有房间',
+            key: 'curNum',
+            dataIndex: 'curNum',
+        },
+        {
+            title: '总共房间',
+            key: 'total',
+            dataIndex: 'total',
         },
         {
             title: '房价',
@@ -87,8 +92,6 @@
         },
         components: {
             OrderModal,
-            roomEdit,
-            addNewRoom
         },
         computed: {
             ...mapGetters([

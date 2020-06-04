@@ -14,14 +14,12 @@
             <a-menu-item key="2" @click="jumpToUserInfo" >
                 <a-icon type="user" />个人中心
             </a-menu-item>
-            <a-menu-item key="3" @click="selectMenu" v-if="userInfo.userType=='HotelManager'">
+            <a-menu-item key="3" @click="selectMenu" v-if="userInfo.userType=='HotelManager'&&num!=null">
                 <!--<li v-if="userInfo.user_hotel_id!=null">-->
                 <!--<router-link :to="add_+userInfo.user_hotel_id">-->
-                <li v-if="true">
                     <router-link :to="add_+num">
                         <a-icon type="switcher" />酒店信息管理
                     </router-link>
-                </li>
                 <!--<a-menu-item key="3" @click="selectMenu" v-if="userInfo.userType=='HotelManager'">
                     <router-link :to="{ name: 'manageHotel'}">
                          <a-icon type="switcher" />酒店管理

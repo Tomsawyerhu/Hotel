@@ -21,7 +21,6 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-
     public ResponseVO insertRoomInfo(HotelRoom hotelRoom) {
         int hotelId = hotelRoom.getHotelId();
         String roomType = hotelRoom.getRoomType();
@@ -42,23 +41,28 @@ public class RoomServiceImpl implements RoomService {
             return ResponseVO.buildFailure("已存在相同类型的客房，不可重复录入");
         }
     }
-
+    @Override
+    public HotelRoom retrieveRoomById(Integer roomId){return roomMapper.getRoomById(roomId);}
     @Override
     public ResponseVO updateRoomInfo(HotelRoom hotelRoom) {
         int hotelId = hotelRoom.getHotelId();
         List<HotelRoom> roomList = retrieveHotelRoomInfo(hotelId);
 
         boolean Exists = false;
+        HotelRoom old_one=null;
         for (HotelRoom hotelroom : roomList) {
             if (hotelroom.getId().equals(hotelRoom.getId())) {
+                old_one=hotelroom;
                 Exists = true;
                 break;
             }
         }
 
         if (Exists) {
-            roomMapper.updateRoomInfo(hotelRoom.getId(),hotelRoom.getbreakfast(),hotelRoom.getPrice(),hotelRoom.getpeopleNum());
-            return ResponseVO.buildSuccess();
+            if((old_one.getTotal()-old_one.getCurNum())>hotelRoom.getTotal()){return ResponseVO.buildFailure("录入房间总量不正确");}
+            hotelRoom.setCurNum(hotelRoom.getTotal()-old_one.getTotal()+old_one.getCurNum());
+            roomMapper.updateRoomInfo(hotelRoom.getId(),hotelRoom.getbreakfast(),hotelRoom.getPrice(),hotelRoom.getpeopleNum(),hotelRoom.getTotal(),hotelRoom.getCurNum());
+            return ResponseVO.buildSuccess("更新成功");
         } else {
             return ResponseVO.buildFailure("未找到当前客房");
         }

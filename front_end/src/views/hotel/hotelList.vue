@@ -75,7 +75,7 @@
     </div>
 </template>
 <script>
-    import HotelCard from './components/hotelCard'
+    import HotelCard from './hotelCard'
     import { mapGetters, mapActions, mapMutations } from 'vuex'
     const Options= [
         {
