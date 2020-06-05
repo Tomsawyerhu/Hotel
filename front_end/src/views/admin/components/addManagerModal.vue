@@ -1,7 +1,7 @@
 <template>
     <a-modal
         :visible="addManagerModalVisible"
-        title="添加用户"
+        title="添加酒店工作人员"
         cancelText="取消"
         okText="确定"
         @cancel="cancel"
@@ -49,6 +49,7 @@ export default {
         ...mapGetters([
             'addManagerModalVisible',
             'managerList',
+            'currentHotelInfo'
         ])
     },
     beforeCreate() {
@@ -75,7 +76,8 @@ export default {
                 if (!err) {
                     const data = {
                         email: this.form.getFieldValue('email'),
-                        password: this.form.getFieldValue('password')
+                        password: this.form.getFieldValue('password'),
+                        hotelId:this.currentHotelInfo.id
                     }
                     this.set_addManagerParams(data)
                     this.addManager()

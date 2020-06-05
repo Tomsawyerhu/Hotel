@@ -23,6 +23,7 @@ const getters = {
     addManagerModalVisible: state => state.admin.addManagerModalVisible,
     addManagerParams: state => state.admin.addManagerParams,
     addStaffModalVisible:state=>state.admin.addStaffModalVisible,//自己加的
+    UserInfoEditVisible:state=>state.admin.UserInfoEditVisible,//自己加的,
     //hotelManager
     orderList: state => state.hotelManager.orderList,
     addHotelModalVisible: state => state.hotelManager.addHotelModalVisible,
@@ -32,6 +33,7 @@ const getters = {
     activeHotelId: state => state.hotelManager.activeHotelId,
     couponList: state => state.hotelManager.couponList,
     currentRoom:state=>state.hotelManager.currentRoom,//自己加的
+
     //order
     userOrdersInCertainHotel: state => state.order.userOrdersInCertainHotel,
     currentOrderId: state => state.order.currentOrderId,     //自己加的

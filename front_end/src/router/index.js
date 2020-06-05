@@ -27,12 +27,12 @@ const routes = [//映射关系
       {
         path: '/hotel/hotelDetail/:hotelId',
         name: 'hotelDetail',
-        component: () => import('@/views/hotel/hotelDetail')
+        component: () => import('@/views/hotel/client/hotelDetail')
       },
       {
         path: '/hotel/hotelDetailEdit/:hotelId',
         name: 'hotelDetailEdit',
-        component: () => import('@/views/hotel/hotelDetailEdit')
+        component: () => import('@/views/hotel/hotelManager/hotelDetailEdit')
       },
       {
         path: '/user/info/:userId',

@@ -32,7 +32,7 @@
                             <a-rate style="font-size: 15px" :value="currentHotelInfo.rate" disabled allowHalf/>
                         </div>
                         <div class="items" v-if="currentHotelInfo.description">
-                            <span class="label">酒店详情:</span>
+                            <span class="label">酒店简介:</span>
                             <span class="edit"></span>
                             <span class="value">{{ currentHotelInfo.description }}</span>
                             <a-button type="primary" @click="edit">编辑</a-button>
@@ -59,8 +59,8 @@
 </template>
 <script>
     import { mapGetters, mapActions, mapMutations } from 'vuex'
-    import RoomList from './components/roomList'
-    import Describe from './edit/describe'
+    import RoomList from './roomList'
+    import Describe from './describe'
     export default {
         name: 'hotelDetailEdit',
         components: {

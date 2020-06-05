@@ -75,7 +75,7 @@ CREATE TABLE `Hotel` (
 
 BEGIN;
 /*!40000 ALTER TABLE `Hotel` DISABLE KEYS */;
-INSERT INTO `Hotel` VALUES (1,'汉庭酒店','欢迎您入住',NULL,'XiDan','Four',1829373819,4.8,NULL),(2,'儒家酒店','欢迎您入住','南京市鼓楼区珠江路268号','XiDan','Four',1829373819,4.8,NULL),(3,'桂圆酒店','欢迎您入住','南京市栖霞区珠江路268号','XiDan','Four',1829553719,4.8,NULL), (4,'67大酒店','欢迎您入住','江苏省无锡市梁溪区67大街101号','XiDan','Five',1829373819,5,NULL);
+INSERT INTO `Hotel` VALUES (1,'汉庭酒店','欢迎您入住',NULL,'XiDan','Four',1829373819,4.8,NULL),(2,'儒家酒店','欢迎您入住','南京市鼓楼区珠江路268号','XiDan','Four',1829373819,4.8,3),(3,'桂圆酒店','欢迎您入住','南京市栖霞区珠江路268号','XiDan','Four',1829553719,4.8,NULL), (4,'67大酒店','欢迎您入住','江苏省无锡市梁溪区67大街101号','XiDan','Five',1829373819,5,NULL);
 /*!40000 ALTER TABLE `Hotel` ENABLE KEYS */;
 COMMIT;
 
@@ -146,7 +146,7 @@ CREATE TABLE `Room` (
 
 BEGIN;
 /*!40000 ALTER TABLE `Room` DISABLE KEYS */;
-INSERT INTO `Room` VALUES (2,199,20,20,1,'BigBed','No','2'),(3,299,30,30,1,'DoubleBed','Yes','2'),(4,399,10,10,1,'Family','Yes','3'),(5,122,7,0,2,'BigBed','No','2'),(6,399,10,10,2,'Family','Yes','3'),(7,399,30,30,3,'DoubleBed','Yes','2');
+INSERT INTO `Room` VALUES (2,199,20,20,1,'大床房','无','2'),(3,299,30,30,1,'双床房','有','2'),(4,399,10,10,1,'家庭房','有','3'),(5,122,7,0,2,'大床房','无','2'),(6,399,10,10,2,'家庭房','有','3');
 /*!40000 ALTER TABLE `Room` ENABLE KEYS */;
 COMMIT;
 
@@ -179,7 +179,7 @@ CREATE TABLE `User` (
 
 BEGIN;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES (1,'1@qq.com','e10adc3949','测试一号','12345678919',100,'Client',NULL),(2,'11@qq.com','e10adc3949','测试一一号','12345678919',100,'Client',NULL),(3,'2@qq.com','e10adc3949','测试二号','12345678911',100,'HotelManager',1),(4,'3@qq.com','e10adc3949','测试三号',NULL,NULL,'Admin',NULL),(5,'4@qq.com','e10adc3949','测试四号',NULL,NULL,'MarketingStaff',NULL);
+INSERT INTO `User` VALUES (1,'1@qq.com','e10adc3949','测试一号','12345678919',100,'Client',NULL),(2,'11@qq.com','e10adc3949','测试一一号','12345678919',100,'Client',NULL),(3,'2@qq.com','e10adc3949','测试二号','12345678911',100,'HotelManager',2),(4,'3@qq.com','e10adc3949','测试三号',NULL,NULL,'Admin',NULL),(5,'4@qq.com','e10adc3949','测试四号',NULL,NULL,'MarketingStaff',NULL);
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 COMMIT;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

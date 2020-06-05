@@ -7,7 +7,7 @@
             @cancel="cancelEdit"
             @ok="EditSubmit"
     >
-        <p>{{currentHotelInfo}}}</p>
+        <!--<p>{{currentHotelInfo}}}</p>-->
         <a-textarea
                 v-model="value"
                 placeholder="Controlled autosize"

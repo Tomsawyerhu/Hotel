@@ -25,13 +25,10 @@
                             <a-button type="danger" size="small">删除酒店</a-button>   <!--不同级别的按钮，在ant-design里可以看到-->
                         </a-popconfirm>
                         <!--{{userInfo}}-->
-                        {{record}}
+                        <!--{{record}}-->
                         <a-divider type="vertical"></a-divider>
-                        <a-button type="primary" size="small" :disabled="false" v-if="record.managerId==NULL" @click="addManager(record)">添加酒店工作人员</a-button>
-                        <a-button type="primary" size="small" :disabled="true" v-if="record.managerId!=NULL">添加酒店工作人员</a-button>
-                        <a-divider type="vertical"></a-divider>
-                        <a-button type="primary" size="small" :disabled="true" v-if="record.managerId==NULL">修改酒店工作人员的信息</a-button>
-                        <a-button type="primary" size="small" :disabled="false" v-if="record.managerId!=NULL" @click="editManager(record)">修改酒店工作人员的信息</a-button>
+                        <a-button type="primary" size="small"  v-if="record.managerId==NULL" @click="addManager(record)">添加酒店工作人员</a-button>
+                        <a-button type="primary" size="small"  v-if="record.managerId!=NULL" @click="editManager(record)">修改酒店工作人员的信息</a-button>
                     </span>
                 </a-table>
             </a-tab-pane>
@@ -46,9 +43,9 @@
                         <span>￥{{ text }}</span>
                     </span>
                     <span slot="roomType" slot-scope="text">
-                        <span v-if="text == 'BigBed'">大床房</span>
-                        <span v-if="text == 'DoubleBed'">双床房</span>
-                        <span v-if="text == 'Family'">家庭房</span>
+                        <span v-if="text == '大床房'">大床房</span>
+                        <span v-if="text == '双床房'">双床房</span>
+                        <span v-if="text == '家庭房'">家庭房</span>
                     </span>
                     <span slot="action" slot-scope="record">
                         <a-button type="primary" size="small" @click="showOrderDetails(record.id)">订单详情</a-button>
@@ -75,9 +72,11 @@
             </a-tab-pane>
 
         </a-tabs>
+        <addManagerModal></addManagerModal>
         <AddHotelModal></AddHotelModal>
         <AddRoomModal></AddRoomModal>
         <Coupon></Coupon>
+        <EditManager></EditManager>
     </div>
 </template>
 <script>
@@ -87,6 +86,8 @@
     import Coupon from './components/coupon'
     import OrderDetail from '../order/components/orderDetail'
     import OrderDetails from "../order/components/orderDetail";
+    import addManagerModal from "../admin/components/addManagerModal";
+    import EditManager from "@/views/admin/components/editUserInfo"
     const moment = require('moment')
     const columns1 = [
         {
@@ -175,6 +176,8 @@
             AddHotelModal,
             AddRoomModal,
             Coupon,
+            addManagerModal,
+            EditManager
         },
         computed: {
             ...mapGetters([
@@ -199,14 +202,20 @@
                 'set_addRoomModalVisible',
                 'set_couponVisible',
                 'set_activeHotelId',
-                'set_currentOrderId'
+                'set_currentOrderId',
+                'set_currentHotelInfo',
+                'set_addManagerModalVisible',
+                'set_targetAccount',
+                'set_UserInfoEditVisible'
             ]),
             ...mapActions([
                 'getHotelList',
                 'getAllOrders',
                 'getHotelCoupon',
                 'getOrderDetails',
-                'getHotelById'
+                'getHotelById',
+                'addManager',
+                'deleteHotelById'
             ]),
             setShowDetailFalse(){
                 // console.log("false")
@@ -227,8 +236,8 @@
                 this.set_couponVisible(true)
                 this.getHotelCoupon()
             },
-            deleteHotel(){
-
+            deleteHotel(record){
+                this.deleteHotelById(record.id)
             },
             deleteOrder(){
 
@@ -239,6 +248,15 @@
                 this.setShowDetailTrue()
                 console.log(this.orderDetailInfo)
             },
+            addManager(record){
+                this.set_currentHotelInfo(record)
+                this.set_addManagerModalVisible(true)
+            },
+            editManager(record){
+                this.set_targetAccount(record)
+                console.log(record)
+                this.$store.commit('set_UserInfoEditVisible',true)
+            }
         }
     }
 </script>

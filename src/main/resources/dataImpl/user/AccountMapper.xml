@@ -41,5 +41,6 @@
         <result column="phonenumber" property="phoneNumber"></result>
         <result column="credit" property="credit"></result>
         <result column="usertype" property="userType"></result>
+        <result column="manageho_id" property="manage_hotelId"></result>
     </resultMap>
 </mapper>

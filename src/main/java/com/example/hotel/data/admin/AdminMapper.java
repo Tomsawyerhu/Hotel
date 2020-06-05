@@ -15,6 +15,7 @@ import java.util.List;
 public interface AdminMapper {
 
     int addManager(User user);
+
     int addStaff(User user);
 
     List<User> getAllManagers();

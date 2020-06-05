@@ -10,9 +10,14 @@
         <!--<p>{{currentHotelInfo}}}</p>-->
         <a-form  :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
             <a-form-item label="早餐">
-                <a-input
-                        v-model="value2"
-                />
+                <a-radio-group v-model="value" @change="onChange">
+                    <a-radio :style="radioStyle" value="有">
+                        有
+                    </a-radio>
+                    <a-radio :style="radioStyle" value="无">
+                        无
+                    </a-radio>
+                </a-radio-group>
             </a-form-item>
             <a-form-item label="入住人数">
                 <a-input
@@ -24,8 +29,12 @@
                         v-model="value4">
                 </a-input>
             </a-form-item>
+            <a-form-item label="总共房间">
+            <a-input
+                    v-model="value1"
+            />
+        </a-form-item>
         </a-form>
-        <a-button type="primary" @click="deleteRoom">删除此房间</a-button>
     </a-modal>
 </template>
 
@@ -35,6 +44,8 @@
         name: "roomEdit",
         data(){
             return {
+                value:'',
+                value1:'',
                 value2:'',
                 value3:'',
                 value4:''
@@ -61,21 +72,17 @@
                 'set_currentRoom'
 
             ]),
-            ...mapActions(['updateRoomInfo','deleteRoom']),
+            ...mapActions(['updateRoomInfo','deleteRoom','getHotelById']),
             cancelEdit() {
                 this.$store.commit('set_roomEditVisible',false)
             },
             EditSubmit() {
-                const Info={ hotelId:this.currentHotelInfo.id, id: this.currentRoom.id, roomType: this.currentRoom.roomType, price: this.value4, curNum: this.currentRoom.curNum, total: this.currentRoom.total, breakfast: this.value2, peopleNum: this.value3}
+                const Info={ hotelId:this.currentHotelInfo.id, id: this.currentRoom.id, roomType: this.currentRoom.roomType, price: this.value4, curNum: this.currentRoom.curNum, total: this.value1, breakfast: this.value, peopleNum: this.value3}
                 this.$store.commit('set_currentRoom',Info)
                 /*console.log(this.currentHotelInfo)*/
-                this.$store.dispatch('updateRoomInfo',this.currentRoom)
+                this.updateRoomInfo(this.currentRoom).then(this.getHotelById())
                 this.$store.commit('set_roomEditVisible',false)
-
-            },
-            deleteRoom(){
-                this.$store.dispatch('deleteRoom',this.currentRoom.id)
-                this.$store.commit('set_roomEditVisible',false)
+                this.getHotelById()
             }
         }
     }
