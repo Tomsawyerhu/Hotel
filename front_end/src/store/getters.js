@@ -15,6 +15,7 @@ const getters = {
     descEditVisible: state => state.hotel.descEditVisible,
     orderMatchCouponList: state => state.hotel.orderMatchCouponList,
     addRoomVisible:state=>state.hotel.addRoomVisible,//自己加的
+
     //admin
     managerList: state => state.admin.managerList,
     clientList: state => state.admin.clientList,//自己加的
@@ -24,6 +25,7 @@ const getters = {
     addManagerParams: state => state.admin.addManagerParams,
     addStaffModalVisible:state=>state.admin.addStaffModalVisible,//自己加的
     UserInfoEditVisible:state=>state.admin.UserInfoEditVisible,//自己加的,
+
     //hotelManager
     orderList: state => state.hotelManager.orderList,
     addHotelModalVisible: state => state.hotelManager.addHotelModalVisible,
@@ -32,12 +34,13 @@ const getters = {
     addCouponVisible: state => state.hotelManager.addCouponVisible,
     activeHotelId: state => state.hotelManager.activeHotelId,
     couponList: state => state.hotelManager.couponList,
-    currentRoom:state=>state.hotelManager.currentRoom,//自己加的
+    currentRoom:state=>state.hotelManager.currentRoom,
 
     //order
     userOrdersInCertainHotel: state => state.order.userOrdersInCertainHotel,
-    currentOrderId: state => state.order.currentOrderId,     //自己加的
-    currentOrderInfo: state => state.order.currentOrderInfo,    //自己加的
+    currentOrderId: state => state.order.currentOrderId,
+    currentOrderInfo: state => state.order.currentOrderInfo,
+
     //marketingStaff
     abnormalOrderList: state => state.marketingStaff.abnormalOrderList,
     websiteCouponList: state => state.marketingStaff.websiteCouponList,
@@ -45,6 +48,10 @@ const getters = {
     currentCouponId: state => state.marketingStaff.currentCouponId,
     currentCouponInfo: state => state.marketingStaff.currentCouponInfo,
     couponDetailVisible: state => state.marketingStaff.couponDetailVisible,
+
+    //comment
+    commentList: state => state.comment.commentList,
+    currentComment: state => state.comment.currentComment,
 }
 
 export default getters
