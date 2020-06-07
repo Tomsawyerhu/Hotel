@@ -15,11 +15,11 @@
                 </a-input>
             </a-form-item>
             <a-form-item label="早餐">
-                <a-radio-group v-model="value" @change="onChange">
-                    <a-radio :style="radioStyle" value="有">
+                <a-radio-group v-model="value" >
+                    <a-radio  value="有">
                         有
                     </a-radio>
-                    <a-radio :style="radioStyle" value="无">
+                    <a-radio  value="无">
                         无
                     </a-radio>
                 </a-radio-group>

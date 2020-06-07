@@ -105,8 +105,8 @@ public class HotelServiceImpl implements HotelService {
             }
         }
         if (HotelExists) {
-            hotelMapper.updateHotelInfo(hotelId, hotelVO.getDescription());
-            return ResponseVO.buildSuccess();
+            hotelMapper.updateHotelInfo(hotelVO.getId(),hotelVO.getName(),hotelVO.getAddress(),hotelVO.getDescription());
+            return ResponseVO.buildSuccess("更新成功");
         } else {
             return ResponseVO.buildFailure("未找到此酒店");
         }

@@ -30,9 +30,9 @@ const routes = [//映射关系
         component: () => import('@/views/hotel/components/hotelDetail')
       },
       {
-        path: '/hotel/hotelDetailEdit/:hotelId',
+        path: '/hotelManager/hotelDetailEdit/:hotelId',
         name: 'hotelDetailEdit',
-        component: () => import('@/views/hotel/hotelManager/hotelDetailEdit')
+        component: () => import('@/views/hotelManager/components/hotelDetailEdit')
       },
       {
         path: '/user/info/:userId',
@@ -40,9 +40,9 @@ const routes = [//映射关系
         component: () => import('@/views/user/info')
       },
       {
-        path: '/hotelManager/manageHotel',
+        path: '/admin/manageHotel',
         name: 'manageHotel',
-        component: () => import('@/views/hotelManager/manageHotel')
+        component: () => import('@/views/admin/manageHotel')
       },
       {
         path: '/admin/manageUser',
