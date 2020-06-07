@@ -47,8 +47,8 @@
 </template>
 <script>
     import { mapGetters, mapActions, mapMutations } from 'vuex'
-    import roomEdit from "../hotelManager/roomEdit";
-    import addNewRoom from "../hotelManager/addNewRoom";
+    import roomEdit from "./roomEdit";
+    import addNewRoom from "./addNewRoom";
     const columns = [
         {
             title: '房型',

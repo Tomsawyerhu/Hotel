@@ -80,7 +80,7 @@
         data() {
             return {
                 current: ['1'],
-                add_:"/hotel/hotelDetailEdit/",
+                add_:"/hotelManager/hotelDetailEdit/",
             }
         },
         computed: {

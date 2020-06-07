@@ -84,9 +84,8 @@
     import AddHotelModal from './components/addHotelModal'
     import AddRoomModal from './components/addRoomModal'
     import Coupon from './components/coupon'
-    import OrderDetail from '../order/components/orderDetail'
     import OrderDetails from "../order/components/orderDetail";
-    import addManagerModal from "../admin/components/addManagerModal";
+    import addManagerModal from "./components/addManagerModal";
     import EditManager from "@/views/admin/components/editUserInfo"
     const moment = require('moment')
     const columns1 = [

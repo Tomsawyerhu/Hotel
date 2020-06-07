@@ -16,11 +16,11 @@
                     </a-card>
                     <div class="info">
                         <div class="items" v-if="currentHotelInfo.name">
-                            <span class="label">酒店名称：</span>
+                            <span class="label">酒店名称:</span>
                             <span class="value">{{ currentHotelInfo.name }}</span>
                         </div>
                         <div class="items" v-if="currentHotelInfo.address">
-                            <span class="label">地址</span>
+                            <span class="label">地址:</span>
                             <span class="value">{{ currentHotelInfo.address }}</span>
                         </div>
                         <div class="items" v-if="currentHotelInfo.rate">

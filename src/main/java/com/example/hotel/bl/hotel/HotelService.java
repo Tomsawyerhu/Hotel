@@ -72,7 +72,7 @@ public interface HotelService {
     HotelVO retrieveHotelDetails(Integer hotelId);
 
     /**
-     * 更改某家酒店的详细信息
+     * 更改某家酒店的信息
      *
      * @param
      * @return
@@ -80,7 +80,7 @@ public interface HotelService {
     ResponseVO updateHotelInfo(HotelVO hotelVO);
 
     /**
-     * 更改某家酒店的详细信息
+     * 更改某家酒店的管理人员信息
      *
      * @param
      * @return

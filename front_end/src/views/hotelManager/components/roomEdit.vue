@@ -8,31 +8,31 @@
             @ok="EditSubmit"
     >
         <!--<p>{{currentHotelInfo}}}</p>-->
-        <a-form  :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
+        <a-form :form="form" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
             <a-form-item label="早餐">
-                <a-radio-group v-model="value" @change="onChange">
-                    <a-radio :style="radioStyle" value="有">
+                <a-radio-group v-model="value" >
+                    <a-radio  value="有">
                         有
                     </a-radio>
-                    <a-radio :style="radioStyle" value="无">
+                    <a-radio  value="无">
                         无
                     </a-radio>
                 </a-radio-group>
             </a-form-item>
             <a-form-item label="入住人数">
                 <a-input
-                        v-model="value3"
-                />
+                        placeholder="请填写入住人数" v-model="value3"></a-input>
+                        <!--v-decorator="['peopleNum', { rules: [{ required: true, message: '请填写入住人数' }] }]"-->
             </a-form-item>
             <a-form-item label="价格">
                 <a-input
-                        v-model="value4">
-                </a-input>
+                        placeholder="请填写价格" v-model="value4"/>
+                        <!--v-decorator="['price', { rules: [{ required: true, message: '请填写价格' }] }]"-->
             </a-form-item>
             <a-form-item label="总共房间">
             <a-input
-                    v-model="value1"
-            />
+                    placeholder="请填写总共房间" v-model="value1"/>
+                    <!--v-decorator="['total', { rules: [{ required: true, message: '请填写总共房间' }] }]"-->
         </a-form-item>
         </a-form>
     </a-modal>
@@ -44,6 +44,7 @@
         name: "roomEdit",
         data(){
             return {
+                form: this.$form.createForm(this, {name: 'coordinated'}),
                 value:'',
                 value1:'',
                 value2:'',
@@ -56,6 +57,16 @@
                     price:this.currentRoom.price
                 }*/
             }
+        },
+        mounted() {
+            setTimeout(() => {
+                this.form.setFieldsValue({
+                    'peopleNum': this.currentHotelInfo.peopleNum,
+                    'price': this.currentHotelInfo.price,
+                    'total':this.currentHotelInfo.total
+                })
+            }, 0)
+
         },
 
         computed: {

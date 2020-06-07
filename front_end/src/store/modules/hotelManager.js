@@ -1,4 +1,4 @@
-import {addHotelAPI, addRoomAPI,deleteHotelAPI,updateRoomAPI,deleteRoomAPI} from '@/api/hotelManager'
+import {addHotelAPI, addRoomAPI,deleteHotelAPI,updateRoomAPI,deleteRoomAPI,UpdateHotelByIdAPI} from '@/api/hotelManager'
 import {getAllOrdersAPI,cancelOrderAPI} from '@/api/order'
 import {hotelAllCouponsAPI, hotelTargetMoneyAPI,hotelTimeAPI,hotelMultiRoomAPI} from '@/api/coupon'
 import {message} from 'ant-design-vue'
@@ -109,6 +109,17 @@ const hotelManager = {
             }else{
                 message.error('添加失败')
             }
+        },
+        updateHotelInfo:async ({state,commit,dispatch},data)=>{
+            console.log(data)
+            const res=await UpdateHotelByIdAPI(data)
+            console.log(res)
+            if(res){
+                message.success('更新成功')
+                commit('set_descEditVisible', false)
+                dispatch('getHotelById')
+            }
+            else message.error('更新失败')
         },
         updateRoomInfo: async({ state, commit,dispatch },data) => {
             //console.log(data)
