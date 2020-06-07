@@ -86,10 +86,6 @@
 
                 </UserOrderedHotelList>
             </a-tab-pane>
-            <a-tab-pane tab="test" key="4" v-if="userInfo.userType=='Client'">
-                <test></test>
-            </a-tab-pane>
-
         </a-tabs>
     </div>
 </template>
@@ -97,8 +93,7 @@
     import {mapActions, mapGetters, mapMutations} from 'vuex'
     import orderDetail from '../order/components/orderDetail'
     import OrderList from "../order/components/userOrderList"
-    import UserOrderedHotelList from "../hotel/client/userOrderedHotelList";
-    import test from "../test";
+    import UserOrderedHotelList from "../hotel/components/userOrderedHotelList";
 
     export default {
         name: 'info',
@@ -117,7 +112,6 @@
         components: {
             OrderList,
             UserOrderedHotelList,
-            test
         },
         computed: {
             ...mapGetters([

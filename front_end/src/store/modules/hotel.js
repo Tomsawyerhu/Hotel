@@ -137,6 +137,7 @@ const hotel = {
             }
         },
         searchHotel:async ({state,commit},data)=>{
+            console.log(data)
             const res= await  searchHotelAPI(data)
             console.log(res)
             if(res){

@@ -27,7 +27,7 @@ const routes = [//映射关系
       {
         path: '/hotel/hotelDetail/:hotelId',
         name: 'hotelDetail',
-        component: () => import('@/views/hotel/client/hotelDetail')
+        component: () => import('@/views/hotel/components/hotelDetail')
       },
       {
         path: '/hotel/hotelDetailEdit/:hotelId',
