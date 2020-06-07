@@ -54,12 +54,6 @@
                 value3:'',
                 value4:'',
                 value5:''
-                /*value: {
-                    roomType :this.currentRoom.roomType,
-                    breakfast:this.currentRoom.breakfast,
-                    peopleNum:this.currentRoom.peopleNum,
-                    price:this.currentRoom.price
-                }*/
             }
         },
 

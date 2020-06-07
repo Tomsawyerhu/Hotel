@@ -86,10 +86,6 @@
 
                 </UserOrderedHotelList>
             </a-tab-pane>
-            <a-tab-pane tab="test" key="4" v-if="userInfo.userType=='Client'">
-                <test></test>
-            </a-tab-pane>
-
         </a-tabs>
     </div>
 </template>
@@ -117,7 +113,6 @@
         components: {
             OrderList,
             UserOrderedHotelList,
-            test
         },
         computed: {
             ...mapGetters([

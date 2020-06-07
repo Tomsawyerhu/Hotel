@@ -177,18 +177,21 @@ public class HotelServiceImpl implements HotelService {
             if(hotelAddr!=null){
             //province非空则判断hotelAddr中是否包含province，不包含则不符合
             if (province != null) {
+                System.out.println("province is "+province);
                 if (!hotelAddr.contains(province)) {
                     isFit = false;
                 }
             }
             //city非空则判断hotelAddr中是否包含city，不包含则不符合
             if (city != null) {
+                System.out.println("city is "+city);
                 if (!hotelAddr.contains(city)) {
                     isFit = false;
                 }
             }
             //area非空则判断hotelAddr中是否包含area，不包含则不符合
             if (area != null) {
+                System.out.println("area is "+area);
                 if (!hotelAddr.contains(area)) {
                     isFit = false;
                 }
