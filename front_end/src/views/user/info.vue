@@ -94,7 +94,6 @@
     import orderDetail from '../order/components/orderDetail'
     import OrderList from "../order/components/userOrderList"
     import UserOrderedHotelList from "../hotel/components/userOrderedHotelList";
-    import test from "../test";
 
     export default {
         name: 'info',

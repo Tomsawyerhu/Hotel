@@ -1,4 +1,3 @@
-
 <template>
     <a-layout>
         <a-layout-content>
@@ -7,7 +6,7 @@
                     {{ currentHotelInfo.title }}
                 </h1>
                 <div class="hotel-info">
-                    <a-card style="width: 240px">
+                    <a-card style=" width: 240px">
                         <img
                                 alt="example"
                                 src="@/assets/cover.jpeg"
