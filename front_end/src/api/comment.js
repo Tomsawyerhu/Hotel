@@ -27,7 +27,7 @@ export function addCommentAPI(data) {
 
 export function getHotelCommentListAPI(hotelId) {
     return axios({
-        url: `${api.commentPre}/${hotelId}/getHotelComments`,
+        url: `${api.commentPre}/${hotelId}/getHotelCommentList`,
         method: 'GET',
     })
 }
