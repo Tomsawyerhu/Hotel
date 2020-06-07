@@ -50,7 +50,7 @@ const getters = {
     couponDetailVisible: state => state.marketingStaff.couponDetailVisible,
 
     //comment
-    commentList: state => state.comment.commentList,
+    hotelCommentList: state => state.comment.commentList,
     currentComment: state => state.comment.currentComment,
 }
 

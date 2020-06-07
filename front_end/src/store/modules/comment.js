@@ -9,13 +9,13 @@ import {message} from 'ant-design-vue'
 
 const comment = {
     state: {
-        commentList: [],
+        hotelCommentList: [],
         currentComment:{},
 
 
     },
     mutations: {
-        set_commentList: function(state, data) {
+        set_hotelCommentList: function(state, data) {
             state.commentList = data
         },
         set_currentComment: function(state, data) {
@@ -27,7 +27,7 @@ const comment = {
         getHotelCommentList: async({commit},hotelId) => {
             const res = getHotelCommentListAPI(hotelId);
             if(res){
-                commit('set_commentList',res)
+                commit('set_hotelCommentList',res)
             }
         },
     }
