@@ -121,16 +121,6 @@ public class AccountServiceImpl implements AccountService {
         }
     }
 
-    @Override
-    public ResponseVO addCreditAsSale(String userEmail, double amount) {
-        User user = accountMapper.getAccountByName(userEmail);
-        if(user==null){
-            return ResponseVO.buildFailure(EMAIL_DONT_EXIST);
-        }else{
-            accountMapper.addCreditByEmail(userEmail,amount);
-        }
-        return ResponseVO.buildSuccess(true);
-    }
 
     @Override
     public ResponseVO addCreditAsWorker(int id, double amount) {
