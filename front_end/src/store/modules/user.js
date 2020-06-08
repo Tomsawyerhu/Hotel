@@ -1,7 +1,7 @@
 import router, {resetRouter} from '@/router'
 import {removeToken, setToken} from '@/utils/auth'
 import {message} from 'ant-design-vue'
-import {getUserInfoAPI, loginAPI, registerAPI, updateUserInfoAPI,} from '@/api/user'
+import {getUserInfoAPI, loginAPI, registerAPI, updateUserInfoAPI} from '@/api/user'
 
 import {cancelOrderAPI, getOrderDetailsAPI, getUserOrdersAPI,} from '@/api/order'
 import {modifyPasswordAPI} from '@/api/user';
@@ -70,7 +70,7 @@ const user = {
                     } else if (state.userInfo.userType == "Admin") {
                         router.push('/admin/manageUser')
                     } else if (state.userInfo.userType == "HotelManager") {
-                        router.push('/hotelManager/manageHotel')
+                        router.push('/hotelManager/hotelDetailEdit/'+state.userInfo.manage_hotelId)
                     } else {
                         router.push('/hotel/hotelList')
                     }
@@ -82,6 +82,20 @@ const user = {
             if (res) {
                 message.success('注册成功')
             }
+        },
+        getUserInfoById:async ({commit}, data) => {
+            return new Promise((resolve, reject) => {
+                getUserInfoAPI(data).then(response => {
+                    const data = response
+                    if (!data) {
+                        reject('失败')
+                    }
+                    commit('set_targetAccount', data)
+                    resolve(data)
+                }).catch(error => {
+                    reject(error)
+                })
+            })
         },
         getUserInfo({state, commit}) {
             return new Promise((resolve, reject) => {

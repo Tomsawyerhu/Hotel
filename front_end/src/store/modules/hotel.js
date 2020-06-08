@@ -25,12 +25,18 @@ const hotel = {
         hotelListLoading: true,
         currentHotelId: '',
         currentHotelInfo: {
-
+            name: '',
+            address: '',
+            bizRegion:'XiDan',
+            hotelStar:'',
+            rate: 0,
+            description:'',
+            phoneNum:'',
+            managerId:''
         },
 
         orderModalVisible: false,
         roomEditVisible:false,
-        descEditVisible:false,
         addRoomVisible:false,
         currentOrderRoom: {
 
@@ -62,18 +68,11 @@ const hotel = {
                 ...data,
             }
         },
-        set_currentHotelInfo_d: function(state, data) {
-            state.currentHotelInfo.description = data
-        }
-        ,
         set_orderModalVisible: function(state, data) {
             state.orderModalVisible = data
         },
         set_roomEditVisible: function(state, data) {
             state.roomEditVisible = data
-        },
-        set_descEditVisible: function(state, data) {
-            state.descEditVisible = data
         },
         set_currentOrderRoom: function(state, data) {
             state.currentOrderRoom = {
@@ -129,15 +128,8 @@ const hotel = {
                 commit('set_orderMatchCouponList', res)
             }
         },
-        updateHotelInfo:async ({state,commit},data)=>{
-            const res=await UpdateHotelByIdAPI(data)
-            //console.log(res)
-            if(res){
-                message.success('更新成功')
-                commit('set_descEditVisible', false)
-            }
-        },
         searchHotel:async ({state,commit},data)=>{
+            console.log(data)
             const res= await  searchHotelAPI(data)
             console.log(res)
             commit('set_hotelList', res)

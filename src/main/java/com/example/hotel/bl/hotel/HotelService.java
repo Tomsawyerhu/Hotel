@@ -72,12 +72,20 @@ public interface HotelService {
     HotelVO retrieveHotelDetails(Integer hotelId);
 
     /**
-     * 更改某家酒店的详细信息
+     * 更改某家酒店的信息
      *
      * @param
      * @return
      */
     ResponseVO updateHotelInfo(HotelVO hotelVO);
+
+    /**
+     * 更改某家酒店的管理人员信息
+     *
+     * @param
+     * @return
+     */
+    ResponseVO updateHotelManager(HotelVO hotelVO);
 
     /**
      * 获得用户预定过的酒店列表
@@ -113,5 +121,10 @@ public interface HotelService {
      */
     int deleteHotel(Integer hotelId);
 
+    /**
+     * 解除酒店和酒店工作人员的绑定
+     * @param hotelId
+     */
+    void deLink(Integer hotelId);
 
 }

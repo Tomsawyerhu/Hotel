@@ -2,8 +2,10 @@ package com.example.hotel.controller.admin;
 
 import com.example.hotel.bl.admin.AdminService;
 import com.example.hotel.blImpl.admin.AdminServiceImpl;
+import com.example.hotel.bl.hotel.HotelService;
 import com.example.hotel.vo.ResponseVO;
 import com.example.hotel.vo.UserForm;
+import com.example.hotel.vo.UserFormLink;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,8 +19,12 @@ public class AdminController {
     @Autowired
     AdminService adminService;
 
+    @Autowired
+    HotelService hotelService;
+
+
     @PostMapping("/addManager")
-    public ResponseVO addManager(@RequestBody UserForm userForm) {
+    public ResponseVO addManager(@RequestBody UserFormLink userForm) {
 
         return adminService.addManager(userForm);
     }
@@ -45,7 +51,10 @@ public class AdminController {
     }
 
     @PostMapping("/deleteAccount/{userId}")
-    public ResponseVO addManager(@PathVariable Integer userId) { return adminService.deleteUser(userId);
+    public ResponseVO deleteAccount(@PathVariable Integer userId) { return adminService.deleteUser(userId);
     }
 
+    @PostMapping("/deleteHotel/{hotelId}")
+    public ResponseVO deleteHotel(@PathVariable Integer hotelId) { return ResponseVO.buildSuccess(hotelService.deleteHotel(hotelId));
+    }
 }

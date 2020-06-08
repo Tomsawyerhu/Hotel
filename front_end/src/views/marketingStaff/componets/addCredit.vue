@@ -59,7 +59,9 @@
                             userEmail: this.form.getFieldValue('email'),
                             amount: Number(this.form.getFieldValue('amount')),
                         }
-                        this.addCredit(data)
+                        this.addCredit(data).then(()=>{
+                            this.form.resetFields()
+                        })
                     }
                 })
             },

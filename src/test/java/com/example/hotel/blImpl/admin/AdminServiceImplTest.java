@@ -4,6 +4,7 @@ package com.example.hotel.blImpl.admin;
 import com.example.hotel.bl.admin.AdminService;
 import com.example.hotel.vo.ResponseVO;
 import com.example.hotel.vo.UserForm;
+import com.example.hotel.vo.UserFormLink;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class AdminServiceImplTest {
     @Transactional
     public void addManagerTest() {
         //新增管理员,这个没用到数据库里的
-        UserForm userForm = new UserForm();
+        UserFormLink userForm = new UserFormLink();
         userForm.setEmail("111111@qq.com");
         userForm.setPassword("123456");
         ResponseVO res = adminService.addManager(userForm);

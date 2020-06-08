@@ -3,6 +3,7 @@ package com.example.hotel.bl.admin;
 import com.example.hotel.po.User;
 import com.example.hotel.vo.ResponseVO;
 import com.example.hotel.vo.UserForm;
+import com.example.hotel.vo.UserFormLink;
 import com.example.hotel.vo.UserVO;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public interface AdminService {
      * @param userForm
      * @return
      */
-    ResponseVO addManager(UserForm userForm);
+    ResponseVO addManager(UserFormLink userForm);
 
     /**
      * 添加网站营销人员账号

@@ -1,7 +1,7 @@
 <template>
     <a-modal
         :visible="addManagerModalVisible"
-        title="添加用户"
+        title="添加酒店工作人员"
         cancelText="取消"
         okText="确定"
         @cancel="cancel"
@@ -31,6 +31,12 @@
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 export default {
     name: 'addManagerModal',
+    props: {
+        back:{
+            function () {
+            }
+        }
+    },
     data() {
         return {
             formItemLayout: {
@@ -49,13 +55,18 @@ export default {
         ...mapGetters([
             'addManagerModalVisible',
             'managerList',
+            'currentHotelInfo',
+            'targetAccount'
         ])
     },
     beforeCreate() {
         this.form = this.$form.createForm(this, { name: 'addManagerModal' });
     },
     mounted() {
-
+        /*this.form.setFieldsValue({
+            'email': this.targetAccount.email,
+            'password': this.targetAccount.password
+        })*/
     },
     methods: {
         ...mapMutations([
@@ -75,12 +86,14 @@ export default {
                 if (!err) {
                     const data = {
                         email: this.form.getFieldValue('email'),
-                        password: this.form.getFieldValue('password')
+                        password: this.form.getFieldValue('password'),
+                        hotelId:this.currentHotelInfo.id
                     }
                     this.set_addManagerParams(data)
                     this.addManager()
                 }
             });
+            this.back()
         },
     }
 }

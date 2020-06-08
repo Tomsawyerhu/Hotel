@@ -2,6 +2,7 @@
     <div class="manageHotel-wrapper">
         <a-tabs>
             <a-tab-pane tab="酒店管理" key="1">
+                <div name="酒店管理" v-if="!changeManager">
                 <div style="width: 100%; text-align: right; margin:20px 0">
                     <a-button type="primary" @click="addHotel"><a-icon type="plus" />添加酒店</a-button>
                 </div>
@@ -25,16 +26,22 @@
                             <a-button type="danger" size="small">删除酒店</a-button>   <!--不同级别的按钮，在ant-design里可以看到-->
                         </a-popconfirm>
                         <!--{{userInfo}}-->
-                        {{record}}
+                        <!--{{record}}-->
                         <a-divider type="vertical"></a-divider>
+
                         <a-button typeof="primary" size="small" @click="showCouponList(record)">优惠策略</a-button>
-                        <a-button type="primary" size="small" :disabled="false" v-if="record.managerId==NULL" @click="addManager(record)">添加酒店工作人员</a-button>
-                        <a-button type="primary" size="small" :disabled="true" v-if="record.managerId!=NULL">添加酒店工作人员</a-button>
-                        <a-divider type="vertical"></a-divider>
-                        <a-button type="primary" size="small" :disabled="true" v-if="record.managerId==NULL">修改酒店工作人员的信息</a-button>
-                        <a-button type="primary" size="small" :disabled="false" v-if="record.managerId!=NULL" @click="editManager(record)">修改酒店工作人员的信息</a-button>
+                        <a-button type="primary" size="small"  @click="SeeManager(record)" >编辑酒店工作人员信息</a-button>
+                        <!--<a-button type="primary" size="small"  v-if="record.managerId==NULL" @click="addManager(record)">添加酒店工作人员</a-button>
+                        <a-button type="primary" size="small"  v-if="record.managerId!=NULL" @click="editManager(record)">修改酒店工作人员的信息</a-button>-->
+
+
                     </span>
                 </a-table>
+                </div>
+
+                <div name="管理人员" v-if="changeManager">
+                    <manager-detail :back="quitSeeManager"/>
+                </div>
             </a-tab-pane>
             <a-tab-pane tab="订单管理" key="2">
                 <a-table
@@ -47,9 +54,9 @@
                         <span>￥{{ text }}</span>
                     </span>
                     <span slot="roomType" slot-scope="text">
-                        <span v-if="text == 'BigBed'">大床房</span>
-                        <span v-if="text == 'DoubleBed'">双床房</span>
-                        <span v-if="text == 'Family'">家庭房</span>
+                        <span v-if="text == '大床房'">大床房</span>
+                        <span v-if="text == '双床房'">双床房</span>
+                        <span v-if="text == '家庭房'">家庭房</span>
                     </span>
                     <span slot="action" slot-scope="record">
                         <a-button type="primary" size="small" @click="showOrderDetails(record.id)">订单详情</a-button>
@@ -76,9 +83,11 @@
             </a-tab-pane>
 
         </a-tabs>
+        <addManagerModal></addManagerModal>
         <AddHotelModal></AddHotelModal>
         <AddRoomModal></AddRoomModal>
         <Coupon></Coupon>
+        <EditManager></EditManager>
     </div>
 </template>
 <script>
@@ -87,6 +96,9 @@
     import AddRoomModal from './components/addRoomModal'
     import Coupon from './components/coupon'
     import OrderDetails from "../order/components/orderDetail";
+    import addManagerModal from "./components/addManagerModal";
+    import EditManager from "@/views/admin/components/editUserInfo"
+    import managerDetail from "./components/managerDetail";
     const moment = require('moment')
     const columns1 = [
         {
@@ -161,6 +173,7 @@
         name: 'manageHotel',
         data(){
             return {
+                changeManager:false,
                 formLayout: 'horizontal',
                 pagination: {},
                 columns1,
@@ -175,6 +188,9 @@
             AddHotelModal,
             AddRoomModal,
             Coupon,
+            addManagerModal,
+            EditManager,
+            managerDetail
         },
         computed: {
             ...mapGetters([
@@ -199,14 +215,21 @@
                 'set_addRoomModalVisible',
                 'set_couponVisible',
                 'set_activeHotelId',
-                'set_currentOrderId'
+                'set_currentOrderId',
+                'set_currentHotelInfo',
+                'set_addManagerModalVisible',
+                'set_targetAccount',
+                'set_UserInfoEditVisible',
+                'set_currentHotelInfo'
             ]),
             ...mapActions([
                 'getHotelList',
                 'getAllOrders',
                 'getHotelCoupon',
                 'getOrderDetails',
-                'getHotelById'
+                'getHotelById',
+                'addManager',
+                'deleteHotelById'
             ]),
             setShowDetailFalse(){
                 // console.log("false")
@@ -228,8 +251,8 @@
                 this.getHotelCoupon()
                 this.set_couponVisible(true)
             },
-            deleteHotel(){
-
+            deleteHotel(record){
+                this.deleteHotelById(record.id)
             },
             deleteOrder(){
 
@@ -240,6 +263,15 @@
                 this.setShowDetailTrue()
                 console.log(this.orderDetailInfo)
             },
+            SeeManager(record){
+                this.set_currentHotelInfo(record)
+                this.changeManager=true
+            },
+            quitSeeManager(){
+                this.changeManager=false
+            },
+
+
         }
     }
 </script>

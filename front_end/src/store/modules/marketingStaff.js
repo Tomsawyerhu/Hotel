@@ -4,7 +4,7 @@ import {
 } from '@/api/order'
 import {
     addCreditAPI
-} from '@/api/user'
+} from '@/api/marketingStaff'
 import {
     websiteAllCouponsAPI,
     cancelCouponAPI,

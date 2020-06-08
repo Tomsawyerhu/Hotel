@@ -6,7 +6,7 @@
                     {{ currentHotelInfo.title }}
                 </h1>
                 <div class="hotel-info">
-                    <a-card style="width: 240px">
+                    <a-card style=" width: 240px">
                         <img
                                 alt="example"
                                 src="@/assets/cover.jpeg"
@@ -16,11 +16,11 @@
                     </a-card>
                     <div class="info">
                         <div class="items" v-if="currentHotelInfo.name">
-                            <span class="label">酒店名称：</span>
+                            <span class="label">酒店名称:</span>
                             <span class="value">{{ currentHotelInfo.name }}</span>
                         </div>
                         <div class="items" v-if="currentHotelInfo.address">
-                            <span class="label">地址</span>
+                            <span class="label">地址:</span>
                             <span class="value">{{ currentHotelInfo.address }}</span>
                         </div>
                         <div class="items" v-if="currentHotelInfo.rate">
@@ -32,26 +32,26 @@
                             <a-rate style="font-size: 15px" :value="currentHotelInfo.rate" disabled allowHalf/>
                         </div>
                         <div class="items" v-if="currentHotelInfo.description">
-                            <span class="label">酒店详情:</span>
-                            <span class="edit"></span>
+                            <span class="label">酒店简介:</span>
                             <span class="value">{{ currentHotelInfo.description }}</span>
-                            <a-button type="primary" @click="edit">编辑</a-button>
-                            <Describe></Describe>
-
-                            <!--{{currentHotelInfo}}-->
                             <!--<span>{{ currentHotelInfo.rooms }}</span>-->
                         </div>
-
                     </div>
                 </div>
                 <a-divider></a-divider>
                 <a-tabs>
-                    <a-tab-pane tab="房间信息">
-                        <RoomList :rooms="currentHotelInfo.rooms" ></RoomList>
+                    <a-tab-pane tab="房间信息" key="1">
+                        <RoomList :rooms="currentHotelInfo.rooms"></RoomList>
                     </a-tab-pane>
 
+                    <a-tab-pane tab="历史订单" key="2">
+                        <OrderList :order-list="userOrdersInCertainHotel">
 
-
+                        </OrderList>
+                    </a-tab-pane>
+                    <a-tab-pane tab="住客评论" key="3">
+                        <CommentList></CommentList>
+                    </a-tab-pane>
                 </a-tabs>
             </div>
         </a-layout-content>
@@ -59,13 +59,17 @@
 </template>
 <script>
     import { mapGetters, mapActions, mapMutations } from 'vuex'
-    import RoomList from './components/roomList'
-    import Describe from './edit/describe'
+    import RoomList from './roomList'
+    import OrderList from '@/views/order/components/userOrderList'
+    import CommentList from './commentList'
+    import hotel from "../../../store/modules/hotel";
+
     export default {
-        name: 'hotelDetailEdit',
+        name: 'hotelDetail',
         components: {
+            OrderList,
             RoomList,
-            Describe
+            CommentList,
         },
         data() {
             return {
@@ -75,30 +79,32 @@
         computed: {
             ...mapGetters([
                 'currentHotelInfo',
-                'descEditVisible',
-                'userInfo'
+                'userInfo',
+                'currentHotelId',
+                'userId',
+                'userOrdersInCertainHotel'
             ])
         },
         mounted() {
             this.set_currentHotelId(Number(this.$route.params.hotelId))
+            //console.log("hotelId in mounted "+this.currentHotelId)
             this.getHotelById()
+            this.getUserOrdersInCertainHotel({userId:this.userId,hotelId:this.currentHotelId}) //加载客户在该酒店的历史订单
         },
         beforeRouteUpdate(to, from, next) {
             this.set_currentHotelId(Number(to.params.hotelId))
             this.getHotelById()
+            this.getUserOrdersInCertainHotel()
             next()
         },
         methods: {
             ...mapMutations([
                 'set_currentHotelId',
-                'set_descEditVisible'
             ]),
             ...mapActions([
-                'getHotelById'
+                'getHotelById',
+                'getUserOrdersInCertainHotel'
             ]),
-            edit(){
-                this.set_descEditVisible(true)
-            }
         }
     }
 </script>

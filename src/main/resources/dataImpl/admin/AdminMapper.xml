@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.hotel.data.admin.AdminMapper">
     <insert id="addManager" parameterType="com.example.hotel.po.User" useGeneratedKeys="true" keyProperty="id">
-        insert into User(email,password,usertype)
-        values(#{email},#{password},#{userType})
+        insert into User(email,password,usertype,manageho_id)
+        values(#{email},#{password},#{userType},#{manage_hotelId})
     </insert>
     <insert id="addStaff" parameterType="com.example.hotel.po.User" useGeneratedKeys="true" keyProperty="id">
         insert into User(email,password,usertype)
@@ -30,5 +30,6 @@
         <result column="phonenumber" property="phoneNumber"></result>
         <result column="credit" property="credit"></result>
         <result column="usertype" property="userType"></result>
+        <result column="manageho_id" property="manage_hotelId"></result>
     </resultMap>
 </mapper>

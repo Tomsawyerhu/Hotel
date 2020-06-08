@@ -15,9 +15,14 @@
                 </a-input>
             </a-form-item>
             <a-form-item label="早餐">
-                <a-input
-                        v-model="value1"
-                />
+                <a-radio-group v-model="value" >
+                    <a-radio  value="有">
+                        有
+                    </a-radio>
+                    <a-radio  value="无">
+                        无
+                    </a-radio>
+                </a-radio-group>
             </a-form-item>
             <a-form-item label="入住人数">
                 <a-input
@@ -44,17 +49,11 @@
         name: "newRoom",
         data(){
             return {
-                value1:'',
+                value:'',
                 value2:'',
                 value3:'',
                 value4:'',
                 value5:''
-                /*value: {
-                    roomType :this.currentRoom.roomType,
-                    breakfast:this.currentRoom.breakfast,
-                    peopleNum:this.currentRoom.peopleNum,
-                    price:this.currentRoom.price
-                }*/
             }
         },
 
@@ -72,17 +71,16 @@
                 'set_currentRoom'
 
             ]),
-            ...mapActions(['addNewRoom']),
+            ...mapActions(['addNewRoom','getHotelById']),
             cancelEdit() {
                 this.$store.commit('set_addRoomVisible',false)
             },
             EditSubmit() {
-                const Info={ hotelId:this.currentHotelInfo.id, id: 0, roomType: this.value4, price: this.value3, curNum: this.value5, total: this.value5, breakfast: this.value1, peopleNum: this.value2}
+                const Info={ hotelId:this.currentHotelInfo.id, id: 0, roomType: this.value4, price: this.value3, curNum: this.value5, total: this.value5, breakfast: this.value, peopleNum: this.value2}
                 this.$store.commit('set_currentRoom',Info)
+                this.addNewRoom(this.currentRoom).then(this.getHotelById())
+                this.getHotelById()
                 console.log(this.currentHotelInfo)
-                this.$store.dispatch('addNewRoom',this.currentRoom)
-                this.$store.commit('set_addRoomVisible',false)
-
             },
         }
     }

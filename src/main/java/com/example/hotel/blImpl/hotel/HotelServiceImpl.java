@@ -41,7 +41,7 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public void addHotel(HotelVO hotelVO) throws ServiceException {
         UserVO manager = accountService.getUserInfo(hotelVO.getManagerId());
-        if (manager == null || !manager.getUserType().equals(UserType.HotelManager)) {
+        if (manager == null || !manager.getUserType().equals(UserType.Admin)) {
             throw new ServiceException("管理员不存在或者无权限！创建酒店失败！");
         }
         Hotel hotel = new Hotel();
@@ -105,8 +105,8 @@ public class HotelServiceImpl implements HotelService {
             }
         }
         if (HotelExists) {
-            hotelMapper.updateHotelInfo(hotelId, hotelVO.getDescription());
-            return ResponseVO.buildSuccess();
+            hotelMapper.updateHotelInfo(hotelVO.getId(),hotelVO.getName(),hotelVO.getAddress(),hotelVO.getDescription());
+            return ResponseVO.buildSuccess("更新成功");
         } else {
             return ResponseVO.buildFailure("未找到此酒店");
         }
@@ -138,7 +138,7 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public List<HotelVO> searchHotel(Map<String, String> conditions) {
-        //System.out.println(conditions);
+        System.out.println(conditions);
         List<HotelVO> res = new ArrayList<>();
         List<Hotel> allHotels = hotelMapper.selectAllHotel();
         String province = conditions.get("province");
@@ -151,6 +151,7 @@ public class HotelServiceImpl implements HotelService {
             starNum = Integer.parseInt(conditions.get("star"));
         }
         for (Hotel hotel : allHotels) {
+            System.out.println(hotel);
             String hotelAddr = hotel.getAddress();
             String hotelName = hotel.getName();
             boolean isFit = true;
@@ -176,18 +177,21 @@ public class HotelServiceImpl implements HotelService {
             if(hotelAddr!=null){
             //province非空则判断hotelAddr中是否包含province，不包含则不符合
             if (province != null) {
+                System.out.println("province is "+province);
                 if (!hotelAddr.contains(province)) {
                     isFit = false;
                 }
             }
             //city非空则判断hotelAddr中是否包含city，不包含则不符合
             if (city != null) {
+                System.out.println("city is "+city);
                 if (!hotelAddr.contains(city)) {
                     isFit = false;
                 }
             }
             //area非空则判断hotelAddr中是否包含area，不包含则不符合
             if (area != null) {
+                System.out.println("area is "+area);
                 if (!hotelAddr.contains(area)) {
                     isFit = false;
                 }
@@ -195,7 +199,6 @@ public class HotelServiceImpl implements HotelService {
             }
             //isFit为true表示满足条件，把该酒店加入结果
             if (isFit) {
-                System.out.println(hotel);
                 HotelVO hotelVO = new HotelVO();
                 BeanUtils.copyProperties(hotel, hotelVO);
                 res.add(hotelVO);
@@ -285,4 +288,31 @@ public class HotelServiceImpl implements HotelService {
         }
         return min;
     }
+
+    @Override
+    public ResponseVO updateHotelManager(HotelVO hotelVO){
+        int hotelId=hotelVO.getId();
+        List<HotelVO> hotelList=retrieveHotels();
+        boolean HotelExists=false;
+        for(HotelVO hotelVO1:hotelList){
+            if(hotelId==hotelVO1.getId()){
+                HotelExists=true;
+                break;
+            }
+        }
+        if(HotelExists){
+            hotelMapper.updateHotelManager(hotelId,hotelVO.getManagerId());
+            return ResponseVO.buildSuccess();
+        }
+        else{
+            return ResponseVO.buildFailure("未找到此酒店");
+        }
+    }
+    @Override
+    public void deLink(Integer hotelId){
+        hotelMapper.deLink(hotelId);
+    }
 }
+
+
+

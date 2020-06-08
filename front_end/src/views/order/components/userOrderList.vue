@@ -88,10 +88,7 @@
         },
         {
             title: '状态',
-            filters: [{text: '已预订', value: '已预订'}, {text: '已撤销', value: '已撤销'}, {
-                text: '已入住',
-                value: '已入住'
-            }, {text: '异常', value: '异常'}],
+            filters: [{ text: '已预订', value: '已预订' }, { text: '已撤销', value: '已撤销' }, { text: '已执行', value: '已执行' },{text: '已完成', value: '已完成'},{ text: '异常', value: '异常' },],
             onFilter: (value, record) => record.orderState.includes(value),
             dataIndex: 'orderState',
             scopedSlots: {customRender: 'orderState'}

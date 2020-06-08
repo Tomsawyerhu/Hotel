@@ -16,9 +16,13 @@ public class UserVO {
     private String phoneNumber;
     private double credit;
     private UserType userType;
+
     private String memberType;
     private Date birthday;
     private String companyName;
+
+    private String manage_hotelId;
+
 
     public Integer getId() {
         return id;
@@ -26,6 +30,14 @@ public class UserVO {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getManage_hotelId() {
+        return manage_hotelId;
+    }
+
+    public void setManage_hotelId(String manage_hotelId) {
+        this.manage_hotelId = manage_hotelId;
     }
 
     public String getUserName() {

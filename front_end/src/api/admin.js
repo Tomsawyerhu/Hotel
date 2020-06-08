@@ -40,4 +40,10 @@ export function deleteAccountAPI(data) {
         method: 'POST',
     })
 }
+export function deleteHotelAPI(data){
+    return axios({
+        url: `${api.adminPre}/deleteHotel/${data}`,
+        method: 'POST',
+    })
+}
 
