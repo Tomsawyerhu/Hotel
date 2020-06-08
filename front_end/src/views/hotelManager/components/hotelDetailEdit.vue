@@ -46,7 +46,10 @@
                             </a-input>
                         </a-form-item>
                         <a-form-item class="items">
+                            <a-button-group>
                             <a-button type="primary" @click="modifyBegin" v-if="!modify">编辑酒店信息</a-button>
+                            <a-button type="primary" @click="showCouponList( currentHotelInfo.id )" v-if="!modify">优惠策略</a-button>
+                            </a-button-group>
                         </a-form-item>
                         <a-form-item class="items">
                             <a-button type="primary" @click="modifyFinish" v-if="modify">保存编辑</a-button>
@@ -98,24 +101,24 @@
                 </div>
                 <a-divider></a-divider>
                 <a-tabs>
-                    <a-tab-pane tab="房间信息">
+                    <a-tab-pane tab="房间信息" key="1">
                         {{currentHotelInfo}}
                         <RoomList :rooms="currentHotelInfo.rooms" ></RoomList>
                     </a-tab-pane>
-
-
-
                 </a-tabs>
             </div>
         </a-layout-content>
+        <coupon></coupon>
     </a-layout>
 </template>
 <script>
     import { mapGetters, mapActions, mapMutations } from 'vuex'
     import RoomList from './roomList'
+    import Coupon from "./coupon"
     export default {
         name: 'hotelDetailEdit',
         components: {
+            Coupon,
             RoomList,
         },
         data() {
@@ -143,11 +146,20 @@
         methods: {
             ...mapMutations([
                 'set_currentHotelId',
-                'set_currentHotelInfo'
+                'set_currentHotelInfo',
+                'set_activeHotelId',
+                'set_couponVisible',
             ]),
             ...mapActions([
-                'getHotelById'
+                'getHotelById',
+                'getHotelCoupon',
             ]),
+            showCouponList(id){
+                console.log(id)
+                this.set_activeHotelId(id)
+                this.getHotelCoupon()
+                this.set_couponVisible(true)
+            },
             edit(){
                 this.set_descEditVisible(true)
             },

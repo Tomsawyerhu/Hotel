@@ -29,7 +29,6 @@
                         <!--{{record}}-->
                         <a-divider type="vertical"></a-divider>
 
-                        <a-button typeof="primary" size="small" @click="showCouponList(record)">优惠策略</a-button>
                         <a-button type="primary" size="small"  @click="SeeManager(record)" >编辑酒店工作人员信息</a-button>
                         <!--<a-button type="primary" size="small"  v-if="record.managerId==NULL" @click="addManager(record)">添加酒店工作人员</a-button>
                         <a-button type="primary" size="small"  v-if="record.managerId!=NULL" @click="editManager(record)">修改酒店工作人员的信息</a-button>-->
@@ -86,7 +85,7 @@
         <addManagerModal></addManagerModal>
         <AddHotelModal></AddHotelModal>
         <AddRoomModal></AddRoomModal>
-        <Coupon></Coupon>
+
         <EditManager></EditManager>
     </div>
 </template>
@@ -94,7 +93,6 @@
     import { mapGetters, mapMutations, mapActions } from 'vuex'
     import AddHotelModal from './components/addHotelModal'
     import AddRoomModal from './components/addRoomModal'
-    import Coupon from './components/coupon'
     import OrderDetails from "../order/components/orderDetail";
     import addManagerModal from "./components/addManagerModal";
     import EditManager from "@/views/admin/components/editUserInfo"
@@ -187,7 +185,6 @@
             OrderDetails,
             AddHotelModal,
             AddRoomModal,
-            Coupon,
             addManagerModal,
             EditManager,
             managerDetail
@@ -213,7 +210,6 @@
             ...mapMutations([
                 'set_addHotelModalVisible',
                 'set_addRoomModalVisible',
-                'set_couponVisible',
                 'set_activeHotelId',
                 'set_currentOrderId',
                 'set_currentHotelInfo',
@@ -225,7 +221,6 @@
             ...mapActions([
                 'getHotelList',
                 'getAllOrders',
-                'getHotelCoupon',
                 'getOrderDetails',
                 'getHotelById',
                 'addManager',
@@ -246,11 +241,6 @@
                 this.set_addRoomModalVisible(true)
             },
 
-            showCouponList(record){
-                this.set_activeHotelId(record.id)
-                this.getHotelCoupon()
-                this.set_couponVisible(true)
-            },
             deleteHotel(record){
                 this.deleteHotelById(record.id)
             },
