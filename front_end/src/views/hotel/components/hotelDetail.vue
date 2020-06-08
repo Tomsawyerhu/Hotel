@@ -49,6 +49,9 @@
 
                         </OrderList>
                     </a-tab-pane>
+                    <a-tab-pane tab="住客评论" key="3">
+                        <CommentList></CommentList>
+                    </a-tab-pane>
                 </a-tabs>
             </div>
         </a-layout-content>
@@ -58,6 +61,7 @@
     import { mapGetters, mapActions, mapMutations } from 'vuex'
     import RoomList from './roomList'
     import OrderList from '@/views/order/components/userOrderList'
+    import CommentList from './commentList'
     import hotel from "../../../store/modules/hotel";
 
     export default {
@@ -65,6 +69,7 @@
         components: {
             OrderList,
             RoomList,
+            CommentList,
         },
         data() {
             return {
