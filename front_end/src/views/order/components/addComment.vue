@@ -10,7 +10,7 @@
         >
             <a-form :form="form" style="margin-top: 30px">
                 <a-form-item label="订单评分">
-                    <a-rate v-model="rate"
+                    <a-rate
                             v-decorator="['rate', { rules: [{ required: true, message: '请给这次订单打分' }] }]"
                     >
                     </a-rate>
@@ -37,7 +37,6 @@
             return {
                 formLayout: 'horizontal',
                 form: this.$form.createForm(this, {name: 'coordinated'}),
-                rate: 0,
             }
 
         },
@@ -54,30 +53,30 @@
         methods: {
             ...mapMutations(['set_addCommentVisible']),
             ...mapActions(['addComment']),
+            cancel(){
+                this.set_addCommentVisible(false)
+            },
+            handleSubmit(){
+                this.form.validateFields((err, values) => {
+                    if (!err) {
+                        const data = {
+                            content: this.form.getFieldValue('content'),
+                            rate: Number(this.form.getFieldValue('rate')),
+                            orderId: this.currentOrderId,
+                            roomNum: this.currentOrderInfo.roomNum,
+                            roomType: this.currentOrderInfo.roomType,
+                            hotelId: this.currentOrderInfo.hotelId,
+                        }
+                        this.addComment(data).then(()=>{
+                            message.success("评价成功")
+                            this.set_addCommentVisible(false)
+                        })
 
-        },
-        cancel(){
-
-        },
-        handleSubmit(){
-            this.form.validateFields((err, values) => {
-                if (!err) {
-                    const data = {
-                        content: this.form.getFieldValue('content'),
-                        rate: Number(this.form.getFieldValue('rate')),
-                        orderId: this.currentOrderId,
-                        roomNum: this.currentOrderInfo.roomNum,
-                        roomType: this.currentOrderInfo.roomType,
-                        hotelId: this.currentOrderInfo.hotelId,
                     }
-                    this.addComment(data).then(()=>{
-                        message.success("评价成功")
-                        this.set_addCommentVisible(false)
-                    })
+                })
+            }
+        },
 
-                }
-            })
-        }
     }
 </script>
 

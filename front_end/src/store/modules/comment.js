@@ -32,6 +32,9 @@ const comment = {
                 commit('set_hotelCommentList', res)
             }
         },
+        addComment: async ({commit}, data) => {
+            const res = addCommentAPI(data);
+        },
     }
 }
 export default comment

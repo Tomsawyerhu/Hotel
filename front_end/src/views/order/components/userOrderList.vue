@@ -26,7 +26,7 @@
             <a-tag slot="orderState" color="yellow" slot-scope="text" v-else-if="text==='已退房'">
                 {{ text }}
             </a-tag>
-            <a-tag slot="orderState" color="gray" slot-scope="text" v-else >
+            <a-tag slot="orderState" color="gray" slot-scope="text" v-else>
                 {{ text }}
             </a-tag>
             <span slot="action" slot-scope="record">
@@ -42,8 +42,9 @@
                         >
                             <a-button type="danger" size="small">撤销</a-button>
                         </a-popconfirm>
-                        <a-divider type="vertical" v-if="record.orderState == '已完成'"></a-divider>
-                        <a-button type="primary" size="small" @click="startComment(record.id)" v-if="record.orderState == '已完成'">评价订单</a-button>
+                        <a-divider type="vertical" v-if="record.orderState == '已执行'"></a-divider>
+                        <a-button type="primary" size="small" @click="startComment(record.id)"
+                                  v-if="record.orderState == '已执行'" :disabled="hasCommented(record.id)">评价订单</a-button>
             </span>
         </a-table>
         <order-detail v-if="showDetail" :back="setShowDetailFalse">
@@ -92,7 +93,10 @@
         },
         {
             title: '状态',
-            filters: [{ text: '已预订', value: '已预订' }, { text: '已撤销', value: '已撤销' }, { text: '已执行', value: '已执行' },{text: '已完成', value: '已完成'},{ text: '异常', value: '异常' },],
+            filters: [{text: '已预订', value: '已预订'}, {text: '已撤销', value: '已撤销'}, {
+                text: '已执行',
+                value: '已执行'
+            }, {text: '已完成', value: '已完成'}, {text: '异常', value: '异常'},],
             onFilter: (value, record) => record.orderState.includes(value),
             dataIndex: 'orderState',
             scopedSlots: {customRender: 'orderState'}
@@ -142,6 +146,7 @@
             ...mapActions([
                 'cancelOrder',
                 'getOrderDetails',
+                'getOrderDetailsById'
             ]),
             setShowDetailFalse() {
                 // console.log("false")
@@ -162,11 +167,21 @@
                 this.setShowDetailTrue()
                 console.log(this.orderDetailInfo)
             },
-            startComment(orderId){
+            startComment(orderId) {
                 this.set_currentOrderId(orderId)
                 this.getOrderDetails()
                 this.set_addCommentVisible(true)
             },
+            hasCommented(orderId) {
+                //获取promise对象里的值
+                let orderInfo = this.getOrderDetailsById(Number(orderId)).res
+                this.getOrderDetailsById(Number(orderId)).then(res => {
+                    console.log(res)
+                })
+                console.log("in "+orderInfo)
+                console.log(orderInfo)
+                return orderInfo
+            }
 
         }
     }
