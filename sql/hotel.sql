@@ -38,7 +38,7 @@ CREATE TABLE `Coupon` (
   `end_time` datetime DEFAULT NULL,
   `discount_money` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,7 +69,7 @@ CREATE TABLE `Hotel` (
   `rate` double DEFAULT NULL,
   `managerId` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 
@@ -166,9 +166,9 @@ CREATE TABLE `User` (
   `credit` double(255,0) DEFAULT NULL,
   `usertype` varchar(255) DEFAULT NULL,
   `manageho_id` varchar(11) DEFAULT NULL,
-  /*'membertype' varchar(255) default null,
-  'birthdate' date default null,
-  'companyname' varchar(255) default null,*/
+  `membertype` varchar(255) DEFAULT NULL,
+  `birthday` date DEFAULT NULL,
+  `companyname` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -179,7 +179,7 @@ CREATE TABLE `User` (
 
 BEGIN;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES (1,'1@qq.com','e10adc3949','测试一号','12345678919',100,'Client',NULL),(2,'11@qq.com','e10adc3949','测试一一号','12345678919',100,'Client',NULL),(3,'2@qq.com','e10adc3949','测试二号','12345678911',100,'HotelManager',1),(4,'3@qq.com','e10adc3949','测试三号',NULL,NULL,'Admin',NULL),(5,'4@qq.com','e10adc3949','测试四号',NULL,NULL,'MarketingStaff',NULL);
+INSERT INTO `User` VALUES (1,'1@qq.com','e10adc3949','测试一号','12345678919',100,'Client',NULL,'VIP','1999-06-08  00:00:00',NULL),(2,'11@qq.com','e10adc3949','测试一一号','12345678919',100,'Client',NULL,NULL,NULL,NULL),(3,'2@qq.com','e10adc3949','测试二号','12345678911',100,'HotelManager',1,NULL,NULL,NULL),(4,'3@qq.com','e10adc3949','测试三号',NULL,NULL,'Admin',NULL,NULL,NULL,NULL),(5,'4@qq.com','e10adc3949','测试四号',NULL,NULL,'MarketingStaff',NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 COMMIT;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

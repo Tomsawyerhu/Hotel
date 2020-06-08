@@ -30,6 +30,14 @@ public interface CouponService {
     List<Coupon> getWebsiteAllCoupons();
 
     /**
+     * 添加酒店生日优惠策略
+     *
+     * @param couponVO
+     * @return
+     */
+    CouponVO addHotelBirthdayCoupon(HotelBirthdayCoupon couponVO);
+
+    /**
      * 添加酒店满减优惠策略
      *
      * @param couponVO
@@ -38,7 +46,7 @@ public interface CouponService {
     CouponVO addHotelTargetMoneyCoupon(HotelTargetMoneyCouponVO couponVO);
 
     /**
-     * 添加酒店节日优惠策略
+     * 添加酒店限时优惠策略
      *
      * @param couponVO
      * @return

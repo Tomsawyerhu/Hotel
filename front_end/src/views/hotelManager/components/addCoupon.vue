@@ -23,13 +23,13 @@
                 </a-select>
             </a-form-item>
 
-            <a-form-item label="券名" v-bind="formItemLayout">
+            <a-form-item label="券名" v-bind="formItemLayout" >
                 <a-input
                         placeholder="请填写券名"
                         v-decorator="['name', { rules: [{ required: true, message: '请填写券名' }] }]"
                 />
             </a-form-item>
-            <a-form-item label="优惠简介" v-bind="formItemLayout">
+            <a-form-item label="优惠简介" v-bind="formItemLayout" >
                 <a-input
                         type="textarea"
                         :rows="4"
@@ -37,6 +37,8 @@
                         v-decorator="['description', { rules: [{ required: true, message: '请填写优惠简介' }] }]"
                 />
             </a-form-item>
+
+
             <a-form-item label="优惠条件" v-bind="formItemLayout" v-if="type==2">
                 <a-input-number   :min="1" :max="10" step="1"
                                   :formatter="value => ` ${value}间起`"
@@ -51,13 +53,13 @@
                                   v-decorator="['targetRoomDiscount', { initialValue:5.0 }]"
                 />
             </a-form-item>
-            <a-form-item label="达标金额" v-bind="formItemLayout" v-if="type==3">
+            <a-form-item label="达标金额" v-bind="formItemLayout" v-if="type==3||type==1">
                 <a-input
                         placeholder="请填写达标金额"
                         v-decorator="['targetMoney', { rules: [{ required: true, message: '请填写达标金额' }] }]"
                 />
             </a-form-item>
-            <a-form-item label="优惠金额" v-bind="formItemLayout" v-if="type==3">
+            <a-form-item label="优惠金额" v-bind="formItemLayout" v-if="type==3||type==1">
                 <a-input
                         placeholder="请填写优惠金额"
                         v-decorator="['discountMoney', { rules: [{ required: true, message: '请填写优惠金额' }] }]"
@@ -125,7 +127,8 @@
                     },
                 },
                 type:0,
-                discountType:1
+                discountType:1,
+                birthdayCouponSelected:false
             }
         },
         computed: {
@@ -185,15 +188,18 @@
                                 //打折类型
                                 data.discount=this.form.getFieldValue('discount1')
                             }
-                        }else if(Number(this.type)===3){
-                            //满减特惠
+                        }else if(Number(this.type)===3||Number(this.type)===1){
+                            //满减特惠,生日特惠
                             data.targetMoney=Number(this.form.getFieldValue('targetMoney'))
                             data.discountMoney=Number(this.form.getFieldValue('discountMoney'))
                         }else if(Number(this.type)===2){
                             console.log(this.form.getFieldValue('targetRoomDiscount'))
                             data.discount=this.form.getFieldValue('targetRoomDiscount')
                             data.targetRoomNum=this.form.getFieldValue('targetRoomNum')
+                        }else if(Number(this.type)===1){
+                            //生日特惠
                         }
+                        console.log(this.activeHotelId)
                         this.addHotelCoupon(data)
                     }
                 });

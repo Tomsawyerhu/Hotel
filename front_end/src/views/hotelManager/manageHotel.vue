@@ -27,6 +27,7 @@
                         <!--{{userInfo}}-->
                         {{record}}
                         <a-divider type="vertical"></a-divider>
+                        <a-button typeof="primary" size="small" @click="showCouponList(record)">优惠策略</a-button>
                         <a-button type="primary" size="small" :disabled="false" v-if="record.managerId==NULL" @click="addManager(record)">添加酒店工作人员</a-button>
                         <a-button type="primary" size="small" :disabled="true" v-if="record.managerId!=NULL">添加酒店工作人员</a-button>
                         <a-divider type="vertical"></a-divider>
@@ -85,7 +86,6 @@
     import AddHotelModal from './components/addHotelModal'
     import AddRoomModal from './components/addRoomModal'
     import Coupon from './components/coupon'
-    import OrderDetail from '../order/components/orderDetail'
     import OrderDetails from "../order/components/orderDetail";
     const moment = require('moment')
     const columns1 = [
@@ -222,10 +222,11 @@
                 this.set_activeHotelId(record.id)
                 this.set_addRoomModalVisible(true)
             },
-            showCoupon(record) {
+
+            showCouponList(record){
                 this.set_activeHotelId(record.id)
-                this.set_couponVisible(true)
                 this.getHotelCoupon()
+                this.set_couponVisible(true)
             },
             deleteHotel(){
 

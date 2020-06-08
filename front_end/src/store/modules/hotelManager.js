@@ -1,6 +1,6 @@
 import {addHotelAPI, addRoomAPI,deleteHotelAPI,updateRoomAPI,deleteRoomAPI} from '@/api/hotelManager'
 import {getAllOrdersAPI,cancelOrderAPI} from '@/api/order'
-import {hotelAllCouponsAPI, hotelTargetMoneyAPI,hotelTimeAPI,hotelMultiRoomAPI} from '@/api/coupon'
+import {hotelAllCouponsAPI, hotelTargetMoneyAPI,hotelTimeAPI,hotelMultiRoomAPI,hotelBirthdayAPI} from '@/api/coupon'
 import {message} from 'ant-design-vue'
 import addNewRoom from "../../views/hotel/edit/addNewRoom";
 
@@ -79,7 +79,8 @@ const hotelManager = {
                 ...state.currentRoom,
                 ...data
             }
-        }
+        },
+
     },
     actions: {
         getAllOrders: async({ state, commit }) => {
@@ -173,6 +174,7 @@ const hotelManager = {
                 res=await hotelMultiRoomAPI(data)
             }else if(Number(data.couponType)===1){
                 //todo
+                res=await hotelBirthdayAPI(data)
             }
             if(res){
                 // 添加成功后的操作（提示文案、modal框显示与关闭，调用优惠列表策略等）

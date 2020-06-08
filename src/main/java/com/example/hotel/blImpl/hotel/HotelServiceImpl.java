@@ -138,7 +138,7 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public List<HotelVO> searchHotel(Map<String, String> conditions) {
-        System.out.println(conditions);
+        //System.out.println(conditions);
         List<HotelVO> res = new ArrayList<>();
         List<Hotel> allHotels = hotelMapper.selectAllHotel();
         String province = conditions.get("province");
@@ -151,7 +151,6 @@ public class HotelServiceImpl implements HotelService {
             starNum = Integer.parseInt(conditions.get("star"));
         }
         for (Hotel hotel : allHotels) {
-            System.out.println(hotel);
             String hotelAddr = hotel.getAddress();
             String hotelName = hotel.getName();
             boolean isFit = true;
@@ -196,6 +195,7 @@ public class HotelServiceImpl implements HotelService {
             }
             //isFit为true表示满足条件，把该酒店加入结果
             if (isFit) {
+                System.out.println(hotel);
                 HotelVO hotelVO = new HotelVO();
                 BeanUtils.copyProperties(hotel, hotelVO);
                 res.add(hotelVO);

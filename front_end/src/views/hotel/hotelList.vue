@@ -19,10 +19,10 @@
                         @click="showSearch"
                 />
             </a-layout-sider>
-
-            <a-pagination showQuickJumper :total="hotelList.totalElements" :defaultCurrent="1" @change="pageChange"></a-pagination>
-
         </a-layout>
+        <a-layout-footer>
+            <a-pagination showQuickJumper :total="hotelList.totalElements" :defaultCurrent="1" @change="pageChange"></a-pagination>
+        </a-layout-footer>
         <a-drawer
                 title="条件搜索"
                 :width="720"
@@ -230,7 +230,8 @@
                 if(!this.addrProhibited){
                     //此处返回Array对象
                     let arrays=this.form.getFieldValue("hotelAddr")
-                    if(!arrays===undefined) {
+
+                    if(typeof (arrays)!=undefined) {
                         if (arrays.length >= 1) {
                             data.province = arrays[0]
                         }
@@ -245,6 +246,7 @@
                 if(!this.starProhibited){
                     data.star=this.rate
                 }
+
                 this.searchHotel(data)
 
             },

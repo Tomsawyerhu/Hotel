@@ -41,7 +41,8 @@ const hotel = {
     },
     mutations: {
         set_hotelList: function(state, data) {
-            state.hotelList = data
+            if(data!=null){state.hotelList = data}
+            else{state.hotelList=[]}
         },
         set_hotelListParams: function(state, data) {
             state.hotelListParams = {
@@ -139,12 +140,8 @@ const hotel = {
         searchHotel:async ({state,commit},data)=>{
             const res= await  searchHotelAPI(data)
             console.log(res)
-            if(res){
-                commit('set_hotelList', res)
-                message.success('搜索成功')
-            }else{
-                message.error('搜索失败')
-            }
+            commit('set_hotelList', res)
+            message.success('搜索成功')
         }
 
     }
