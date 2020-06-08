@@ -25,7 +25,14 @@ const hotel = {
         hotelListLoading: true,
         currentHotelId: '',
         currentHotelInfo: {
-
+            name: '',
+            address: '',
+            bizRegion:'XiDan',
+            hotelStar:'',
+            rate: 0,
+            description:'',
+            phoneNum:'',
+            managerId:''
         },
 
         orderModalVisible: false,
@@ -60,10 +67,6 @@ const hotel = {
                 ...data,
             }
         },
-        set_currentHotelInfo_d: function(state, data) {
-            state.currentHotelInfo.description = data
-        }
-        ,
         set_orderModalVisible: function(state, data) {
             state.orderModalVisible = data
         },

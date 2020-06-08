@@ -14,8 +14,8 @@
                                 referrerPolicy="no-referrer"
                         />
                     </a-card>
-                    <a-form :form="form" >
-                        <a-form-item label="酒店名称">
+                    <a-form :form="form" class="info">
+                        <a-form-item label="酒店名称" class="items">
                             <span class="value" v-if="!modify">{{ currentHotelInfo.name }}</span>
                             <a-input
                                     placeholder="请填写酒店名字"
@@ -23,7 +23,7 @@
                                     v-if="modify" >
                             </a-input>
                         </a-form-item>
-                        <a-form-item label="地址">
+                        <a-form-item label="地址" class="items">
                             <span class="value" v-if="!modify">{{ currentHotelInfo.address }}</span>
                             <a-input
                                     placeholder="请填写酒店地址"
@@ -31,13 +31,13 @@
                                     v-if="modify" >
                             </a-input>
                         </a-form-item>
-                        <a-form-item label="评分">
+                        <a-form-item label="评分" class="items">
                             <span class="value">{{ currentHotelInfo.rate }}</span>
                         </a-form-item>
-                        <a-form-item label="星级">
+                        <a-form-item label="星级" class="items">
                             <a-rate style="font-size: 15px" :value="currentHotelInfo.rate" disabled allowHalf/>
                         </a-form-item>
-                        <a-form-item label="酒店简介">
+                        <a-form-item label="酒店简介" class="items">
                             <span class="value" v-if="!modify">{{ currentHotelInfo.description }}</span>
                             <a-input
                                     placeholder="请填写酒店简介"
@@ -45,10 +45,10 @@
                                     v-if="modify" >
                             </a-input>
                         </a-form-item>
-                        <a-form-item>
+                        <a-form-item class="items">
                             <a-button type="primary" @click="modifyBegin" v-if="!modify">编辑酒店信息</a-button>
                         </a-form-item>
-                        <a-form-item>
+                        <a-form-item class="items">
                             <a-button type="primary" @click="modifyFinish" v-if="modify">保存编辑</a-button>
                             <a-divider type="vertical"></a-divider>
                             <a-button  @click="modify=false" v-if="modify">取消</a-button>
@@ -143,7 +143,6 @@
         methods: {
             ...mapMutations([
                 'set_currentHotelId',
-                'set_descEditVisible',
                 'set_currentHotelInfo'
             ]),
             ...mapActions([
@@ -187,7 +186,7 @@
 </script>
 <style scoped lang="less">
     .hotelDetailCard {
-        padding: 50px 50px;
+        padding: 50px ;
     }
     .hotel-info {
         display: flex;

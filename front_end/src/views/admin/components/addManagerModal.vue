@@ -31,6 +31,12 @@
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 export default {
     name: 'addManagerModal',
+    props: {
+        back:{
+            function () {
+            }
+        }
+    },
     data() {
         return {
             formItemLayout: {
@@ -49,14 +55,18 @@ export default {
         ...mapGetters([
             'addManagerModalVisible',
             'managerList',
-            'currentHotelInfo'
+            'currentHotelInfo',
+            'targetAccount'
         ])
     },
     beforeCreate() {
         this.form = this.$form.createForm(this, { name: 'addManagerModal' });
     },
     mounted() {
-
+        /*this.form.setFieldsValue({
+            'email': this.targetAccount.email,
+            'password': this.targetAccount.password
+        })*/
     },
     methods: {
         ...mapMutations([
@@ -83,6 +93,7 @@ export default {
                     this.addManager()
                 }
             });
+            this.back()
         },
     }
 }
