@@ -38,6 +38,7 @@ public class AdminServiceImpl implements AdminService {
         user.setEmail(userForm.getEmail());
         user.setPassword(userForm.getPassword());
         user.setUserType(UserType.HotelManager);
+        user.setCredit(100);
         user.setManage_hotelId(userForm.getHotelId());
         /*System.out.println(user.getPassword());
         System.out.println(user.getManage_hotelId());

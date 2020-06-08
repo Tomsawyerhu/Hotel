@@ -25,7 +25,6 @@ public class TargetMoneyCouponStrategyImpl implements CouponMatchStrategy {
             if (orderVO.getHotelId().equals(coupon.getHotelId()) || coupon.getHotelId() == -1) {  //判断该优惠券是否是对应酒店发放或者是网站发放的
                 return true;
             }
-            return true;
         }
         return false;
     }

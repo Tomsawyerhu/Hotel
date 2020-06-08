@@ -3,6 +3,8 @@ package com.example.hotel.po;
 
 import com.example.hotel.enums.UserType;
 
+import java.util.Date;
+
 public class User {
     private Integer id;
     private String email;
@@ -11,7 +13,13 @@ public class User {
     private String phoneNumber;
     private double credit;
     private UserType userType;
+
+    private String memberType;
+    private Date birthday;
+    private String companyName;
+
     private String manage_hotelId;
+
 
     public Integer getId() {
         return id;
@@ -75,5 +83,29 @@ public class User {
 
     public void setUserType(UserType userType) {
         this.userType = userType;
+    }
+
+    public String getMemberType() {
+        return memberType;
+    }
+
+    public void setMemberType(String memberType) {
+        this.memberType = memberType;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 }

@@ -25,6 +25,8 @@ public class CouponServiceImpl implements CouponService {
 
     private final MultiRoomsCouponStrategyimpl multiRoomsCouponStrategyimpl;
 
+    private final BirthdayCouponStrategyImpl birthdayCouponStrategy;
+
     private final CouponMapper couponMapper;
 
     private static List<CouponMatchStrategy> strategyList = new ArrayList<>();
@@ -33,14 +35,17 @@ public class CouponServiceImpl implements CouponService {
 
     @Autowired
     public CouponServiceImpl(TargetMoneyCouponStrategyImpl targetMoneyCouponStrategy,
-                             TimeCouponStrategyImpl timeCouponStrategy, MultiRoomsCouponStrategyimpl multiRoomsCouponStrategyimpl,
+                             TimeCouponStrategyImpl timeCouponStrategy, MultiRoomsCouponStrategyimpl multiRoomsCouponStrategyimpl,BirthdayCouponStrategyImpl birthdayCouponStrategy,
                              CouponMapper couponMapper) {
         this.couponMapper = couponMapper;
         this.targetMoneyCouponStrategy = targetMoneyCouponStrategy;
         this.timeCouponStrategy = timeCouponStrategy;
         this.multiRoomsCouponStrategyimpl = multiRoomsCouponStrategyimpl;
+        this.birthdayCouponStrategy=birthdayCouponStrategy;
         strategyList.add(targetMoneyCouponStrategy);
         strategyList.add(timeCouponStrategy);
+        strategyList.add(birthdayCouponStrategy);
+        strategyList.add(multiRoomsCouponStrategyimpl);
     }
 
 
@@ -74,8 +79,19 @@ public class CouponServiceImpl implements CouponService {
     }
 
     @Override
-    public CouponVO addHotelTargetMoneyCoupon(HotelTargetMoneyCouponVO couponVO) {
+    public CouponVO addHotelBirthdayCoupon(HotelBirthdayCoupon couponVO) {
         System.out.println(couponVO);
+        Coupon coupon = new Coupon();
+        BeanUtils.copyProperties(couponVO, coupon);
+        coupon.setTargetMoney(couponVO.getTargetMoney());
+        coupon.setDiscountMoney(couponVO.getDiscountMoney());
+        int result = couponMapper.insertCoupon(coupon);
+        couponVO.setId(result);
+        return couponVO;
+    }
+
+    @Override
+    public CouponVO addHotelTargetMoneyCoupon(HotelTargetMoneyCouponVO couponVO) {
         Coupon coupon = new Coupon();
         BeanUtils.copyProperties(couponVO, coupon);
         coupon.setTargetMoney(couponVO.getTargetMoney());

@@ -2,6 +2,13 @@ import { axios } from '@/utils/request'
 const api = {
     couponPre: '/api/coupon'
 }
+export function hotelBirthdayAPI(data) {
+    return axios({
+        url: `${api.couponPre}/hotelBirthday`,
+        method: 'POST',
+        data,
+    })
+}
 export function hotelTargetMoneyAPI(data) {
     return axios({
         url: `${api.couponPre}/hotelTargetMoney`,

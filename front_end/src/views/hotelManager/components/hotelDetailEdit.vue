@@ -14,8 +14,8 @@
                                 referrerPolicy="no-referrer"
                         />
                     </a-card>
-                    <a-form :form="form" >
-                        <a-form-item label="酒店名称">
+                    <a-form :form="form" class="info">
+                        <a-form-item label="酒店名称" class="items">
                             <span class="value" v-if="!modify">{{ currentHotelInfo.name }}</span>
                             <a-input
                                     placeholder="请填写酒店名字"
@@ -23,7 +23,7 @@
                                     v-if="modify" >
                             </a-input>
                         </a-form-item>
-                        <a-form-item label="地址">
+                        <a-form-item label="地址" class="items">
                             <span class="value" v-if="!modify">{{ currentHotelInfo.address }}</span>
                             <a-input
                                     placeholder="请填写酒店地址"
@@ -31,13 +31,13 @@
                                     v-if="modify" >
                             </a-input>
                         </a-form-item>
-                        <a-form-item label="评分">
+                        <a-form-item label="评分" class="items">
                             <span class="value">{{ currentHotelInfo.rate }}</span>
                         </a-form-item>
-                        <a-form-item label="星级">
+                        <a-form-item label="星级" class="items">
                             <a-rate style="font-size: 15px" :value="currentHotelInfo.rate" disabled allowHalf/>
                         </a-form-item>
-                        <a-form-item label="酒店简介">
+                        <a-form-item label="酒店简介" class="items">
                             <span class="value" v-if="!modify">{{ currentHotelInfo.description }}</span>
                             <a-input
                                     placeholder="请填写酒店简介"
@@ -45,10 +45,13 @@
                                     v-if="modify" >
                             </a-input>
                         </a-form-item>
-                        <a-form-item>
+                        <a-form-item class="items">
+                            <a-button-group>
                             <a-button type="primary" @click="modifyBegin" v-if="!modify">编辑酒店信息</a-button>
+                            <a-button type="primary" @click="showCouponList( currentHotelInfo.id )" v-if="!modify">优惠策略</a-button>
+                            </a-button-group>
                         </a-form-item>
-                        <a-form-item>
+                        <a-form-item class="items">
                             <a-button type="primary" @click="modifyFinish" v-if="modify">保存编辑</a-button>
                             <a-divider type="vertical"></a-divider>
                             <a-button  @click="modify=false" v-if="modify">取消</a-button>
@@ -98,24 +101,24 @@
                 </div>
                 <a-divider></a-divider>
                 <a-tabs>
-                    <a-tab-pane tab="房间信息">
+                    <a-tab-pane tab="房间信息" key="1">
                         {{currentHotelInfo}}
                         <RoomList :rooms="currentHotelInfo.rooms" ></RoomList>
                     </a-tab-pane>
-
-
-
                 </a-tabs>
             </div>
         </a-layout-content>
+        <coupon></coupon>
     </a-layout>
 </template>
 <script>
     import { mapGetters, mapActions, mapMutations } from 'vuex'
     import RoomList from './roomList'
+    import Coupon from "./coupon"
     export default {
         name: 'hotelDetailEdit',
         components: {
+            Coupon,
             RoomList,
         },
         data() {
@@ -143,12 +146,20 @@
         methods: {
             ...mapMutations([
                 'set_currentHotelId',
-                'set_descEditVisible',
-                'set_currentHotelInfo'
+                'set_currentHotelInfo',
+                'set_activeHotelId',
+                'set_couponVisible',
             ]),
             ...mapActions([
-                'getHotelById'
+                'getHotelById',
+                'getHotelCoupon',
             ]),
+            showCouponList(id){
+                console.log(id)
+                this.set_activeHotelId(id)
+                this.getHotelCoupon()
+                this.set_couponVisible(true)
+            },
             edit(){
                 this.set_descEditVisible(true)
             },
@@ -187,7 +198,7 @@
 </script>
 <style scoped lang="less">
     .hotelDetailCard {
-        padding: 50px 50px;
+        padding: 50px ;
     }
     .hotel-info {
         display: flex;
