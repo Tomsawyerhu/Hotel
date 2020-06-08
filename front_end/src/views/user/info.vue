@@ -103,8 +103,8 @@
                     <a-form-item label="会员生日" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }">
                         <span>{{ userInfo.company_name }}</span>
                     </a-form-item>
-                    <a-form-item :wrapper-col="{ span: 8, offset: 4 }" v-if="registButtonVisible">
-                        <a-button type="primary" @click="registMemberVisible">
+                    <a-form-item :wrapper-col="{ span: 8, offset: 4 }" >
+                        <a-button type="primary" @click="registMember">
                             会员注册
                         </a-button>
                     </a-form-item>
@@ -146,7 +146,8 @@
             ...mapGetters([
                 'userId',
                 'userInfo',
-                'userOrderList'
+                'userOrderList',
+                'registMemberVisible',
             ]),
 
         },
@@ -155,7 +156,7 @@
             await this.getUserOrders()
         },
         methods: {
-            ...mapMutations(['set_currentOrderId']),
+            ...mapMutations(['set_currentOrderId','set_registMemberVisible']),
             ...mapActions([
                 'getUserInfo',
                 'getUserOrders',
@@ -265,8 +266,8 @@
                 }
                 callback()
             },
-            registMemberVisible() {
-                this.registButtonVisible = false
+            registMember() {
+                this.set_registMemberVisible(true)
             },
 
         }

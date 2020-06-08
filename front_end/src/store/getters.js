@@ -14,6 +14,7 @@ const getters = {
     roomEditVisible: state => state.hotel.roomEditVisible,
     orderMatchCouponList: state => state.hotel.orderMatchCouponList,
     addRoomVisible:state=>state.hotel.addRoomVisible,//自己加的
+    registMemberVisible:state=>state.user.registMemberVisible,
     //admin
     managerList: state => state.admin.managerList,
     clientList: state => state.admin.clientList,//自己加的

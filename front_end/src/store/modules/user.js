@@ -13,6 +13,12 @@ const getDefaultState = () => {
         userInfo: {},
         userHotelList: [],
         userOrderList: [],
+        registMemberVisible: false,
+        registMemberParams: {
+            member_type: '',
+            birth_date: '',
+            company_name:'',
+        },
     }
 }
 
@@ -53,7 +59,16 @@ const user = {
         },
         get_userInfo: (state, data) => {
             return state.userInfo
-        }
+        },
+        set_registMemberVisible: function(state, data) {
+            state.registMemberVisible = data
+        },
+        set_registMemberParams: function(state, data) {
+            state.registMemberParams = {
+                ...state.registMemberParams,
+                ...data,
+            }
+        },
     },
 
     actions: {
