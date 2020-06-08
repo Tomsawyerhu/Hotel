@@ -21,7 +21,8 @@ public class OrderVO {
     private Double price;
     private String clientName;
     private String phoneNumber;
-    private String orderState;     //有"已预订"，"已入住","已撤销"，"异常"4个状态
+    private String orderState;
+    private boolean hasCommented;
 
     public Integer getId() {
         return id;
@@ -46,6 +47,7 @@ public class OrderVO {
     public void setHotelId(Integer hotelId) {
         this.hotelId = hotelId;
     }
+
     public String getCheckInDate() {
         return checkInDate;
     }
@@ -141,5 +143,13 @@ public class OrderVO {
 
     public void setOrderState(String orderState) {
         this.orderState = orderState;
+    }
+
+    public boolean isHasCommented() {
+        return hasCommented;
+    }
+
+    public void setHasCommented(boolean hasCommented) {
+        this.hasCommented = hasCommented;
     }
 }

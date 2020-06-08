@@ -10,24 +10,26 @@ import {message} from 'ant-design-vue'
 const comment = {
     state: {
         hotelCommentList: [],
-        currentComment:{},
-
-
+        currentComment: {},
+        addCommentVisible: false
     },
     mutations: {
-        set_hotelCommentList: function(state, data) {
+        set_hotelCommentList: function (state, data) {
             state.commentList = data
         },
-        set_currentComment: function(state, data) {
+        set_currentComment: function (state, data) {
             state.currentComment = data
         },
+        set_addCommentVisible: function (state, data) {
+            state.addCommentVisible = data
+        }
 
     },
     actions: {
-        getHotelCommentList: async({commit},hotelId) => {
+        getHotelCommentList: async ({commit}, hotelId) => {
             const res = getHotelCommentListAPI(hotelId);
-            if(res){
-                commit('set_hotelCommentList',res)
+            if (res) {
+                commit('set_hotelCommentList', res)
             }
         },
     }

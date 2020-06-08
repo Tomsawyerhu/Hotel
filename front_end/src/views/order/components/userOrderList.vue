@@ -42,17 +42,21 @@
                         >
                             <a-button type="danger" size="small">撤销</a-button>
                         </a-popconfirm>
+                        <a-divider type="vertical" v-if="record.orderState == '已完成'"></a-divider>
+                        <a-button type="primary" size="small" @click="startComment(record.id)" v-if="record.orderState == '已完成'">评价订单</a-button>
             </span>
         </a-table>
         <order-detail v-if="showDetail" :back="setShowDetailFalse">
-
         </order-detail>
+        <AddComment></AddComment>
+
     </div>
 </template>
 
 <script>
     import {mapActions, mapGetters, mapMutations} from 'vuex'
     import orderDetail from './orderDetail'
+    import AddComment from './addComment'
 
     const columns = [
         {
@@ -120,20 +124,21 @@
             }
         },
         components: {
-            orderDetail
+            orderDetail,
+            AddComment
         },
         computed: {
             ...mapGetters([
                 'userId',
-                'userOrderList'
+                'userOrderList',
             ]),
 
         },
-        /*async mounted() {
-            await this.getUserOrders()
-        },*/
         methods: {
-            ...mapMutations(['set_currentOrderId']),
+            ...mapMutations([
+                'set_currentOrderId',
+                'set_addCommentVisible',
+            ]),
             ...mapActions([
                 'cancelOrder',
                 'getOrderDetails',
@@ -157,6 +162,12 @@
                 this.setShowDetailTrue()
                 console.log(this.orderDetailInfo)
             },
+            startComment(orderId){
+                this.set_currentOrderId(orderId)
+                this.getOrderDetails()
+                this.set_addCommentVisible(true)
+            },
+
         }
     }
 </script>
