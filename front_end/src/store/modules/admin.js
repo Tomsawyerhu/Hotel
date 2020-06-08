@@ -38,7 +38,7 @@ const admin = {
             credit:'',
             userType:'',
             user_hotel_id:''
-        }
+        },
     },
     mutations: {
         set_managerList: function(state, data) {

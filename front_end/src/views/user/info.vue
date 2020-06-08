@@ -86,7 +86,32 @@
 
                 </UserOrderedHotelList>
             </a-tab-pane>
+            <a-tab-pane tab="注册会员" key="4" v-if="userInfo.userType=='Client'">
+                <a-form :form="memberForm" style="margin-top: 30px">
+                    <a-form-item label="用户名" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }">
+                        <span>{{ userInfo.userName }}</span>
+                    </a-form-item>
+                    <a-form-item label="信用值" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }">
+                        <span>{{ userInfo.credit }}</span>
+                    </a-form-item>
+                    <a-form-item label="会员类型" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }">
+                        <span>{{ userInfo.member_type }}</span>
+                    </a-form-item>
+                    <a-form-item label="会员生日" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }">
+                        <span>{{ userInfo.birth_date }}</span>
+                    </a-form-item>
+                    <a-form-item label="会员生日" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }">
+                        <span>{{ userInfo.company_name }}</span>
+                    </a-form-item>
+                    <a-form-item :wrapper-col="{ span: 8, offset: 4 }" v-if="registButtonVisible">
+                        <a-button type="primary" @click="registMemberVisible">
+                            会员注册
+                        </a-button>
+                    </a-form-item>
+                </a-form>
+            </a-tab-pane>
         </a-tabs>
+        <registMember></registMember>
     </div>
 </template>
 <script>
@@ -94,6 +119,8 @@
     import orderDetail from '../order/components/orderDetail'
     import OrderList from "../order/components/userOrderList"
     import UserOrderedHotelList from "../hotel/components/userOrderedHotelList";
+    import registMember from "./registMember";
+    import RegistMember from "./registMember";
 
     export default {
         name: 'info',
@@ -107,9 +134,11 @@
                 pagination: {},
                 data: [],
                 form: this.$form.createForm(this, {name: 'coordinated'}),
+                memberForm: this.$form.createForm(this, {name: 'coordinated2'}),
             }
         },
         components: {
+            RegistMember,
             OrderList,
             UserOrderedHotelList,
         },
@@ -235,6 +264,9 @@
                     callback(new Error('两次密码不一致'))
                 }
                 callback()
+            },
+            registMemberVisible() {
+                this.registButtonVisible = false
             },
 
         }
