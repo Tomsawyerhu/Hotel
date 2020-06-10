@@ -122,9 +122,10 @@ CREATE TABLE `OrderList`
     `clientName`   varchar(255)   DEFAULT NULL,
     `phoneNumber`  varchar(255)   DEFAULT NULL,
     `orderState`   varchar(255)   DEFAULT NULL,
+    `hasCommented` tinytext,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 14
+  AUTO_INCREMENT = 15
   DEFAULT CHARSET = utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -135,16 +136,16 @@ CREATE TABLE `OrderList`
 BEGIN;
 INSERT INTO `OrderList`
 VALUES (1, 1, 1, '汉庭酒店', '2020-06-09', '2020-06-10', 'BigBed', 2, 2, 0, '2020-06-02', 398, '测试一号', '12345678901',
-        '已预订');
+        '已预订',0);
 INSERT INTO `OrderList`
 VALUES (2, 1, 1, '汉庭酒店', '2020-06-08', '2020-06-12', 'DoubleBed', 2, 2, 0, '2020-06-02', 398, '测试一号', '12345678901',
-        '异常');
+        '异常',0);
 INSERT INTO `OrderList`
 VALUES (3, 1, 2, '儒家酒店', '2020-06-08', '2020-06-12', 'Family', 2, 2, 0, '2020-06-02', 398, '测试一号', '12345678901',
-        '已预订');
+        '已预订',0);
 INSERT INTO `OrderList`
 VALUES (4, 2, 1, '汉庭酒店', '2020-06-08', '2020-06-12', 'Family', 2, 2, 0, '2020-06-02', 398, '测试一号', '12345678901',
-        '已预订');
+        '已预订',0);
 COMMIT;
 
 /*!40000 ALTER TABLE `OrderList`

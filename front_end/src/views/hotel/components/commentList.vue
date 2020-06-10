@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-if="isEmpty(commentList)" class="head-message">暂无留言内容</div>
+        <div v-if="isEmpty(hotelCommentList)" class="head-message">暂无留言内容</div>
         <div v-else class="head-message">留言内容</div>
     </div>
 </template>
@@ -33,8 +33,12 @@
 
             ]),
             ...mapActions([
-                'getHotelCommentList'
+                'getHotelCommentList',
             ]),
+            isEmpty(data){
+                console.log(data+"in isEmpty")
+                return data.length===0
+            },
         }
 
     }

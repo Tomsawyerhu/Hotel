@@ -24,13 +24,14 @@ public interface OrderMapper {
 
     List<Order> getUserOrders(@Param("userid") int userid);
 
-    List<Order> getUserOrdersInCertainHotel(@Param("userid") int userid,@Param("hotelid") int hotelid);
+    List<Order> getUserOrdersInCertainHotel(@Param("userid") int userid, @Param("hotelid") int hotelid);
 
     int annulOrder(@Param("orderid") int orderid);
 
     Order getOrderById(@Param("orderid") int orderid);
 
-    int updateOrderState(@Param("orderstate")String orderstate,@Param("orderid") int orderid);
+    int updateOrderState(@Param("orderstate") String orderstate, @Param("orderid") int orderid);
 
+    void updateOrderHasCommented(@Param("orderid") int orderid, @Param("data") boolean data);
 
 }
