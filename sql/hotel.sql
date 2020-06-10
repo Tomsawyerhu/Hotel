@@ -252,8 +252,18 @@ CREATE TABLE `Comment`
   DEFAULT CHARSET = utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
-
-
+DROP TABLE IF EXISTS `CreditHistory`;
+CREATE TABLE `CreditHistory`(
+    `id`   int(11) NOT NULL AUTO_INCREMENT,
+    `user_id`   int(11) NOT NULL ,
+    `time` date DEFAULT NULL,
+    `value` double(255,0) NOT NULL ,
+    `type` int(11) NOT NULL ,
+    `message` varchar(255),
+    PRIMARY KEY (`id`)
+)ENGINE = InnoDB
+ AUTO_INCREMENT = 1
+ DEFAULT CHARSET = utf8;
 
 /*!40103 SET TIME_ZONE = @OLD_TIME_ZONE */;
 
