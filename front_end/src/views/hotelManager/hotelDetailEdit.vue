@@ -102,7 +102,7 @@
                 <a-divider></a-divider>
                 <a-tabs>
                     <a-tab-pane tab="房间信息" key="1">
-                        {{currentHotelInfo}}
+                        <!--{{currentHotelInfo}}-->
                         <RoomList :rooms="currentHotelInfo.rooms" ></RoomList>
                     </a-tab-pane>
                 </a-tabs>
@@ -113,8 +113,8 @@
 </template>
 <script>
     import { mapGetters, mapActions, mapMutations } from 'vuex'
-    import RoomList from './roomList'
-    import Coupon from "./coupon"
+    import RoomList from './components/roomList'
+    import Coupon from "./components/coupon"
     export default {
         name: 'hotelDetailEdit',
         components: {
@@ -153,6 +153,7 @@
             ...mapActions([
                 'getHotelById',
                 'getHotelCoupon',
+
             ]),
             showCouponList(id){
                 console.log(id)

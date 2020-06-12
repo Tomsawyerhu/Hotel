@@ -14,6 +14,9 @@ const getters = {
     roomEditVisible: state => state.hotel.roomEditVisible,
     orderMatchCouponList: state => state.hotel.orderMatchCouponList,
     addRoomVisible: state => state.hotel.addRoomVisible,//自己加的
+    creditList:state=>state.user.creditList,
+    currentAccountId:state=>state.user.currentAccountId,
+    /*currentCreditInfo:state=>state.user.currentCreditInfo,*/
 
     //admin
     managerList: state => state.admin.managerList,

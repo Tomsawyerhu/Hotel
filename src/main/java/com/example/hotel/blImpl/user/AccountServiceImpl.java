@@ -73,6 +73,17 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public UserVO getUserInfoByEmail(String email) {
+        User user = accountMapper.getAccountByName(email);
+        if (user == null) {
+            return null;
+        }
+        UserVO userVO = new UserVO();
+        BeanUtils.copyProperties(user,userVO);
+        return userVO;
+    }
+
+    @Override
     public ResponseVO updateUserInfo(int id, String username, String phonenumber) {
         int index=1;
         try {

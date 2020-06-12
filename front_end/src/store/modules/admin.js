@@ -29,16 +29,7 @@ const admin = {
             hotelId:0
         },
         UserInfoEditVisible:false,
-        targetAccount:{
-            id:0,
-            email:'',
-            password:'',
-            userName:'',
-            phoneNumber:'',
-            credit:'',
-            userType:'',
-            user_hotel_id:''
-        }
+        targetAccount:{}
     },
     mutations: {
         set_managerList: function(state, data) {

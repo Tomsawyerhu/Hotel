@@ -86,6 +86,10 @@
 
                 </UserOrderedHotelList>
             </a-tab-pane>
+            <a-tab-pane tab="信息记录" key="4" v-if="userInfo.userType=='Client'">
+                <CreditInfo :creditList="creditList">
+                </CreditInfo>
+            </a-tab-pane>
         </a-tabs>
     </div>
 </template>
@@ -94,6 +98,7 @@
     import orderDetail from '../order/components/orderDetail'
     import OrderList from "../order/components/userOrderList"
     import UserOrderedHotelList from "../hotel/components/userOrderedHotelList";
+    import CreditInfo from "./creditInfo"
 
     export default {
         name: 'info',
@@ -112,18 +117,21 @@
         components: {
             OrderList,
             UserOrderedHotelList,
+            CreditInfo
         },
         computed: {
             ...mapGetters([
                 'userId',
                 'userInfo',
-                'userOrderList'
+                'userOrderList',
+                'creditList'
             ]),
 
         },
         async mounted() {
             await this.getUserInfo()
             await this.getUserOrders()
+            await this.getCreditHistories(this.userId)
         },
         methods: {
             ...mapMutations(['set_currentOrderId']),
@@ -133,7 +141,8 @@
                 'updateUserInfo',
                 'cancelOrder',
                 'getOrderDetails',
-                'modifyPassword'
+                'modifyPassword',
+                'getCreditHistories'
             ]),
             saveModify() {
                 this.form.validateFields((err, values) => {

@@ -1,8 +1,10 @@
 package com.example.hotel.blImpl.user;
 
 import com.example.hotel.bl.user.CreditService;
+import com.example.hotel.data.user.AccountMapper;
 import com.example.hotel.data.user.CreditHistoryMapper;
 import com.example.hotel.po.CreditHistory;
+import com.example.hotel.po.User;
 import com.example.hotel.vo.CreditHistoryVO;
 import com.example.hotel.vo.ResponseVO;
 import org.springframework.beans.BeanUtils;
@@ -17,6 +19,8 @@ import java.util.List;
 public class CreditServiceImpl implements CreditService {
     @Autowired
     CreditHistoryMapper creditHistoryMapper;
+    @Autowired
+    AccountMapper accountMapper;
 
     @Override
     public ResponseVO getCreditHistoriesByUserId(int userId) {
@@ -38,7 +42,25 @@ public class CreditServiceImpl implements CreditService {
         creditHistory.setValue(value);
         creditHistory.setMessage(message);
         creditHistory.setTime(new Date());
+
         creditHistoryMapper.insertCreditHistory(creditHistory);
         return ResponseVO.buildSuccess();
+    }
+
+    @Override
+    public ResponseVO changeCredit(int userId,double amount,int type){
+        User user = accountMapper.getAccountById(userId);
+        if(user==null){
+            return ResponseVO.buildFailure("该用户不存在");
+        }else{
+            if(type>0){
+                accountMapper.addCreditById(userId,amount);
+            }
+            else {
+                accountMapper.subCreditById(userId,amount);
+            }
+        }
+        return ResponseVO.buildSuccess(true);
+
     }
 }

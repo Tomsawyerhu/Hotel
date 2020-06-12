@@ -51,5 +51,4 @@ public interface AccountMapper {
      int addCreditById(@Param("userid") int userid,@Param("amount") double amount);
 
      int addCreditByEmail(@Param("email") String email,@Param("amount") double amount);
-
 }

@@ -4,7 +4,7 @@ import {message} from 'ant-design-vue'
 import {getUserInfoAPI, loginAPI, registerAPI, updateUserInfoAPI} from '@/api/user'
 
 import {cancelOrderAPI, getOrderDetailsAPI, getUserOrdersAPI,} from '@/api/order'
-import {modifyPasswordAPI} from '@/api/user';
+import {modifyPasswordAPI,getCreditHistoriesAPI,addCreditHistoryAPI,getUserInfoByEmailAPI,changeCreditAPI} from '@/api/user';
 import {getUserOrderedHotelsAPI} from '@/api/hotel';
 
 const getDefaultState = () => {
@@ -13,6 +13,8 @@ const getDefaultState = () => {
         userInfo: {},
         userHotelList: [],
         userOrderList: [],
+        creditList:[],
+        currentAccountId:''
     }
 }
 
@@ -53,7 +55,16 @@ const user = {
         },
         get_userInfo: (state, data) => {
             return state.userInfo
-        }
+        },
+        set_creditList:(state,data)=>{
+            state.creditList=data
+        },
+        set_currentAccountId:(state,data)=>{
+            state.currentAccountId=data
+        },
+        /*set_currentCreditInfo:(state,data)=>{
+            return state.currentCreditInfo
+        },*/
     },
 
     actions: {
@@ -82,6 +93,22 @@ const user = {
             if (res) {
                 message.success('注册成功')
             }
+        },
+        getUserInfoByEmail:async ({commit}, data) => {
+            return new Promise((resolve, reject) => {
+                getUserInfoByEmailAPI(data).then(response => {
+                    const data = response
+                    console.log(data)
+                    if (!data) {
+                        reject('失败')
+                    }
+                    commit('set_currentAccountId', data.id)
+
+                    resolve(data)
+                }).catch(error => {
+                    reject(error)
+                })
+            })
         },
         getUserInfoById:async ({commit}, data) => {
             return new Promise((resolve, reject) => {
@@ -177,6 +204,30 @@ const user = {
                 resolve()
             })
         },
+        getCreditHistories: async ({state, commit},data) => {
+            const res = await getCreditHistoriesAPI(data)
+            if (res) {
+                console.log(res)
+                commit('set_creditList', res)
+            }
+        },
+        addCreditHistory: async ({state, commit,dispatch},data) => {
+            const res = await addCreditHistoryAPI(data)
+            if (res) {
+                console.log(res)
+                message.success("更新信用记录成功")
+                dispatch('getCreditHistories',this.userId)
+            }
+        },
+        changeCredit:async ({state, commit},data) => {
+            const res = await changeCreditAPI(data)
+            if (res) {
+                console.log(res)
+                message.success("更新信用值成功")
+
+            }
+        },
+
     }
 }
 

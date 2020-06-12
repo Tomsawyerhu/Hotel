@@ -23,6 +23,12 @@ export function getUserInfoAPI(id){
         method: 'GET'
     })
 }
+export function getUserInfoByEmailAPI(email){
+    return axios({
+        url: `${api.userPre}/${email}/getUserInfoByEmail`,
+        method: 'GET'
+    })
+}
 export function updateUserInfoAPI(data) {
     return axios({
         url: `${api.userPre}/${data.id}/userInfo/update`,
@@ -39,5 +45,25 @@ export function modifyPasswordAPI(data){
     })
 }
 
+export function getCreditHistoriesAPI(data){
+    return axios({
+        url: `${api.userPre}/${data}/getCreditHistories`,
+        method: 'GET'
+    })
+}
+export function addCreditHistoryAPI(data){
+    return axios({
+        url: `${api.userPre}/addCreditHistory`,
+        method: 'POST',
+        data
+    })
+}
+
+export function changeCreditAPI(data) {
+    return axios({
+        url: `${api.userPre}/${data.id}/${data.amount}/${data.type}/changeCredit`,
+        method: 'POST'
+    })
+}
 
 

@@ -3,21 +3,21 @@ package com.example.hotel.vo;
 import java.util.Date;
 
 public class CreditHistoryVO {
-    private Date time;
+    private int userId;
     private double value;
     private int  type;
     private String message;
 
     public CreditHistoryVO() {
     }
-
-    public Date getTime() {
-        return time;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setTime(Date time) {
-        this.time = time;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
+
 
     public double getValue() {
         return value;
