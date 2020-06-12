@@ -25,7 +25,14 @@ const hotel = {
         hotelListLoading: true,
         currentHotelId: '',
         currentHotelInfo: {
-
+            name: '',
+            address: '',
+            bizRegion:'XiDan',
+            hotelStar:'',
+            rate: 0,
+            description:'',
+            phoneNum:'',
+            managerId:''
         },
 
         orderModalVisible: false,
@@ -40,7 +47,8 @@ const hotel = {
     },
     mutations: {
         set_hotelList: function(state, data) {
-            state.hotelList = data
+            if(data!=null){state.hotelList = data}
+            else{state.hotelList=[]}
         },
         set_hotelListParams: function(state, data) {
             state.hotelListParams = {
@@ -60,10 +68,6 @@ const hotel = {
                 ...data,
             }
         },
-        set_currentHotelInfo_d: function(state, data) {
-            state.currentHotelInfo.description = data
-        }
-        ,
         set_orderModalVisible: function(state, data) {
             state.orderModalVisible = data
         },
@@ -128,12 +132,8 @@ const hotel = {
             console.log(data)
             const res= await  searchHotelAPI(data)
             console.log(res)
-            if(res){
-                commit('set_hotelList', res)
-                message.success('搜索成功')
-            }else{
-                message.error('搜索失败')
-            }
+            commit('set_hotelList', res)
+            message.success('搜索成功')
         }
 
     }

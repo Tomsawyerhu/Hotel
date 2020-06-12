@@ -45,12 +45,14 @@
             }
         },
         computed: {
-            ...mapGetters([]),
+            ...mapGetters(['targetAccount','currentAccountId']),
         },
         methods: {
             ...mapMutations([]),
             ...mapActions([
-                'addCredit'
+                'addCredit',
+                'addCreditHistory',
+                'getUserInfoByEmail'
             ]),
             addCreditByUserEmail() {
                 this.form.validateFields((err, values) => {
@@ -59,7 +61,17 @@
                             userEmail: this.form.getFieldValue('email'),
                             amount: Number(this.form.getFieldValue('amount')),
                         }
-                        this.addCredit(data)
+                        this.addCredit(data).then(()=>{
+                            this.form.resetFields()
+                        })
+                        this.$store.dispatch('getUserInfoByEmail',data.userEmail)
+                        console.log(this.currentAccountId)
+                        this.addCreditHistory({
+                            userId: this.currentAccountId,
+                            value: data.amount,
+                            type: 1,
+                            message: "网站营销人员帮您充值了信用值"
+                        })
                     }
                 })
             },

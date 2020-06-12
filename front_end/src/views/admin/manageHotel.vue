@@ -2,6 +2,7 @@
     <div class="manageHotel-wrapper">
         <a-tabs>
             <a-tab-pane tab="酒店管理" key="1">
+                <div name="酒店管理" v-if="!changeManager">
                 <div style="width: 100%; text-align: right; margin:20px 0">
                     <a-button type="primary" @click="addHotel"><a-icon type="plus" />添加酒店</a-button>
                 </div>
@@ -27,12 +28,21 @@
                         <!--{{userInfo}}-->
                         <!--{{record}}-->
                         <a-divider type="vertical"></a-divider>
-                        <a-button type="primary" size="small"  v-if="record.managerId==NULL" @click="addManager(record)">添加酒店工作人员</a-button>
-                        <a-button type="primary" size="small"  v-if="record.managerId!=NULL" @click="editManager(record)">修改酒店工作人员的信息</a-button>
+
+                        <a-button type="primary" size="small"  @click="SeeManager(record)" >编辑酒店工作人员信息</a-button>
+                        <!--<a-button type="primary" size="small"  v-if="record.managerId==NULL" @click="addManager(record)">添加酒店工作人员</a-button>
+                        <a-button type="primary" size="small"  v-if="record.managerId!=NULL" @click="editManager(record)">修改酒店工作人员的信息</a-button>-->
+
+
                     </span>
                 </a-table>
+                </div>
+
+                <div name="管理人员" v-if="changeManager">
+                    <manager-detail :back="quitSeeManager"/>
+                </div>
             </a-tab-pane>
-            <a-tab-pane tab="订单管理" key="2">
+            <!--a-tab-pane tab="订单管理" key="2">
                 <a-table
                         :columns="columns2"
                         :dataSource="orderList"
@@ -69,13 +79,13 @@
                 <order-details  v-if="showDetail" :back="setShowDetailFalse" :editable="true">
 
                 </order-details>
-            </a-tab-pane>
+            </a-tab-pane-->
 
         </a-tabs>
         <addManagerModal></addManagerModal>
         <AddHotelModal></AddHotelModal>
         <AddRoomModal></AddRoomModal>
-        <Coupon></Coupon>
+
         <EditManager></EditManager>
     </div>
 </template>
@@ -83,10 +93,10 @@
     import { mapGetters, mapMutations, mapActions } from 'vuex'
     import AddHotelModal from './components/addHotelModal'
     import AddRoomModal from './components/addRoomModal'
-    import Coupon from './components/coupon'
-    import OrderDetails from "../order/components/orderDetail";
+    //import OrderDetails from "../order/components/orderDetail";
     import addManagerModal from "./components/addManagerModal";
     import EditManager from "@/views/admin/components/editUserInfo"
+    import managerDetail from "./components/managerDetail";
     const moment = require('moment')
     const columns1 = [
         {
@@ -161,6 +171,7 @@
         name: 'manageHotel',
         data(){
             return {
+                changeManager:false,
                 formLayout: 'horizontal',
                 pagination: {},
                 columns1,
@@ -171,12 +182,12 @@
             }
         },
         components: {
-            OrderDetails,
+            //OrderDetails,
             AddHotelModal,
             AddRoomModal,
-            Coupon,
             addManagerModal,
-            EditManager
+            EditManager,
+            managerDetail
         },
         computed: {
             ...mapGetters([
@@ -199,18 +210,17 @@
             ...mapMutations([
                 'set_addHotelModalVisible',
                 'set_addRoomModalVisible',
-                'set_couponVisible',
                 'set_activeHotelId',
                 'set_currentOrderId',
                 'set_currentHotelInfo',
                 'set_addManagerModalVisible',
                 'set_targetAccount',
-                'set_UserInfoEditVisible'
+                'set_UserInfoEditVisible',
+                'set_currentHotelInfo'
             ]),
             ...mapActions([
                 'getHotelList',
                 'getAllOrders',
-                'getHotelCoupon',
                 'getOrderDetails',
                 'getHotelById',
                 'addManager',
@@ -230,11 +240,7 @@
                 this.set_activeHotelId(record.id)
                 this.set_addRoomModalVisible(true)
             },
-            showCoupon(record) {
-                this.set_activeHotelId(record.id)
-                this.set_couponVisible(true)
-                this.getHotelCoupon()
-            },
+
             deleteHotel(record){
                 this.deleteHotelById(record.id)
             },
@@ -247,15 +253,15 @@
                 this.setShowDetailTrue()
                 console.log(this.orderDetailInfo)
             },
-            addManager(record){
+            SeeManager(record){
                 this.set_currentHotelInfo(record)
-                this.set_addManagerModalVisible(true)
+                this.changeManager=true
             },
-            editManager(record){
-                this.set_targetAccount(record)
-                console.log(record)
-                this.$store.commit('set_UserInfoEditVisible',true)
-            }
+            quitSeeManager(){
+                this.changeManager=false
+            },
+
+
         }
     }
 </script>

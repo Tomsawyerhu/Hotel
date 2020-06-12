@@ -76,9 +76,9 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderVO> getAllOrders() {
         List<Order> orders = orderMapper.getAllOrders();
         List<OrderVO> orderVOS = new ArrayList<>();
-        for(Order order: orders){
+        for (Order order : orders) {
             OrderVO orderVO = new OrderVO();
-            BeanUtils.copyProperties(order,orderVO);
+            BeanUtils.copyProperties(order, orderVO);
             orderVOS.add(orderVO);
         }
         return orderVOS;
@@ -88,9 +88,9 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderVO> getAbnormalOrders() {
         List<Order> orders = orderMapper.getAbnormalOrders();
         List<OrderVO> orderVOS = new ArrayList<>();
-        for(Order order: orders){
+        for (Order order : orders) {
             OrderVO orderVO = new OrderVO();
-            BeanUtils.copyProperties(order,orderVO);
+            BeanUtils.copyProperties(order, orderVO);
             orderVOS.add(orderVO);
         }
         return orderVOS;
@@ -100,9 +100,9 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderVO> getUserOrders(int userid) {
         List<Order> orders = orderMapper.getUserOrders(userid);
         List<OrderVO> orderVOS = new ArrayList<>();
-        for(Order order: orders){
+        for (Order order : orders) {
             OrderVO orderVO = new OrderVO();
-            BeanUtils.copyProperties(order,orderVO);
+            BeanUtils.copyProperties(order, orderVO);
             orderVOS.add(orderVO);
         }
         return orderVOS;
@@ -112,9 +112,9 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderVO> getUserOrdersInCertainHotel(Integer userId, Integer hotelId) {
         List<Order> orders = orderMapper.getUserOrdersInCertainHotel(userId, hotelId);
         List<OrderVO> orderVOS = new ArrayList<>();
-        for(Order order: orders){
+        for (Order order : orders) {
             OrderVO orderVO = new OrderVO();
-            BeanUtils.copyProperties(order,orderVO);
+            BeanUtils.copyProperties(order, orderVO);
             orderVOS.add(orderVO);
         }
         return orderVOS;
@@ -124,25 +124,25 @@ public class OrderServiceImpl implements OrderService {
     public int changeOrderStatus(int orderId, int orderStatus) {
         System.out.println(orderStatus);
         Order order = orderMapper.getOrderById(orderId);
-        if(order==null){
+        if (order == null) {
             return -1;
         }
-        if(orderStatus==1){
-            orderMapper.updateOrderState("已预订",orderId);
+        if (orderStatus == 1) {
+            orderMapper.updateOrderState("已预订", orderId);
             return order.getUserId();
-        }else if(orderStatus==2){
-            orderMapper.updateOrderState("已执行",orderId);
+        } else if (orderStatus == 2) {
+            orderMapper.updateOrderState("已执行", orderId);
             return order.getUserId();
-        }else if(orderStatus==3){
-            orderMapper.updateOrderState("已撤销",orderId);
+        } else if (orderStatus == 3) {
+            orderMapper.updateOrderState("已撤销", orderId);
             return order.getUserId();
-        }else if(orderStatus==4){
-            orderMapper.updateOrderState("异常",orderId);
+        } else if (orderStatus == 4) {
+            orderMapper.updateOrderState("异常", orderId);
             return order.getUserId();
-        }else if(orderStatus==5){
-            orderMapper.updateOrderState("已退房",orderId);
+        } else if (orderStatus == 5) {
+            orderMapper.updateOrderState("已退房", orderId);
             return order.getUserId();
-        } else{
+        } else {
             return -2;
         }
     }
@@ -150,10 +150,15 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void restoreRoom(int orderId) {
         Order order = orderMapper.getOrderById(orderId);
-        int hotelId=order.getHotelId();
-        String roomType=order.getRoomType();
-        int roomNum=order.getRoomNum();
-        roomService.addRoomNum(hotelId,roomType,roomNum);
+        int hotelId = order.getHotelId();
+        String roomType = order.getRoomType();
+        int roomNum = order.getRoomNum();
+        roomService.addRoomNum(hotelId, roomType, roomNum);
+    }
+
+    @Override
+    public void setOrderHasCommented(int orderId, boolean data) {
+        orderMapper.updateOrderHasCommented(orderId, data);
     }
 
     @Override
@@ -161,7 +166,7 @@ public class OrderServiceImpl implements OrderService {
         Order order = new Order();
         try {
             order = orderMapper.getOrderById(orderId);
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(ORDER_DONT_EXIST);
             return null;
         }

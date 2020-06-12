@@ -50,6 +50,7 @@
                         sm: { span: 16 },
                     },
                 },
+                type:0,
             }
         },
         computed: {
@@ -83,7 +84,7 @@
                 e.preventDefault();
                 this.form.validateFieldsAndScroll((err, values) => {
                     if (!err) {
-                        if(type==1){
+                        if(Number(this.type)==1){
                         const data = {
                             member_type: '个人会员',
                             birth_date: this.form.getFieldValue('birth_date'),

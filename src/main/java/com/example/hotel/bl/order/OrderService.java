@@ -29,6 +29,7 @@ public interface OrderService {
 
     /**
      * 获得所有异常订单
+     *
      * @return
      */
     List<OrderVO> getAbnormalOrders();
@@ -51,10 +52,11 @@ public interface OrderService {
 
     /**
      * 撤销异常订单，恢复客户信用值
+     *
      * @param orderid
      * @return
      */
-    ResponseVO annulAbnormalOrder(int orderid,int userid);
+    ResponseVO annulAbnormalOrder(int orderid, int userid);
 
     /**
      * 查看酒店的所有订单
@@ -89,7 +91,7 @@ public interface OrderService {
      * @param orderStatus
      * @return
      */
-    int changeOrderStatus(int orderId,int orderStatus);
+    int changeOrderStatus(int orderId, int orderStatus);
 
     /**
      * 恢复房间数
@@ -99,7 +101,12 @@ public interface OrderService {
      */
     void restoreRoom(int orderId);
 
-
+    /**
+     * 设置订单是否被评价过，true为已评价
+     *
+     * @param data
+     */
+    void setOrderHasCommented(int orderId, boolean data);
 
 
 }

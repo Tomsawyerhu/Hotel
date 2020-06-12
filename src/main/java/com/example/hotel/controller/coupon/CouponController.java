@@ -12,6 +12,13 @@ public class CouponController {
     @Autowired
     private CouponService couponService;
 
+    @PostMapping("/hotelBirthday")
+    public ResponseVO addHotelBirthdayCoupon(@RequestBody HotelBirthdayCoupon hotelBirthdayCoupon) {
+        System.out.println(hotelBirthdayCoupon);
+        CouponVO couponVO = couponService.addHotelBirthdayCoupon(hotelBirthdayCoupon);
+        return ResponseVO.buildSuccess(couponVO);
+    }
+
     @PostMapping("/hotelTargetMoney")
     public ResponseVO addHotelTargetMoneyCoupon(@RequestBody HotelTargetMoneyCouponVO hotelTargetMoneyCouponVO) {
        // System.out.println(hotelTargetMoneyCouponVO);

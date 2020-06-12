@@ -41,6 +41,12 @@
         <result column="phonenumber" property="phoneNumber"></result>
         <result column="credit" property="credit"></result>
         <result column="usertype" property="userType"></result>
+
+        <result column="membertype" property="memberType"></result>
+        <result column="birthday" property="birthday"></result>
+        <result column="companyname" property="companyName"></result>
+
         <result column="manageho_id" property="manage_hotelId"></result>
+
     </resultMap>
 </mapper>

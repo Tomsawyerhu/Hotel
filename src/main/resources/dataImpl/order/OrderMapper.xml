@@ -13,8 +13,8 @@
         select * from OrderList where userId=#{userid}
     </select>
     <insert id="addOrder" parameterType="com.example.hotel.po.Order" useGeneratedKeys="true" keyProperty="id">
-        insert into OrderList(userId,hotelId,hotelName,checkInDate,checkOutDate,roomType,roomNum,peopleNum,haveChild,createDate,price,clientName,phoneNumber,orderState)
-        values(#{userId},#{hotelId},#{hotelName},#{checkInDate},#{checkOutDate},#{roomType},#{roomNum},#{peopleNum},#{haveChild},#{createDate},#{price},#{clientName},#{phoneNumber},#{orderState})
+        insert into OrderList(userId,hotelId,hotelName,checkInDate,checkOutDate,roomType,roomNum,peopleNum,haveChild,createDate,price,clientName,phoneNumber,orderState,hasCommented)
+        values(#{userId},#{hotelId},#{hotelName},#{checkInDate},#{checkOutDate},#{roomType},#{roomNum},#{peopleNum},#{haveChild},#{createDate},#{price},#{clientName},#{phoneNumber},#{orderState},#{hasCommented})
     </insert>
     <select id="getOrderById" resultMap="Order">
         select * from OrderList where id=#{orderid}
@@ -23,7 +23,7 @@
     <update id="annulOrder">
         update OrderList set orderState="已撤销" where id=#{orderid}
     </update>
-   <!-- 获得客户在某家酒店的订单的数据库操作-->
+    <!-- 获得客户在某家酒店的订单的数据库操作-->
     <select id="getUserOrdersInCertainHotel" resultMap="Order">
         select * from OrderList where userId=#{userid} and hotelId=#{hotelid}
     </select>
@@ -31,9 +31,12 @@
     <update id="updateOrderState">
         update OrderList set orderState=#{orderstate} where id=#{orderid}
     </update>
+    <!--更新订单评价状态-->
+    <update id="updateOrderHasCommented">
+        update OrderList set hasCommented=#{data} where id=#{orderid}
+    </update>
 
 
-
-    <resultMap id="Order" type="com.example.hotel.po.Order">
-    </resultMap>
-</mapper>
+        <resultMap id="Order" type="com.example.hotel.po.Order">
+        </resultMap>
+    </mapper>

@@ -31,7 +31,7 @@ public interface AccountService {
      * @return
      */
     UserVO getUserInfo(int id);
-
+    UserVO getUserInfoByEmail(String Email);
     /**
      * 更新用户个人信息
      *
