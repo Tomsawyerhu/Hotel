@@ -2,7 +2,6 @@
     <div>
         <a-comment>
             <span slot="author" style="font-size: 15px">{{commentItem.userName}}</span>
-            <span>1111</span>
             <a-avatar slot="avatar" src="@/assets/cover.jpeg"></a-avatar>
             <span slot="content">{{commentItem.content}}</span>
             <span slot="datetime">{{commentItem.commentDate}}</span>
