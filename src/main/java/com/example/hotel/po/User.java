@@ -91,9 +91,7 @@ public class User {
         this.userType = userType;
     }
 
-    public Date getBirthday() {
-        return birthday;
-    }
+    public Date getBirthday() { return birthday; }
 
     public void setBirthday(Date birthday) {
         this.birthday = birthday;

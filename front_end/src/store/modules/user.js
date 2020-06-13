@@ -15,7 +15,7 @@ const getDefaultState = () => {
         userOrderList: [],
         registMemberVisible: false,
         registMemberParams: {
-            id: '',
+            password: '',
             memberType: '',
             birthday: '',
             companyName:'',
@@ -184,7 +184,7 @@ const user = {
             if(res){
                 dispatch('getUserInfo');
                 commit('set_registMemberParams', {
-                    email: '',
+                    password: '',
                     memberType: '',
                     birthday: '',
                     companyName:'',
@@ -192,7 +192,7 @@ const user = {
                 commit('set_registMemberVisible', false)
                 message.success('添加成功')
             }else{
-                message.error('添加失败')
+                message.error('添加失败,账号密码错误')
             }
         },
     }

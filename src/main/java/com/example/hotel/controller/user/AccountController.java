@@ -59,9 +59,9 @@ public class AccountController {
     }
 
 
-    @PostMapping("/{email}/{memberType}/{birthday}/{companyName}/addMember")
-    public ResponseVO addMember(@PathVariable String email,@PathVariable String memberType,@PathVariable String birthday,@PathVariable String companyName) {
-        return accountService.addMember(email, memberType, birthday,companyName);
+    @PostMapping("/{password}/{memberType}/{birthday}/{companyName}/addMember")
+    public ResponseVO addMember(@PathVariable String password,@PathVariable String memberType,@PathVariable String birthday,@PathVariable String companyName) {
+        return accountService.addMember(password, memberType, birthday,companyName);
 
     }
 

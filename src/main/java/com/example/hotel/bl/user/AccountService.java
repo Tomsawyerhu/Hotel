@@ -42,7 +42,7 @@ public interface AccountService {
      */
     ResponseVO updateUserInfo(int id, String username, String phonenumber);
 
-    ResponseVO addMember(String email, String memberType, String birthday,String companyName);
+    ResponseVO addMember(String password, String memberType, String birthday,String companyName);
 
     ResponseVO modifyPassword(int id, String password);
 
