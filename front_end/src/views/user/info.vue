@@ -86,11 +86,44 @@
 
                 </UserOrderedHotelList>
             </a-tab-pane>
-            <a-tab-pane tab="信息记录" key="4" v-if="userInfo.userType=='Client'">
+            <a-tab-pane tab="注册会员" key="4" v-if="userInfo.userType=='Client'">
+                <a-form :form="form" style="margin-top: 30px">
+                    <a-form-item label="用户名" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }">
+                        <span>{{ userInfo.userName }}</span>
+                    </a-form-item>
+                    <a-form-item label="信用值" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }">
+                        <span>{{ userInfo.credit }}</span>
+                    </a-form-item>
+                    <a-alert
+                            v-if="Number(userInfo.credit)<60"
+                            message="警告"
+                            description="您的信用值未满60，不得注册会员！"
+                            type="error"
+                            showIcon
+                            closable></a-alert>
+                    <a-form-item label="会员类型" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }" v-if="userInfo.memberType!=='未注册'&&userInfo.memberType!==null">
+                        <span>{{ userInfo.memberType }}</span>
+                    </a-form-item>
+                    <a-form-item label="会员生日" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }" v-if="userInfo.birthday!=null&&userInfo.birthday!=='1900-01-01T00:00:00.000+0800'">
+                        <span>{{ userInfo.birthday.substr(0,10) }}</span>
+                    </a-form-item>
+                    <a-form-item label="公司名称" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }" v-if=" userInfo.companyName!=='未注册'&&userInfo.companyName!==null">
+                        <span>{{ userInfo.companyName }}</span>
+                    </a-form-item>
+                    <a-form-item :wrapper-col="{ span: 8, offset: 4 }" >
+                        <a-button type="primary" @click="registMember" v-if="Number(userInfo.credit)>=60 && userInfo.memberType==null">
+                            会员注册
+                        </a-button>
+                    </a-form-item>
+                </a-form>
+            </a-tab-pane>
+            <a-tab-pane tab="信息记录" key="5" v-if="userInfo.userType=='Client'">
                 <CreditInfo :creditList="creditList">
                 </CreditInfo>
             </a-tab-pane>
+
         </a-tabs>
+        <registMember></registMember>
     </div>
 </template>
 <script>
@@ -99,6 +132,7 @@
     import OrderList from "../order/components/userOrderList"
     import UserOrderedHotelList from "../hotel/components/userOrderedHotelList";
     import CreditInfo from "./creditInfo"
+    import registMember from "./registMember";
 
     export default {
         name: 'info',
@@ -117,14 +151,16 @@
         components: {
             OrderList,
             UserOrderedHotelList,
-            CreditInfo
+            CreditInfo,
+            registMember
         },
         computed: {
             ...mapGetters([
                 'userId',
                 'userInfo',
                 'userOrderList',
-                'creditList'
+                'creditList',
+                'registMemberVisible'
             ]),
 
         },
@@ -134,7 +170,7 @@
             await this.getCreditHistories(this.userId)
         },
         methods: {
-            ...mapMutations(['set_currentOrderId']),
+            ...mapMutations(['set_currentOrderId','set_registMemberVisible']),
             ...mapActions([
                 'getUserInfo',
                 'getUserOrders',
@@ -142,7 +178,7 @@
                 'cancelOrder',
                 'getOrderDetails',
                 'modifyPassword',
-                'getCreditHistories'
+                'getCreditHistories',
             ]),
             saveModify() {
                 this.form.validateFields((err, values) => {
@@ -244,6 +280,9 @@
                     callback(new Error('两次密码不一致'))
                 }
                 callback()
+            },
+            registMember() {
+                this.set_registMemberVisible(true)
             },
 
         }

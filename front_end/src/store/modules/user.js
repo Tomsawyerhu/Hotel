@@ -4,7 +4,7 @@ import {message} from 'ant-design-vue'
 import {getUserInfoAPI, loginAPI, registerAPI, updateUserInfoAPI} from '@/api/user'
 
 import {cancelOrderAPI, getOrderDetailsAPI, getUserOrdersAPI,} from '@/api/order'
-import {modifyPasswordAPI,getCreditHistoriesAPI,addCreditHistoryAPI,getUserInfoByEmailAPI,changeCreditAPI} from '@/api/user';
+import {modifyPasswordAPI,getCreditHistoriesAPI,addCreditHistoryAPI,getUserInfoByEmailAPI,changeCreditAPI,addMemberAPI} from '@/api/user';
 import {getUserOrderedHotelsAPI} from '@/api/hotel';
 
 const getDefaultState = () => {
@@ -14,7 +14,14 @@ const getDefaultState = () => {
         userHotelList: [],
         userOrderList: [],
         creditList:[],
-        currentAccountId:''
+        currentAccountId:'',
+        registMemberVisible: false,
+        registMemberParams: {
+            password: '',
+            memberType: '',
+            birthday: '',
+            companyName:'',
+        },
     }
 }
 
@@ -38,7 +45,7 @@ const user = {
         set_userId: (state, data) => {
             state.userId = data
         },
-        set_user_hotel_id:(state, data) => {
+        set_user_hotel_id: (state, data) => {
             state.user_hotel_id = data
         },
         set_userInfo: (state, data) => {
@@ -56,17 +63,25 @@ const user = {
         get_userInfo: (state, data) => {
             return state.userInfo
         },
-        set_creditList:(state,data)=>{
-            state.creditList=data
+        set_creditList: (state, data) => {
+            state.creditList = data
         },
-        set_currentAccountId:(state,data)=>{
-            state.currentAccountId=data
+        set_currentAccountId: (state, data) => {
+            state.currentAccountId = data
         },
-        /*set_currentCreditInfo:(state,data)=>{
-            return state.currentCreditInfo
-        },*/
+        set_registMemberVisible: function (state, data) {
+            state.registMemberVisible = data
+        },
+        set_registMemberParams: function (state, data) {
+            state.registMemberParams = {
+                ...state.registMemberParams,
+                ...data,
+            }
+            /*set_currentCreditInfo:(state,data)=>{
+                return state.currentCreditInfo
+            },*/
+        },
     },
-
     actions: {
         login: async ({dispatch, commit, state}, userData) => {
             const res = await loginAPI(userData)
@@ -225,6 +240,22 @@ const user = {
                 console.log(res)
                 message.success("更新信用值成功")
 
+            }
+        },
+        addMember: async({ state, dispatch, commit }) => {
+            const res = await addMemberAPI(state.registMemberParams)
+            if(res){
+                dispatch('getUserInfo');
+                commit('set_registMemberParams', {
+                    password: '',
+                    memberType: '',
+                    birthday: '',
+                    companyName:'',
+                })
+                commit('set_registMemberVisible', false)
+                message.success('添加成功')
+            }else{
+                message.error('添加失败,账号密码错误')
             }
         },
 

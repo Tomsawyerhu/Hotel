@@ -16,6 +16,8 @@ const getters = {
     addRoomVisible: state => state.hotel.addRoomVisible,//自己加的
     creditList:state=>state.user.creditList,
     currentAccountId:state=>state.user.currentAccountId,
+    registMemberVisible: state => state.user.registMemberVisible,
+    registMemberParams: state => state.user.registMemberParams,
     /*currentCreditInfo:state=>state.user.currentCreditInfo,*/
 
     //admin

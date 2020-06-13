@@ -224,7 +224,7 @@ CREATE TABLE `User` (
 
 BEGIN;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES (1,'1@qq.com','e10adc3949','测试一号','12345678919',100,'Client',NULL,'VIP','1999-06-08  00:00:00',NULL),(2,'11@qq.com','e10adc3949','测试一一号','12345678919',100,'Client',NULL,NULL,NULL,NULL),(3,'2@qq.com','e10adc3949','测试二号','12345678911',100,'HotelManager',1,NULL,NULL,NULL),(4,'3@qq.com','e10adc3949','测试三号',NULL,NULL,'Admin',NULL,NULL,NULL,NULL),(5,'4@qq.com','e10adc3949','测试四号',NULL,NULL,'MarketingStaff',NULL,NULL,NULL,NULL);
+INSERT INTO `User` VALUES (1,'1@qq.com','508df4cb2f','测试一号','12345678919',100,'Client',NULL,NULL,NULL,NULL),(2,'11@qq.com','e10adc3949','测试一一号','12345678919',100,'Client',NULL,NULL,NULL,NULL),(3,'2@qq.com','e10adc3949','测试二号','12345678911',100,'HotelManager',1,NULL,NULL,NULL),(4,'3@qq.com','e10adc3949','测试三号',NULL,NULL,'Admin',NULL,NULL,NULL,NULL),(5,'4@qq.com','e10adc3949','测试四号',NULL,NULL,'MarketingStaff',NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 COMMIT;
 

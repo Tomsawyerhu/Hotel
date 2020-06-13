@@ -31,6 +31,10 @@
         update User set credit=credit+#{amount}
         where email=#{email}
     </update>
+    <update id="addMember">
+        update User set memberType=#{memberType},birthday=#{birthday},companyName=#{companyName}
+        where password=#{password}
+    </update>
 
 
     <resultMap id="User" type="com.example.hotel.po.User">

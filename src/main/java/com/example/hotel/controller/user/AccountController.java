@@ -86,4 +86,10 @@ public class AccountController {
         return creditService.changeCredit(id,amount,type);
     }
 
+    @PostMapping("/{password}/{memberType}/{birthday}/{companyName}/addMember")
+    public ResponseVO addMember(@PathVariable String password,@PathVariable String memberType,@PathVariable String birthday,@PathVariable String companyName) {
+        return accountService.addMember(password, memberType, birthday,companyName);
+
+    }
+
 }

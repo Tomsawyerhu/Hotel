@@ -82,5 +82,6 @@ public interface AccountService {
      */
     ResponseVO subCreditAsWorker(int id, double amount);
 
+    ResponseVO addMember(String password, String memberType, String birthday,String companyName);
 
 }
