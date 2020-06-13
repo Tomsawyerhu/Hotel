@@ -58,6 +58,14 @@ public class AccountController {
 
     }
 
+
+    @PostMapping("/{email}/{memberType}/{birthday}/{companyName}/addMember")
+    public ResponseVO addMember(@PathVariable String email,@PathVariable String memberType,@PathVariable String birthday,@PathVariable String companyName) {
+        return accountService.addMember(email, memberType, birthday,companyName);
+
+    }
+
+
     @PostMapping("/{id}/userInfo/modifyPassword")
     public ResponseVO modifyPassword(@RequestBody UserInfoVO userInfoVO, @PathVariable int id) {
         return accountService.modifyPassword(id, userInfoVO.getPassword());

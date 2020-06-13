@@ -1,7 +1,7 @@
 import router, {resetRouter} from '@/router'
 import {removeToken, setToken} from '@/utils/auth'
 import {message} from 'ant-design-vue'
-import {getUserInfoAPI, loginAPI, registerAPI, updateUserInfoAPI,} from '@/api/user'
+import {getUserInfoAPI, loginAPI, registerAPI, updateUserInfoAPI,addMemberAPI} from '@/api/user'
 
 import {cancelOrderAPI, getOrderDetailsAPI, getUserOrdersAPI,} from '@/api/order'
 import {modifyPasswordAPI} from '@/api/user';
@@ -15,9 +15,10 @@ const getDefaultState = () => {
         userOrderList: [],
         registMemberVisible: false,
         registMemberParams: {
-            member_type: '',
-            birth_date: '',
-            company_name:'',
+            id: '',
+            memberType: '',
+            birthday: '',
+            companyName:'',
         },
     }
 }
@@ -177,6 +178,22 @@ const user = {
                 commit('reset_state')
                 resolve()
             })
+        },
+        addMember: async({ state, dispatch, commit }) => {
+            const res = await addMemberAPI(state.registMemberParams)
+            if(res){
+                dispatch('getUserInfo');
+                commit('set_registMemberParams', {
+                    email: '',
+                    memberType: '',
+                    birthday: '',
+                    companyName:'',
+                })
+                commit('set_registMemberVisible', false)
+                message.success('添加成功')
+            }else{
+                message.error('添加失败')
+            }
         },
     }
 }

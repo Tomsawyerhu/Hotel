@@ -87,24 +87,31 @@
                 </UserOrderedHotelList>
             </a-tab-pane>
             <a-tab-pane tab="注册会员" key="4" v-if="userInfo.userType=='Client'">
-                <a-form :form="memberForm" style="margin-top: 30px">
+                <a-form :form="form" style="margin-top: 30px">
                     <a-form-item label="用户名" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }">
                         <span>{{ userInfo.userName }}</span>
                     </a-form-item>
                     <a-form-item label="信用值" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }">
                         <span>{{ userInfo.credit }}</span>
                     </a-form-item>
-                    <a-form-item label="会员类型" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }">
-                        <span>{{ userInfo.member_type }}</span>
+                    <a-alert
+                            v-if="Number(userInfo.credit)<60"
+                            message="警告"
+                            description="您的信用值未满60，不得注册会员！"
+                            type="error"
+                            showIcon
+                            closable></a-alert>
+                    <a-form-item label="会员类型" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }" v-if="userInfo.memberType!=null">
+                        <span>{{ userInfo.memberType }}</span>
                     </a-form-item>
-                    <a-form-item label="会员生日" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }">
-                        <span>{{ userInfo.birth_date }}</span>
+                    <a-form-item label="会员生日" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }" v-if="userInfo.birthday!=null">
+                        <span>{{ userInfo.birthday }}</span>
                     </a-form-item>
-                    <a-form-item label="会员生日" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }">
-                        <span>{{ userInfo.company_name }}</span>
+                    <a-form-item label="公司名称" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }" v-if=" userInfo.companyName!=null">
+                        <span>{{ userInfo.companyName }}</span>
                     </a-form-item>
                     <a-form-item :wrapper-col="{ span: 8, offset: 4 }" >
-                        <a-button type="primary" @click="registMember">
+                        <a-button type="primary" @click="registMember" v-if="Number(userInfo.credit)>=60 && userInfo.memberType==null">
                             会员注册
                         </a-button>
                     </a-form-item>
@@ -134,7 +141,7 @@
                 pagination: {},
                 data: [],
                 form: this.$form.createForm(this, {name: 'coordinated'}),
-                memberForm: this.$form.createForm(this, {name: 'coordinated2'}),
+                //memberForm: this.$form.createForm(this, {name: 'coordinated2'}),
             }
         },
         components: {

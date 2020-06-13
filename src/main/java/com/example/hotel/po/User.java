@@ -14,8 +14,14 @@ public class User {
     private double credit;
     private UserType userType;
 
+
+
+
     private String memberType;
     private Date birthday;
+
+
+
     private String companyName;
 
     private String manage_hotelId;
@@ -85,14 +91,6 @@ public class User {
         this.userType = userType;
     }
 
-    public String getMemberType() {
-        return memberType;
-    }
-
-    public void setMemberType(String memberType) {
-        this.memberType = memberType;
-    }
-
     public Date getBirthday() {
         return birthday;
     }
@@ -101,11 +99,20 @@ public class User {
         this.birthday = birthday;
     }
 
+
     public String getCompanyName() {
         return companyName;
     }
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
+    }
+
+    public String getMemberType() {
+        return memberType;
+    }
+
+    public void setMemberType(String memberType) {
+        this.memberType = memberType;
     }
 }

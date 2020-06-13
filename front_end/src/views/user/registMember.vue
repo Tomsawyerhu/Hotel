@@ -8,6 +8,12 @@
             @ok="handleSubmit"
     >
         <a-form :form="form" style="margin-top: 30px" v-bind="formItemLayout">
+            <a-form-item label="填写用户邮箱" v-bind="formItemLayout">
+                <a-input
+                        placeholder="请填写用户邮箱"
+                        v-decorator="['email', { rules: [{ required: true, message: '请输入用户邮箱' }] }]"
+                />
+            </a-form-item>
             <a-form-item label="会员类型" v-bind="formItemLayout">
                 <a-select
                         v-decorator="[
@@ -22,13 +28,13 @@
             <a-form-item label="填写生日" v-bind="formItemLayout" v-if="type==1">
                 <a-input
                         placeholder="请填写出生日期"
-                        v-decorator="['birth_date', { rules: [{ required: true, message: '请输入出生日期，格式为YYYY-MM-DD' }] }]"
+                        v-decorator="['birthday', { rules: [{ required: true, message: '请输入出生日期，格式为YYYY-MM-DD' }] }]"
                 />
             </a-form-item>
             <a-form-item label="填写企业名称" v-bind="formItemLayout" v-if="type==2">
                 <a-input
                         placeholder="请填写企业名称"
-                        v-decorator="['company_name', { rules: [{ required: true, message: '请输入企业名称' }] }]"
+                        v-decorator="['companyName', { rules: [{ required: true, message: '请输入企业名称' }] }]"
                 />
             </a-form-item>
         </a-form>
@@ -64,15 +70,14 @@
             this.form = this.$form.createForm(this, { name: 'registMember' });
         },
         mounted() {
-
         },
         methods: {
             ...mapMutations([
-                'set_addHotelParams',
+                'set_registMemberParams',
                 'set_registMemberVisible'
             ]),
             ...mapActions([
-                'addHotel'
+                'addMember',
             ]),
             cancel() {
                 this.set_registMemberVisible(false)
@@ -86,22 +91,23 @@
                     if (!err) {
                         if(Number(this.type)==1){
                         const data = {
-                            member_type: '个人会员',
-                            birth_date: this.form.getFieldValue('birth_date'),
-                            company_name: null,
+                            email: this.form.getFieldValue('email'),
+                            memberType: '个人会员',
+                            birthday: this.form.getFieldValue('birthday'),
+                            companyName: '未注册',
                         }
                         this.set_registMemberParams(data)
-                        this.addHotel()
-                    }
-                    }else{
+                        this.addMember()
+                    } else{
                         const data = {
-                            member_type: '企业会员',
-                            birth_date: null,
-                            company_name: this.form.getFieldValue('company_name'),
+                            email: this.form.getFieldValue('email'),
+                            memberType: '企业会员',
+                            birthday: '未注册',
+                            companyName: this.form.getFieldValue('companyName'),
                         }
                         this.set_registMemberParams(data)
-                        this.addHotel()
-                    }
+                        this.addMember()
+                    }}
                 });
             },
         }
