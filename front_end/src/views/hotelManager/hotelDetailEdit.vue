@@ -102,10 +102,52 @@
                 <a-divider></a-divider>
                 <a-tabs>
                     <a-tab-pane tab="房间信息" key="1">
-                        {{currentHotelInfo}}
+                        <!--{{currentHotelInfo}}-->
                         <RoomList :rooms="currentHotelInfo.rooms" ></RoomList>
                     </a-tab-pane>
+
+
+                    <a-tab-pane tab="订单管理" key="2">
+                        <a-table
+                                :columns="columns2"
+                                :dataSource="orderList"
+                                bordered
+                                v-show="!showDetail"
+                        >
+                    <span slot="price" slot-scope="text">
+                        <span>￥{{ text }}</span>
+                    </span>
+                            <span slot="roomType" slot-scope="text">
+                        <span v-if="text == '大床房'">大床房</span>
+                        <span v-if="text == '双床房'">双床房</span>
+                        <span v-if="text == '家庭房'">家庭房</span>
+                    </span>
+                            <span slot="action" slot-scope="record">
+                        <a-button type="primary" size="small" @click="showOrderDetails(record.id)">订单详情</a-button>
+                        <a-divider type="vertical"></a-divider>
+                        <a-popconfirm
+                                title="确定想删除该订单吗？"
+                                @confirm="deleteOrder(record)"
+                                okText="确定"
+                                cancelText="取消"
+                        >
+                            <a-button type="danger" size="small">删除订单</a-button>
+                        </a-popconfirm>
+                        <a-divider type="vertical"></a-divider>
+                        <a-tag color="grey" v-if="record.orderState=='已撤销'">已撤销</a-tag>
+                        <a-tag color="blue" v-else-if="record.orderState=='已执行'">已执行</a-tag>
+                        <a-tag color="red" v-else-if="record.orderState=='异常'">异常</a-tag>
+                        <a-tag color="yellow" v-else-if="record.orderState=='已退房'">已退房</a-tag>
+                        <a-tag color="green" v-else>已预订</a-tag>
+                    </span>
+                        </a-table>
+                        <order-details  v-if="showDetail" :back="setShowDetailFalse" :editable="true">
+
+                        </order-details>
+                    </a-tab-pane>
                 </a-tabs>
+
+
             </div>
         </a-layout-content>
         <coupon></coupon>
@@ -113,11 +155,51 @@
 </template>
 <script>
     import { mapGetters, mapActions, mapMutations } from 'vuex'
-    import RoomList from './roomList'
-    import Coupon from "./coupon"
+    import RoomList from './components/roomList'
+    import Coupon from "./components/coupon"
+    import OrderDetails from "../order/components/orderDetail";
+    const columns2 = [
+        {
+            title: '订单号',
+            dataIndex: 'id',
+        },
+        {
+            title: '酒店名',
+            dataIndex: 'hotelName',
+        },
+        {
+            title: '房型',
+            dataIndex: 'roomType',
+            scopedSlots: { customRender: 'roomType' }
+        },
+        {
+            title: '入住时间',
+            dataIndex: 'checkInDate',
+            scopedSlots: { customRender: 'checkInDate' }
+        },
+        {
+            title: '离店时间',
+            dataIndex: 'checkOutDate',
+            scopedSlots: { customRender: 'checkOutDate' }
+        },
+        {
+            title: '入住人数',
+            dataIndex: 'peopleNum',
+        },
+        {
+            title: '房价',
+            dataIndex: 'price',
+        },
+        {
+            title: '操作',
+            key: 'action',
+            scopedSlots: { customRender: 'action' },
+        },
+    ];
     export default {
         name: 'hotelDetailEdit',
         components: {
+            OrderDetails,
             Coupon,
             RoomList,
         },
@@ -125,18 +207,26 @@
             return {
                 modify:false,
                 form: this.$form.createForm(this, {name: 'coordinated'}),
+                columns2,
+                showDetail:false,
+                orderDetailInfo:{},
+                pagination: {},
             }
         },
         computed: {
             ...mapGetters([
                 'currentHotelInfo',
                 'descEditVisible',
-                'userInfo'
+                'userInfo',
+                'orderList',
+                'userOrderList',
+                'activeHotelId',
             ])
         },
-        mounted() {
+        async mounted() {
             this.set_currentHotelId(Number(this.$route.params.hotelId))
             this.getHotelById()
+            await this.getAllOrders()
         },
         beforeRouteUpdate(to, from, next) {
             this.set_currentHotelId(Number(to.params.hotelId))
@@ -149,11 +239,32 @@
                 'set_currentHotelInfo',
                 'set_activeHotelId',
                 'set_couponVisible',
+                'set_activeHotelId',
+                'set_currentOrderId',
             ]),
             ...mapActions([
                 'getHotelById',
                 'getHotelCoupon',
+                'getAllOrders',
+                'getOrderDetails',
+
             ]),
+            setShowDetailFalse(){
+                // console.log("false")
+                this.showDetail=false;
+            },
+            setShowDetailTrue(){
+                this.showDetail=true;
+            },
+            deleteOrder(){
+
+            },
+            showOrderDetails(orderId){ //查看订单详细信息
+                this.set_currentOrderId(orderId)
+                this.getOrderDetails()
+                this.setShowDetailTrue()
+                console.log(this.orderDetailInfo)
+            },
             showCouponList(id){
                 console.log(id)
                 this.set_activeHotelId(id)

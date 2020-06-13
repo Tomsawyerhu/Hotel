@@ -104,7 +104,7 @@ export default {
                         address: this.form.getFieldValue('address'),
                         phoneNum: this.form.getFieldValue('phoneNumber'),
                         hotelStar: this.form.getFieldValue('hotelStar'),
-                        managerId: Number(this.userId)
+                        //managerId: Number(this.userId)
                     }
                     this.set_addHotelParams(data)
                     this.addHotel()

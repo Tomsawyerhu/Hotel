@@ -31,7 +31,7 @@ public interface AccountService {
      * @return
      */
     UserVO getUserInfo(int id);
-
+    UserVO getUserInfoByEmail(String Email);
     /**
      * 更新用户个人信息
      *
@@ -41,6 +41,8 @@ public interface AccountService {
      * @return
      */
     ResponseVO updateUserInfo(int id, String username, String phonenumber);
+
+    ResponseVO addMember(String email, String memberType, String birthday,String companyName);
 
     ResponseVO modifyPassword(int id, String password);
 

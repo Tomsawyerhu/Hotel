@@ -32,7 +32,7 @@ const routes = [//映射关系
       {
         path: '/hotelManager/hotelDetailEdit/:hotelId',
         name: 'hotelDetailEdit',
-        component: () => import('@/views/hotelManager/components/hotelDetailEdit')
+        component: () => import('@/views/hotelManager/hotelDetailEdit')
       },
       {
         path: '/user/info/:userId',

@@ -42,7 +42,7 @@
                     <manager-detail :back="quitSeeManager"/>
                 </div>
             </a-tab-pane>
-            <a-tab-pane tab="订单管理" key="2">
+            <!--a-tab-pane tab="订单管理" key="2">
                 <a-table
                         :columns="columns2"
                         :dataSource="orderList"
@@ -79,7 +79,7 @@
                 <order-details  v-if="showDetail" :back="setShowDetailFalse" :editable="true">
 
                 </order-details>
-            </a-tab-pane>
+            </a-tab-pane-->
 
         </a-tabs>
         <addManagerModal></addManagerModal>
@@ -93,7 +93,7 @@
     import { mapGetters, mapMutations, mapActions } from 'vuex'
     import AddHotelModal from './components/addHotelModal'
     import AddRoomModal from './components/addRoomModal'
-    import OrderDetails from "../order/components/orderDetail";
+    //import OrderDetails from "../order/components/orderDetail";
     import addManagerModal from "./components/addManagerModal";
     import EditManager from "@/views/admin/components/editUserInfo"
     import managerDetail from "./components/managerDetail";
@@ -182,7 +182,7 @@
             }
         },
         components: {
-            OrderDetails,
+            //OrderDetails,
             AddHotelModal,
             AddRoomModal,
             addManagerModal,

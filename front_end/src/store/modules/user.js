@@ -1,7 +1,7 @@
 import router, {resetRouter} from '@/router'
 import {removeToken, setToken} from '@/utils/auth'
 import {message} from 'ant-design-vue'
-import {getUserInfoAPI, loginAPI, registerAPI, updateUserInfoAPI} from '@/api/user'
+import {getUserInfoAPI, loginAPI, registerAPI, updateUserInfoAPI,addMemberAPI} from '@/api/user'
 
 import {cancelOrderAPI, getOrderDetailsAPI, getUserOrdersAPI,} from '@/api/order'
 import {modifyPasswordAPI} from '@/api/user';
@@ -13,6 +13,13 @@ const getDefaultState = () => {
         userInfo: {},
         userHotelList: [],
         userOrderList: [],
+        registMemberVisible: false,
+        registMemberParams: {
+            id: '',
+            memberType: '',
+            birthday: '',
+            companyName:'',
+        },
     }
 }
 
@@ -53,7 +60,16 @@ const user = {
         },
         get_userInfo: (state, data) => {
             return state.userInfo
-        }
+        },
+        set_registMemberVisible: function(state, data) {
+            state.registMemberVisible = data
+        },
+        set_registMemberParams: function(state, data) {
+            state.registMemberParams = {
+                ...state.registMemberParams,
+                ...data,
+            }
+        },
     },
 
     actions: {
@@ -82,20 +98,6 @@ const user = {
             if (res) {
                 message.success('注册成功')
             }
-        },
-        getUserInfoById:async ({commit}, data) => {
-            return new Promise((resolve, reject) => {
-                getUserInfoAPI(data).then(response => {
-                    const data = response
-                    if (!data) {
-                        reject('失败')
-                    }
-                    commit('set_targetAccount', data)
-                    resolve(data)
-                }).catch(error => {
-                    reject(error)
-                })
-            })
         },
         getUserInfo({state, commit}) {
             return new Promise((resolve, reject) => {
@@ -176,6 +178,22 @@ const user = {
                 commit('reset_state')
                 resolve()
             })
+        },
+        addMember: async({ state, dispatch, commit }) => {
+            const res = await addMemberAPI(state.registMemberParams)
+            if(res){
+                dispatch('getUserInfo');
+                commit('set_registMemberParams', {
+                    email: '',
+                    memberType: '',
+                    birthday: '',
+                    companyName:'',
+                })
+                commit('set_registMemberVisible', false)
+                message.success('添加成功')
+            }else{
+                message.error('添加失败')
+            }
         },
     }
 }

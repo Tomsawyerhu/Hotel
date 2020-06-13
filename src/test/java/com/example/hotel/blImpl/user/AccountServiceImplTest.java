@@ -1,6 +1,9 @@
 package com.example.hotel.blImpl.user;
 
+import com.example.hotel.bl.user.CreditService;
+import com.example.hotel.po.CreditHistory;
 import com.example.hotel.po.User;
+import com.example.hotel.vo.CreditHistoryVO;
 import com.example.hotel.vo.ResponseVO;
 import com.example.hotel.vo.UserForm;
 import com.example.hotel.vo.UserVO;
@@ -10,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -22,6 +27,9 @@ public class AccountServiceImplTest {
     private final static String EMAIL_DONT_EXIST ="该用户邮箱不存在，请确认用户邮箱";
     @Autowired
     private AccountServiceImpl accountService;
+
+    @Autowired
+    private CreditService creditService;
 
     @Test
     @Transactional
@@ -77,6 +85,13 @@ public class AccountServiceImplTest {
     public void addCreditByAnnulAbnormalOrderTest(){
         ResponseVO responseVO = accountService.addCreditByAnnulAbnormalOrder(1000,0.0);
         assertEquals(ACCOUNT_DONT_EXIST,responseVO.getMessage());
+    }
+
+    @Test
+    @Transactional
+    public void getCreditHistoryTest(){
+        creditService.insertCreditHistory(1,1,50,"");
+        assertEquals(50,(int)((List<CreditHistoryVO>)creditService.getCreditHistoriesByUserId(1).getContent()).get(0).getValue());
     }
 
 }

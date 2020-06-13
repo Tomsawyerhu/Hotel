@@ -17,8 +17,12 @@ public class UserVO {
     private double credit;
     private UserType userType;
 
+
     private String memberType;
     private Date birthday;
+
+
+
     private String companyName;
 
     private String manage_hotelId;
@@ -88,14 +92,6 @@ public class UserVO {
         this.userType = userType;
     }
 
-    public String getMemberType() {
-        return memberType;
-    }
-
-    public void setMemberType(String memberType) {
-        this.memberType = memberType;
-    }
-
     public Date getBirthday() {
         return birthday;
     }
@@ -104,6 +100,14 @@ public class UserVO {
         this.birthday = birthday;
     }
 
+
+    public String getMemberType() {
+        return memberType;
+    }
+
+    public void setMemberType(String memberType) {
+        this.memberType = memberType;
+    }
     public String getCompanyName() {
         return companyName;
     }
@@ -122,9 +126,9 @@ public class UserVO {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", credit=" + credit +
                 ", userType=" + userType +
-                ", memberType='" + memberType + '\'' +
+                ", membertype='" + memberType + '\'' +
                 ", birthday=" + birthday +
-                ", companyName='" + companyName + '\'' +
+                ", companyname='" + companyName + '\'' +
                 '}';
     }
 }

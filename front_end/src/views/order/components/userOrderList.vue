@@ -146,7 +146,10 @@
             ...mapActions([
                 'cancelOrder',
                 'getOrderDetails',
-                'getOrderDetailsById'
+                'getOrderDetailsById',
+                'addCreditHistory',
+                'changeCredit',
+                'getCreditHistories'
             ]),
             setShowDetailFalse() {
                 // console.log("false")
@@ -156,7 +159,21 @@
                 this.showDetail = true;
             },
             confirmCancelOrder(orderId) {
+                const data={
+                    userId:this.userId,
+                    value:2,
+                    type:-1,
+                    message:"您撤销订单，信用减少两点"
+                }
+                this.addCreditHistory(data).then(this.getCreditHistories(this.userId))
+                const data2={
+                    id:data.userId,
+                    amount:data.value,
+                    type:data.type
+                }
+                this.changeCredit(data2)
                 this.cancelOrder(orderId)
+                this.getCreditHistories(this.userId)
             },
             cancelCancelOrder() {
 
