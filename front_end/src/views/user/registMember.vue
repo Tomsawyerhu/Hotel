@@ -21,6 +21,7 @@
             </a-form-item>
             <a-form-item label="填写生日" v-bind="formItemLayout" v-if="type==1">
                 <a-input
+                        placeholder="格式为xxxx-xx-xx"
                         v-decorator="['birthday', { rules: [{ required: true, message: '请选择出生日期' }] }]"
                 />
             </a-form-item>
