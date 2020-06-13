@@ -26,4 +26,6 @@ public interface HotelMapper {
 
     void deLink(int hotelId);
 
+    void updateHotelRate(int hotelId,double rate);
+
 }

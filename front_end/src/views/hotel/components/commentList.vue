@@ -1,21 +1,24 @@
 <template>
     <div>
-        <div v-if="isEmpty(hotelCommentList)" class="head-message">暂无留言内容</div>
-        <div v-else class="head-message">留言内容</div>
+        <div v-if="isEmpty(this.hotelCommentList)" class="head-message">暂无留言内容</div>
+        <div v-else>
+            <div class="head-message">留言内容</div>
+            <comment v-for="(item,index) in this.hotelCommentList" :comment-item="item" :key="index"></comment>
+        </div>
     </div>
 </template>
 
 <script>
     import {mapActions, mapGetters, mapMutations} from "vuex";
+    import Comment from "./comment";
 
     export default {
         name: "commentList",
         components: {
-
+            Comment
         },
         data() {
             return {
-
             }
         },
         computed: {
@@ -26,7 +29,6 @@
         },
         mounted() {
             this.getHotelCommentList(this.currentHotelId)
-            console.log(this.currentHotelId+"in commentList.vue")
         },
         methods: {
             ...mapMutations([
@@ -36,7 +38,6 @@
                 'getHotelCommentList',
             ]),
             isEmpty(data){
-                console.log(data+"in isEmpty")
                 return data.length===0
             },
         }

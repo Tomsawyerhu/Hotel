@@ -30,6 +30,10 @@
         delete from Hotel where id=#{hotelId}
     </delete>
 
+    <update id="updateHotelRate">
+        update Hotel set rate=#{rate} where id=#{hotelId}
+    </update>
+
 
     <resultMap id="Hotel" type="com.example.hotel.po.Hotel">
         <id column="id" property="id"></id>

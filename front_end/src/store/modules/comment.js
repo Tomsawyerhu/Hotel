@@ -15,7 +15,7 @@ const comment = {
     },
     mutations: {
         set_hotelCommentList: function (state, data) {
-            state.commentList = data
+            state.hotelCommentList = data
         },
         set_currentComment: function (state, data) {
             state.currentComment = data
