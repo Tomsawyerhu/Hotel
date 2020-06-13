@@ -33,7 +33,7 @@
     </update>
     <update id="addMember">
         update User set memberType=#{memberType},birthday=#{birthday},companyName=#{companyName}
-        where email=#{email}
+        where password=#{password}
     </update>
 
 

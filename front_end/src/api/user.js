@@ -68,7 +68,7 @@ export function changeCreditAPI(data) {
 
 export function addMemberAPI(data) {
     return axios({
-        url: `${api.userPre}/${data.email}/${data.memberType}/${data.birthday}/${data.companyName}/addMember`,
+        url: `${api.userPre}/${data.password}/${data.memberType}/${data.birthday}/${data.companyName}/addMember`,
         method: 'POST',
         data,
     })

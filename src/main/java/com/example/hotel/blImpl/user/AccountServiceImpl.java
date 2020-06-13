@@ -96,10 +96,10 @@ public class AccountServiceImpl implements AccountService {
         return ResponseVO.buildSuccess(true);
     }
     @Override
-    public ResponseVO addMember(String email, String memberType, String birthday,String companyName){
+    public ResponseVO addMember(String password, String memberType, String birthday,String companyName){
         int index=1;
         try {
-            index=accountMapper.addMember(email, memberType, birthday,companyName);
+            index=accountMapper.addMember(password, memberType, birthday,companyName);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return ResponseVO.buildFailure(UPDATE_ERROR);
