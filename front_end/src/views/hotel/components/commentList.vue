@@ -38,6 +38,9 @@
                 'getHotelCommentList',
             ]),
             isEmpty(data){
+                console.log("in isEmpty")
+                console.log(data)
+                console.log(data[0])
                 return data.length===0
             },
         }

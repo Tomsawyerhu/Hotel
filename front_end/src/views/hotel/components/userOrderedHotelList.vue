@@ -29,7 +29,9 @@
             }
         },
         async mounted() {
-            await this.getUserOrderedHotels()
+            await this.getUserOrderedHotels().then(()=>{
+                this.set_hotelListLoading(false)
+            })
         },
         computed: {
             ...mapGetters([

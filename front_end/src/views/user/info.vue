@@ -105,7 +105,7 @@
                         <span>{{ userInfo.memberType }}</span>
                     </a-form-item>
                     <a-form-item label="会员生日" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }" v-if="userInfo.birthday!=null&&userInfo.birthday!=='1900-01-01T00:00:00.000+0800'">
-                        <span>{{ userInfo.birthday }}</span>
+                        <span>{{ userInfo.birthday.substr(0,10) }}</span>
                     </a-form-item>
                     <a-form-item label="公司名称" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }" v-if=" userInfo.companyName!=='未注册'&&userInfo.companyName!==null">
                         <span>{{ userInfo.companyName }}</span>
