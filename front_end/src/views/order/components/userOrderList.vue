@@ -165,7 +165,7 @@
                     type:-1,
                     message:"您撤销订单，信用减少两点"
                 }
-                this.addCreditHistory(data).then(this.getCreditHistories(this.userId))
+                this.addCreditHistory(data).then(()=>this.getCreditHistories(this.userId))
                 const data2={
                     id:data.userId,
                     amount:data.value,
