@@ -1,34 +1,39 @@
-import { axios } from '@/utils/request'
+import {axios} from '@/utils/request'
 
 const api = {
     userPre: '/api/user'
 }
-export function loginAPI(data){
+
+export function loginAPI(data) {
     return axios({
-        url:`${api.userPre}/login`,
+        url: `${api.userPre}/login`,
         method: 'POST',
         data
     })
 }
-export function registerAPI(data){
+
+export function registerAPI(data) {
     return axios({
         url: `${api.userPre}/register`,
         method: 'POST',
         data
     })
 }
-export function getUserInfoAPI(id){
+
+export function getUserInfoAPI(id) {
     return axios({
         url: `${api.userPre}/${id}/getUserInfo`,
         method: 'GET'
     })
 }
-export function getUserInfoByEmailAPI(email){
+
+export function getUserInfoByEmailAPI(email) {
     return axios({
         url: `${api.userPre}/${email}/getUserInfoByEmail`,
         method: 'GET'
     })
 }
+
 export function updateUserInfoAPI(data) {
     return axios({
         url: `${api.userPre}/${data.id}/userInfo/update`,
@@ -37,7 +42,7 @@ export function updateUserInfoAPI(data) {
     })
 }
 
-export function modifyPasswordAPI(data){
+export function modifyPasswordAPI(data) {
     return axios({
         url: `${api.userPre}/${data.id}/userInfo/modifyPassword`,
         method: 'POST',
@@ -45,13 +50,14 @@ export function modifyPasswordAPI(data){
     })
 }
 
-export function getCreditHistoriesAPI(data){
+export function getCreditHistoriesAPI(data) {
     return axios({
         url: `${api.userPre}/${data}/getCreditHistories`,
         method: 'GET'
     })
 }
-export function addCreditHistoryAPI(data){
+
+export function addCreditHistoryAPI(data) {
     return axios({
         url: `${api.userPre}/addCreditHistory`,
         method: 'POST',
@@ -73,5 +79,6 @@ export function addMemberAPI(data) {
         data,
     })
 }
+
 
 

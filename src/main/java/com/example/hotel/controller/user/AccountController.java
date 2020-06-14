@@ -58,14 +58,6 @@ public class AccountController {
 
     }
 
-
-    @PostMapping("/{password}/{memberType}/{birthday}/{companyName}/addMember")
-    public ResponseVO addMember(@PathVariable String password,@PathVariable String memberType,@PathVariable String birthday,@PathVariable String companyName) {
-        return accountService.addMember(password, memberType, birthday,companyName);
-
-    }
-
-
     @PostMapping("/{id}/userInfo/modifyPassword")
     public ResponseVO modifyPassword(@RequestBody UserInfoVO userInfoVO, @PathVariable int id) {
         return accountService.modifyPassword(id, userInfoVO.getPassword());
@@ -94,4 +86,11 @@ public class AccountController {
         return creditService.changeCredit(id,amount,type);
     }
 
+    @PostMapping("/{password}/{memberType}/{birthday}/{companyName}/addMember")
+    public ResponseVO addMember(@PathVariable String password,@PathVariable String memberType,@PathVariable String birthday,@PathVariable String companyName) {
+        return accountService.addMember(password, memberType, birthday,companyName);
+
+    }
+
 }
+

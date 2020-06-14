@@ -1,10 +1,10 @@
 import router, {resetRouter} from '@/router'
 import {removeToken, setToken} from '@/utils/auth'
 import {message} from 'ant-design-vue'
-import {getUserInfoAPI, loginAPI, registerAPI, updateUserInfoAPI,addMemberAPI} from '@/api/user'
+import {getUserInfoAPI, loginAPI, registerAPI, updateUserInfoAPI} from '@/api/user'
 
 import {cancelOrderAPI, getOrderDetailsAPI, getUserOrdersAPI,} from '@/api/order'
-import {modifyPasswordAPI} from '@/api/user';
+import {modifyPasswordAPI,getCreditHistoriesAPI,addCreditHistoryAPI,getUserInfoByEmailAPI,changeCreditAPI,addMemberAPI} from '@/api/user';
 import {getUserOrderedHotelsAPI} from '@/api/hotel';
 
 const getDefaultState = () => {
@@ -13,6 +13,8 @@ const getDefaultState = () => {
         userInfo: {},
         userHotelList: [],
         userOrderList: [],
+        creditList:[],
+        currentAccountId:'',
         registMemberVisible: false,
         registMemberParams: {
             password: '',
@@ -43,7 +45,7 @@ const user = {
         set_userId: (state, data) => {
             state.userId = data
         },
-        set_user_hotel_id:(state, data) => {
+        set_user_hotel_id: (state, data) => {
             state.user_hotel_id = data
         },
         set_userInfo: (state, data) => {
@@ -61,17 +63,25 @@ const user = {
         get_userInfo: (state, data) => {
             return state.userInfo
         },
-        set_registMemberVisible: function(state, data) {
+        set_creditList: (state, data) => {
+            state.creditList = data
+        },
+        set_currentAccountId: (state, data) => {
+            state.currentAccountId = data
+        },
+        set_registMemberVisible: function (state, data) {
             state.registMemberVisible = data
         },
-        set_registMemberParams: function(state, data) {
+        set_registMemberParams: function (state, data) {
             state.registMemberParams = {
                 ...state.registMemberParams,
                 ...data,
             }
+            /*set_currentCreditInfo:(state,data)=>{
+                return state.currentCreditInfo
+            },*/
         },
     },
-
     actions: {
         login: async ({dispatch, commit, state}, userData) => {
             const res = await loginAPI(userData)
@@ -98,6 +108,36 @@ const user = {
             if (res) {
                 message.success('注册成功')
             }
+        },
+        getUserInfoByEmail:async ({commit}, data) => {
+            return new Promise((resolve, reject) => {
+                getUserInfoByEmailAPI(data).then(response => {
+                    const data = response
+                    console.log(data)
+                    if (!data) {
+                        reject('失败')
+                    }
+                    commit('set_currentAccountId', data.id)
+
+                    resolve(data)
+                }).catch(error => {
+                    reject(error)
+                })
+            })
+        },
+        getUserInfoById:async ({commit}, data) => {
+            return new Promise((resolve, reject) => {
+                getUserInfoAPI(data).then(response => {
+                    const data = response
+                    if (!data) {
+                        reject('失败')
+                    }
+                    commit('set_targetAccount', data)
+                    resolve(data)
+                }).catch(error => {
+                    reject(error)
+                })
+            })
         },
         getUserInfo({state, commit}) {
             return new Promise((resolve, reject) => {
@@ -179,6 +219,29 @@ const user = {
                 resolve()
             })
         },
+        getCreditHistories: async ({state, commit},data) => {
+            const res = await getCreditHistoriesAPI(data)
+            if (res) {
+                console.log(res)
+                commit('set_creditList', res)
+            }
+        },
+        addCreditHistory: async ({state, commit,dispatch},data) => {
+            const res = await addCreditHistoryAPI(data)
+            if (res) {
+                console.log(res)
+                message.success("更新信用记录成功")
+                dispatch('getCreditHistories',this.userId)
+            }
+        },
+        changeCredit:async ({state, commit},data) => {
+            const res = await changeCreditAPI(data)
+            if (res) {
+                console.log(res)
+                message.success("更新信用值成功")
+
+            }
+        },
         addMember: async({ state, dispatch, commit }) => {
             const res = await addMemberAPI(state.registMemberParams)
             if(res){
@@ -195,7 +258,7 @@ const user = {
                 message.error('添加失败,账号密码错误')
             }
         },
+
     }
 }
-
 export default user

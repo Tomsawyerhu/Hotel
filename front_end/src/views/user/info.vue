@@ -101,21 +101,29 @@
                             type="error"
                             showIcon
                             closable></a-alert>
-                    <a-form-item label="会员类型" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }" v-if="userInfo.memberType!=='未注册'&&userInfo.memberType!==null">
+                    <a-form-item label="会员类型" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }"
+                                 v-if="userInfo.memberType!=='未注册'&&userInfo.memberType!==null">
                         <span>{{ userInfo.memberType }}</span>
                     </a-form-item>
-                    <a-form-item label="会员生日" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }" v-if="userInfo.birthday!=null&&userInfo.birthday!=='1900-01-01T00:00:00.000+0800'">
+                    <a-form-item label="会员生日" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }"
+                                 v-if="userInfo.birthday!=null&&userInfo.birthday!=='1900-01-01T00:00:00.000+0800'">
                         <span>{{ userInfo.birthday.substr(0,10) }}</span>
                     </a-form-item>
-                    <a-form-item label="公司名称" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }" v-if=" userInfo.companyName!=='未注册'&&userInfo.companyName!==null">
+                    <a-form-item label="公司名称" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }"
+                                 v-if=" userInfo.companyName!=='未注册'&&userInfo.companyName!==null">
                         <span>{{ userInfo.companyName }}</span>
                     </a-form-item>
-                    <a-form-item :wrapper-col="{ span: 8, offset: 4 }" >
-                        <a-button type="primary" @click="registMember" v-if="Number(userInfo.credit)>=60 && userInfo.memberType==null">
+                    <a-form-item :wrapper-col="{ span: 8, offset: 4 }">
+                        <a-button type="primary" @click="registMember"
+                                  v-if="Number(userInfo.credit)>=60 && userInfo.memberType==null">
                             会员注册
                         </a-button>
                     </a-form-item>
                 </a-form>
+            </a-tab-pane>
+            <a-tab-pane tab="信息记录" key="5" v-if="userInfo.userType=='Client'">
+                <CreditInfo :creditList="creditList">
+                </CreditInfo>
             </a-tab-pane>
         </a-tabs>
         <registMember></registMember>
@@ -128,6 +136,8 @@
     import UserOrderedHotelList from "../hotel/components/userOrderedHotelList";
     import registMember from "./registMember";
     import RegistMember from "./registMember";
+    import CreditInfo from "./creditInfo"
+    import registMember from "./registMember";
 
     export default {
         name: 'info',
@@ -148,37 +158,47 @@
             RegistMember,
             OrderList,
             UserOrderedHotelList,
+            CreditInfo,
+            registMember
         },
         computed: {
-            ...mapGetters([
-                'userId',
-                'userInfo',
-                'userOrderList',
-                'registMemberVisible',
-            ]),
+            ...
+                mapGetters([
+                    'userId',
+                    'userInfo',
+                    'userOrderList',
+                    'creditList',
+                    'registMemberVisible'
 
-        },
+                ]),
+
+        }
+        ,
         async mounted() {
             await this.getUserInfo()
             await this.getUserOrders()
-        },
+        }
+        ,
         methods: {
-            ...mapMutations(['set_currentOrderId','set_registMemberVisible']),
-            ...mapActions([
-                'getUserInfo',
-                'getUserOrders',
-                'updateUserInfo',
-                'cancelOrder',
-                'getOrderDetails',
-                'modifyPassword'
-            ]),
+            ...
+                mapMutations(['set_currentOrderId', 'set_registMemberVisible']),
+            ...
+                mapActions([
+                    'getUserInfo',
+                    'getUserOrders',
+                    'updateUserInfo',
+                    'cancelOrder',
+                    'getOrderDetails',
+                    'modifyPassword',
+                    'getCreditHistories',
+                ]),
             saveModify() {
                 this.form.validateFields((err, values) => {
                     if (!err) {
                         const data = {
                             userName: this.form.getFieldValue('userName'),
                             phoneNumber: this.form.getFieldValue('phoneNumber'),
-                            password: this.$md5(this.form.getFieldValue('password')).toString().substring(0,10)
+                            password: this.$md5(this.form.getFieldValue('password')).toString().substring(0, 10)
                         }
                         this.updateUserInfo(data).then(() => {
                             this.modify = false
@@ -187,7 +207,8 @@
                         })
                     }
                 });
-            },
+            }
+            ,
             modifyInfo() {
                 setTimeout(() => {
                     this.form.setFieldsValue({
@@ -198,18 +219,20 @@
                 this.modify = true
                 this.modifyButtonVisible = false
                 this.modifyPasswordButtonVisible = false
-            },
+            }
+            ,
             modifyUserPassword() {
                 this.modifyPasswordVisible = true
                 this.modifyPasswordButtonVisible = false
                 this.modifyButtonVisible = false
-            },
+            }
+            ,
             savePassword() {
 
                 this.form.validateFields((err, values) => {
                     if (!err) {
                         const data = {
-                            password: this.$md5(this.form.getFieldValue('newPassword')).toString().substring(0,10)
+                            password: this.$md5(this.form.getFieldValue('newPassword')).toString().substring(0, 10)
                         }
                         console.log("s")
                         this.modifyPassword(data).then(() => {
@@ -219,23 +242,28 @@
                         })
                     }
                 });
-            },
+            }
+            ,
             cancelModifyPassword() {
                 this.modifyPasswordVisible = false
                 this.modifyPasswordButtonVisible = true
                 this.modifyButtonVisible = true
-            },
+            }
+            ,
             cancelModify() {
                 this.modify = false
                 this.modifyButtonVisible = true
                 this.modifyPasswordButtonVisible = true
-            },
+            }
+            ,
             confirmCancelOrder(orderId) {
                 this.cancelOrder(orderId)
-            },
+            }
+            ,
             cancelCancelOrder() {
 
-            },
+            }
+            ,
             // handler
             handleUsernameOrEmail(rule, value, callback) {
                 const {state} = this
@@ -246,7 +274,8 @@
                     callback(new Error('请输入有效用户名或邮箱'))
                 }
                 callback()
-            },
+            }
+            ,
             checkEmail(rule, value, callback) {
                 const re = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/
                 if (re.test(value)) {
@@ -255,13 +284,15 @@
                     callback(new Error('请输入有效邮箱'));
                 }
                 callback()
-            },
+            }
+            ,
             handlePassword(rule, value, callback) {
                 if (value.length < 6) {
                     callback(new Error('密码长度至少6位'))
                 }
                 callback()
-            },
+            }
+            ,
             handlePasswordCheck(rule, value, callback) {
                 const password = this.form.getFieldValue('newPassword')
                 console.log(password)
@@ -272,10 +303,12 @@
                     callback(new Error('两次密码不一致'))
                 }
                 callback()
-            },
+            }
+            ,
             registMember() {
                 this.set_registMemberVisible(true)
-            },
+            }
+            ,
 
         }
     }

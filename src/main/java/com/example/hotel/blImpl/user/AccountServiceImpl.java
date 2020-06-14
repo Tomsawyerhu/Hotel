@@ -95,18 +95,6 @@ public class AccountServiceImpl implements AccountService {
         if(index<=0){return ResponseVO.buildFailure(UPDATE_ERROR);}
         return ResponseVO.buildSuccess(true);
     }
-    @Override
-    public ResponseVO addMember(String password, String memberType, String birthday,String companyName){
-        int index=1;
-        try {
-            index=accountMapper.addMember(password, memberType, birthday,companyName);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return ResponseVO.buildFailure(UPDATE_ERROR);
-        }
-        if(index<=0){return ResponseVO.buildFailure(UPDATE_ERROR);}
-        return ResponseVO.buildSuccess(true);
-    }
 
     public ResponseVO modifyPassword(int id, String password) {
         int index=1;
@@ -180,4 +168,18 @@ public class AccountServiceImpl implements AccountService {
         }
         return ResponseVO.buildSuccess(true);
     }
+
+    @Override
+    public ResponseVO addMember(String password, String memberType, String birthday,String companyName){
+        int index=1;
+        try {
+            index=accountMapper.addMember(password, memberType, birthday,companyName);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseVO.buildFailure(UPDATE_ERROR);
+        }
+        if(index<=0){return ResponseVO.buildFailure(UPDATE_ERROR);}
+        return ResponseVO.buildSuccess(true);
+    }
 }
+

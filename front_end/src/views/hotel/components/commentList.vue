@@ -3,7 +3,9 @@
         <div v-if="isEmpty(this.hotelCommentList)" class="head-message">暂无留言内容</div>
         <div v-else>
             <div class="head-message">留言内容</div>
-            <comment v-for="item1 in this.hotelCommentList" :comment-item="item1" :key="item1.userName"></comment>
+            <a-list
+                    :datasource="hotelCommentList"
+            ></a-list>
         </div>
     </div>
 </template>
