@@ -257,7 +257,7 @@ DROP TABLE IF EXISTS `CreditHistory`;
 CREATE TABLE `CreditHistory`(
     `id`   int(11) NOT NULL AUTO_INCREMENT,
     `user_id`   int(11) NOT NULL ,
-    `time` date DEFAULT NULL,
+    `time` varchar(255) DEFAULT NULL,
     `value` double(255,0) NOT NULL ,
     `type` int(11) NOT NULL ,
     `message` varchar(255),

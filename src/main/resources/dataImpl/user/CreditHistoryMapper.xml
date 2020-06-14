@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.hotel.data.user.CreditHistoryMapper">
-    <insert id="insertCreditHistory" parameterType="com.example.hotel.data.user.CreditHistoryMapper" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertCreditHistory" parameterType="com.example.hotel.po.CreditHistory" useGeneratedKeys="true" keyProperty="id">
         insert into CreditHistory(user_id,time,value,type,message)
         values (#{userId},#{time},#{value},#{type},#{message})
     </insert>

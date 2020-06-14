@@ -31,9 +31,6 @@ public class CreditServiceImpl implements CreditService {
         for(CreditHistory creditHistory:list){
             CreditHistoryOutVO vo=new CreditHistoryOutVO();
             BeanUtils.copyProperties(creditHistory,vo);
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String dateString = formatter.format(creditHistory.getTime());
-            vo.setTime(dateString);
             voList.add(vo);
         }
         return ResponseVO.buildSuccess(voList);
@@ -46,7 +43,11 @@ public class CreditServiceImpl implements CreditService {
         creditHistory.setType(type);
         creditHistory.setValue(value);
         creditHistory.setMessage(message);
-        creditHistory.setTime(new Date());
+        Date currentTime = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateString = formatter.format(currentTime);
+        //System.out.println(dateString);
+        creditHistory.setTime(dateString);
 
         creditHistoryMapper.insertCreditHistory(creditHistory);
         return ResponseVO.buildSuccess();

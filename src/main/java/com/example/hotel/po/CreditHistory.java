@@ -5,7 +5,7 @@ import java.util.Date;
 public class CreditHistory {
     private int id;
     private int userId;
-    private Date time;
+    private String time;
     private double value;
     private int  type;
     private String message;
@@ -29,11 +29,11 @@ public class CreditHistory {
         this.userId = userId;
     }
 
-    public Date getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(String time) {
         this.time = time;
     }
 
