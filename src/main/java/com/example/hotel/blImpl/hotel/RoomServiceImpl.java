@@ -7,6 +7,7 @@ import com.example.hotel.vo.ResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -80,7 +81,12 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public int getRoomCurNum(Integer hotelId, String roomType) {
-        return roomMapper.getRoomCurNum(hotelId, roomType);
+        HashMap<String,String> reflection=new HashMap<String, String>();
+        reflection.put("BigBed","大床房");
+        reflection.put("DoubleBed","双床房");
+        reflection.put("Family","家庭房");
+        System.out.println(roomMapper.getRoomCurNum(hotelId,  reflection.get(roomType)));
+        return roomMapper.getRoomCurNum(hotelId,  reflection.get(roomType));
     }
 
     @Override

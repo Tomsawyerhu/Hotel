@@ -23,6 +23,7 @@ public class Order {
     private String phoneNumber;
     private String orderState;
     private boolean hasCommented;
+    private String userName;
 
 
     public Integer getId() {
@@ -153,5 +154,11 @@ public class Order {
         this.hasCommented = hasCommented;
     }
 
+    public String getUserName() {
+        return userName;
+    }
 
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 }
