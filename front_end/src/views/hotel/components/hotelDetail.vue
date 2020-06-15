@@ -33,7 +33,7 @@
                         </div>
                         <div class="items" v-if="currentHotelInfo.rate">
                             <span class="label">评分:</span>
-                            <span class="value">{{ currentHotelInfo.rate }}</span>
+                            <span class="value">{{ currentHotelInfo.rate.toFixed(1) }}</span>
                         </div>
                         <div class="items" v-if="currentHotelInfo.hotelStar">
                             <span class="label">星级:</span>

@@ -17,7 +17,7 @@
     <a-tooltip :title="hotel.title" placement="top">
       <a-card-meta :title="hotel.name">
       <template slot="description">
-        <a-rate style="font-size: 15px" :value="hotel.rate" disabled allowHalf/> {{hotel.rate}}分
+        <a-rate style="font-size: 15px" :value="hotel.rate" disabled allowHalf/> {{hotel.rate.toFixed(1)}}分
       </template>
     </a-card-meta>
     </a-tooltip>

@@ -40,7 +40,7 @@
                             </a-input>
                         </a-form-item>
                         <a-form-item label="评分" class="items">
-                            <span class="value">{{ currentHotelInfo.rate.toFixed(2)}}</span>
+                            <span class="value">{{ currentHotelInfo.rate.toFixed(1)}}</span>
                         </a-form-item>
                         <a-form-item label="星级" class="items">
                             <a-rate style="font-size: 15px" :value="currentHotelInfo.rate" disabled allowHalf/>
@@ -177,6 +177,9 @@
 
                         </order-details>
                     </a-tab-pane>
+                    <a-tab-pane tab="住客评论" key="3">
+                        <comment-list></comment-list>
+                    </a-tab-pane>
                 </a-tabs>
 
 
@@ -190,6 +193,7 @@
     import RoomList from './components/roomList'
     import Coupon from "./components/coupon"
     import OrderDetails from "../order/components/orderDetail";
+    import CommentList from "../hotel/components/commentList";
 
     const columns2 = [
         {
@@ -242,6 +246,7 @@
     export default {
         name: 'hotelDetailEdit',
         components: {
+            CommentList,
             OrderDetails,
             Coupon,
             RoomList,
