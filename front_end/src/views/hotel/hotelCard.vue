@@ -1,13 +1,19 @@
 <template>
   <a-card hoverable class="hotelCard ant-col-xs-7 ant-col-lg-5 ant-col-xxl-3">
     <img
+            alt="example"
+            :src="hotel.pictureUrl"
+            slot="cover"
+            referrerPolicy="no-referrer"
+            v-if="hotel.pictureUrl!=null"
+    />
+    <img
       alt="example"
-      :src="hotel.pictureUrl"
+      src="@/assets/cover.jpeg"
       slot="cover"
       referrerPolicy="no-referrer"
-      v-if="hotel.pictureUrl!=null"
+      v-else
     />
-    <p v-else>该酒店还未设置照片</p>
     <a-tooltip :title="hotel.title" placement="top">
       <a-card-meta :title="hotel.name">
       <template slot="description">

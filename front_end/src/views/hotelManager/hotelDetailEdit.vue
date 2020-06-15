@@ -3,17 +3,10 @@
         <a-layout-content>
             <div class="hotelDetailCard">
                 <h1>
-                    {{ currentHotelInfo}}
+                    {{ currentHotelInfo.title}}
                 </h1>
                 <div class="hotel-info">
-                    <a-card style="height:1px; width: 1024px" v-if="modify">
-                        <p>
-                            <a-textarea
-                                    placeholder="请填写酒店照片url"
-                                    v-model="value"></a-textarea>
-                        </p>
-                    </a-card>
-                    <a-card style="width: 240px" v-else-if="!modify">
+                    <a-card style="width: 240px" v-if="!modify">
                         <img
                                 alt="example"
                                 :src="currentHotelInfo.pictureUrl"
@@ -21,9 +14,13 @@
                                 referrerPolicy="no-referrer"
                                 v-if="currentHotelInfo.pictureUrl!=null"
                         />
-                        <p v-else>
-                            还未设置照片
-                        </p>
+                        <img
+                        alt="example"
+                        src="@/assets/cover.jpeg"
+                        slot="cover"
+                        referrerPolicy="no-referrer"
+                        v-else
+                        />
                     </a-card>
                     <a-form :form="form" class="info">
                         <a-form-item label="酒店名称" class="items">
@@ -53,6 +50,13 @@
                             <a-input
                                     placeholder="请填写酒店简介"
                                     v-decorator="['hotelDescription', { rules: [{ required: true, message: '请输入酒店简介' }] }]"
+                                    v-if="modify" >
+                            </a-input>
+                        </a-form-item>
+                        <a-form-item label="酒店照片" class="items">
+                            <a-input
+                                    placeholder="请填写酒店照片url"
+                                    v-model="value"
                                     v-if="modify" >
                             </a-input>
                         </a-form-item>
