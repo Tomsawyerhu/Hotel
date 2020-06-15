@@ -4,7 +4,7 @@
             <a-layout-content style="min-width: 800px">
                 <a-spin :spinning="hotelListLoading">
                     <div class="card-wrapper">
-                        <HotelCard :hotel="item" v-for="item in hotelList" :key="item.index" @click.native="jumpToDetails(item.id)"></HotelCard>
+                        <HotelCard :hotel="item" v-for="item in hotelList" :key="item.index" @click.native="jumpToDetails(item.id)" ></HotelCard>
                         <div v-for="item in emptyBox" :key="item.name" class="emptyBox ant-col-xs-7 ant-col-lg-5 ant-col-xxl-3">
                         </div>
 
