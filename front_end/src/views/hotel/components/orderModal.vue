@@ -193,7 +193,8 @@
                 'currentHotelId',
                 'currentHotelInfo',
                 'userId',
-                'orderMatchCouponList'
+                'orderMatchCouponList',
+                'userInfo'
             ]),
 
         },

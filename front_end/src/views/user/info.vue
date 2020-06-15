@@ -134,10 +134,8 @@
     import orderDetail from '../order/components/orderDetail'
     import OrderList from "../order/components/userOrderList"
     import UserOrderedHotelList from "../hotel/components/userOrderedHotelList";
-    import registMember from "./registMember";
     import RegistMember from "./registMember";
     import CreditInfo from "./creditInfo"
-    import registMember from "./registMember";
 
     export default {
         name: 'info',
@@ -159,7 +157,6 @@
             OrderList,
             UserOrderedHotelList,
             CreditInfo,
-            registMember
         },
         computed: {
             ...

@@ -7,9 +7,22 @@
 
     <insert id="insertComment" parameterType="com.example.hotel.po.Comment"
             useGeneratedKeys="true" keyProperty="id">
-        insert into Comment(hotelId,orderId,rate,content,roomNum,roomType,commentDate)
-        values(#{hotelId},#{orderId},#{rate},#{content},#{roomNum},#{roomType},#{commentDate})
+        insert into Comment(hotelId,orderId,rate,content,roomNum,roomType,commentDate,userName,likeNum,dislikeNum)
+        values(#{hotelId},#{orderId},#{rate},#{content},#{roomNum},#{roomType},#{commentDate},#{userName},#{likeNum},#{dislikeNum})
     </insert>
+
+    <update id="updateCommentLikeNum">
+        update Comment set likeNum=likeNum+#{amount} where id=#{commentId}
+    </update>
+
+    <update id="updateCommentDislikeNum">
+        update Comment set dislikeNum=dislikeNum+#{amount} where id=#{commentId}
+    </update>
+
+    <select id="selectComment" resultMap="Comment">
+        select * from Comment where id=#{commentId}
+    </select>
+
 
 
     <resultMap id="Comment" type="com.example.hotel.po.Comment">
@@ -21,5 +34,8 @@
         <result column="roomNum" property="roomNum"></result>
         <result column="rate" property="rate"></result>
         <result column="content" property="content"></result>
+        <result column="userName" property="userName"></result>
+        <result column="likeNum" property="likeNum"></result>
+        <result column="dislikeNum" property="dislikeNum"></result>
     </resultMap>
 </mapper>

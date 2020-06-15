@@ -118,9 +118,9 @@
                         <span>￥{{ text }}</span>
                     </span>
                             <span slot="roomType" slot-scope="text">
-                        <span v-if="text == '大床房'">大床房</span>
-                        <span v-if="text == '双床房'">双床房</span>
-                        <span v-if="text == '家庭房'">家庭房</span>
+                        <span v-if="text == 'BigBed'">大床房</span>
+                        <span v-if="text == 'DoubleBed'">双床房</span>
+                        <span v-if="text == 'Family'">家庭房</span>
                     </span>
                             <span slot="action" slot-scope="record">
                         <a-button type="primary" size="small" @click="showOrderDetails(record.id)">订单详情</a-button>

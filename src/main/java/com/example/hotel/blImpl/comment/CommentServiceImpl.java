@@ -7,6 +7,7 @@ import com.example.hotel.data.hotel.HotelMapper;
 import com.example.hotel.po.Comment;
 import com.example.hotel.vo.CommentVO;
 import com.example.hotel.vo.OrderVO;
+import com.example.hotel.vo.ResponseVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,18 +50,47 @@ public class CommentServiceImpl implements CommentService {
         comment.setCommentDate(now);
         int res = commentMapper.insertComment(comment);
         //设置订单为已评价
-        orderService.setOrderHasCommented(comment.getOrderId(),true);
+        orderService.setOrderHasCommented(comment.getOrderId(), true);
         //获取该酒店的所有评论，再重新计算酒店评分
-        List<Comment> hotelCommentList= commentMapper.selectHotelCommentList(comment.getHotelId());
+        List<Comment> hotelCommentList = commentMapper.selectHotelCommentList(comment.getHotelId());
         double totalScore = 0;
         double rate;
-        for(Comment comment1:hotelCommentList){
+        for (Comment comment1 : hotelCommentList) {
             totalScore += comment1.getRate();
         }
-        rate = totalScore/hotelCommentList.size();
-        hotelMapper.updateHotelRate(comment.getHotelId(),rate);
+        rate = totalScore / hotelCommentList.size();
+        hotelMapper.updateHotelRate(comment.getHotelId(), rate);
         //设置id
         commentVO.setId(res);
         return commentVO;
+    }
+
+    @Override
+    public ResponseVO addCommentLikeNum(int commentId) {
+        commentMapper.updateCommentLikeNum(commentId, 1);
+        return ResponseVO.buildSuccess();
+    }
+
+    @Override
+    public ResponseVO addCommentDislikeNum(int commentId) {
+        commentMapper.updateCommentDislikeNum(commentId, 1);
+        return ResponseVO.buildSuccess();
+    }
+
+    @Override
+    public ResponseVO subCommentLikeNum(int commentId) {
+        commentMapper.updateCommentLikeNum(commentId, -1);
+        return ResponseVO.buildSuccess();
+    }
+
+    @Override
+    public ResponseVO subCommentDislikeNum(int commentId) {
+        commentMapper.updateCommentDislikeNum(commentId, -1);
+        return ResponseVO.buildSuccess();
+    }
+
+    @Override
+    public ResponseVO getCommentById(int commentId) {
+        return ResponseVO.buildSuccess(commentMapper.selectComment(commentId));
     }
 }

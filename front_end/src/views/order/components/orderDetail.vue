@@ -30,17 +30,25 @@
                 </a-button>
             </a-descriptions-item>
 
-            <a-descriptions-item label="订单内容" span="2">
-                登记人数：{{currentOrderInfo.peopleNum}}<br/>
-                预定房间：{{currentOrderInfo.roomType}}/{{currentOrderInfo.roomNum}}间<br/>
-                有无儿童：{{Number(currentOrderInfo.haveChild)===0?'有':'无'}}<br/>
+            <a-descriptions-item label="登记人数">
+                {{currentOrderInfo.peopleNum}}
+            </a-descriptions-item>
+            <a-descriptions-item label="预订房间">
+                {{currentOrderInfo.roomType}}/{{currentOrderInfo.roomNum}}间
+            </a-descriptions-item>
+            <a-descriptions-item label="有无儿童">
+                {{Number(currentOrderInfo.haveChild)===0?'有':'无'}}
+            </a-descriptions-item>
+            <a-descriptions-item label="预留手机号">
                 预留手机号:{{currentOrderInfo.phoneNumber}}
             </a-descriptions-item>
-
+            <a-descriptions-item >
+                <a-button @click="back" size="small" type="primary" style="width: 70px" block>
+                    返回
+                    <a-icon type="backward" theme="filled" />
+                </a-button>
+            </a-descriptions-item>
         </a-descriptions>
-        <a-button @click="back" type="primary" block>
-            返回
-        </a-button>
         <a-modal
                 :visible="visible"
                 title="工作人员功能"

@@ -30,21 +30,26 @@
                 {{ text }}
             </a-tag>
             <span slot="action" slot-scope="record">
-                        <a-button type="primary" size="small" @click="showOrderDetails(record.id)">查看详情</a-button>
+                        <a-button type="primary" size="small" @click="showOrderDetails(record.id)">查看详情
+                            <a-icon type="zoom-in" />
+                        </a-button>
                         <a-divider type="vertical" v-if="record.orderState == '已预订'"></a-divider>
                         <a-popconfirm
-                                title="你确定撤销该笔订单吗？"
+                                title="你确定撤销该笔订单吗？距订单执行前6h撤销会扣除您的信用值"
                                 @confirm="confirmCancelOrder(record.id)"
                                 @cancel="cancelCancelOrder"
                                 okText="确定"
                                 cancelText="取消"
                                 v-if="record.orderState == '已预订'"
                         >
-                            <a-button type="danger" size="small">撤销</a-button>
+                            <a-button type="danger" size="small">撤销订单
+                            <a-icon type="delete" /></a-button>
                         </a-popconfirm>
                         <a-divider type="vertical" v-if="record.orderState == '已执行'"></a-divider>
                         <a-button type="primary" size="small" @click="startComment(record.id)"
-                                  v-if="record.orderState == '已执行'" :disabled="hasCommented(record.id)">评价订单</a-button>
+                                  v-if="record.orderState == '已执行'" >评价订单
+                            <a-icon type="edit" />
+                        </a-button>
             </span>
         </a-table>
         <order-detail v-if="showDetail" :back="setShowDetailFalse">
@@ -56,8 +61,9 @@
 
 <script>
     import {mapActions, mapGetters, mapMutations} from 'vuex'
-    import orderDetail from './orderDetail'
+    import orderDetail from './userOrderDetail'
     import AddComment from './addComment'
+    import {message} from 'ant-design-vue'
 
     const columns = [
         {
@@ -135,6 +141,7 @@
             ...mapGetters([
                 'userId',
                 'userOrderList',
+                'currentOrderInfo',
             ]),
 
         },
@@ -186,8 +193,13 @@
             },
             startComment(orderId) {
                 this.set_currentOrderId(orderId)
-                this.getOrderDetails()
-                this.set_addCommentVisible(true)
+                this.getOrderDetails().then(()=>{
+                    if(this.currentOrderInfo.hasCommented===true){
+                        message.error("您已经评价过该订单，请勿重复评价")
+                    }else{
+                        this.set_addCommentVisible(true)
+                    }
+                })
             },
             hasCommented(orderId) {
                 //获取promise对象里的值

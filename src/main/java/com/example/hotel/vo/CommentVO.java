@@ -34,7 +34,16 @@ public class CommentVO {
     /**
      * 顾客预订的房间数
      */
+    private String userName;
     private int roomNum;
+    /**
+     * 评论赞数
+     */
+    private int likeNum;
+    /**
+     * 评论踩数
+     */
+    private int dislikeNum;
 
     public int getId() {
         return id;
@@ -98,5 +107,29 @@ public class CommentVO {
 
     public void setRoomNum(int roomNum) {
         this.roomNum = roomNum;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public int getLikeNum() {
+        return likeNum;
+    }
+
+    public void setLikeNum(int likeNum) {
+        this.likeNum = likeNum;
+    }
+
+    public int getDislikeNum() {
+        return dislikeNum;
+    }
+
+    public void setDislikeNum(int dislikeNum) {
+        this.dislikeNum = dislikeNum;
     }
 }

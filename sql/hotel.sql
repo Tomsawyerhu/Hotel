@@ -41,6 +41,7 @@ CREATE TABLE `Coupon`
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 3
   DEFAULT CHARSET = utf8;
+
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -64,6 +65,7 @@ COMMIT;
 DROP TABLE IF EXISTS `Hotel`;
 /*!40101 SET @saved_cs_client = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `Hotel`
 (
     `id`          int(11)      NOT NULL AUTO_INCREMENT,
@@ -80,6 +82,7 @@ CREATE TABLE `Hotel`
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 4
   DEFAULT CHARSET = utf8;
+
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 
@@ -119,9 +122,10 @@ CREATE TABLE `OrderList`
     `clientName`   varchar(255)   DEFAULT NULL,
     `phoneNumber`  varchar(255)   DEFAULT NULL,
     `orderState`   varchar(255)   DEFAULT NULL,
+    `hasCommented` tinytext,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 14
+  AUTO_INCREMENT = 15
   DEFAULT CHARSET = utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -132,16 +136,16 @@ CREATE TABLE `OrderList`
 BEGIN;
 INSERT INTO `OrderList`
 VALUES (1, 1, 1, '汉庭酒店', '2020-06-09', '2020-06-10', 'BigBed', 2, 2, 0, '2020-06-02', 398, '测试一号', '12345678901',
-        '已预订');
+        '已预订', 0);
 INSERT INTO `OrderList`
 VALUES (2, 1, 1, '汉庭酒店', '2020-06-08', '2020-06-12', 'DoubleBed', 2, 2, 0, '2020-06-02', 398, '测试一号', '12345678901',
-        '异常');
+        '异常', 0);
 INSERT INTO `OrderList`
 VALUES (3, 1, 2, '儒家酒店', '2020-06-08', '2020-06-12', 'Family', 2, 2, 0, '2020-06-02', 398, '测试一号', '12345678901',
-        '已预订');
+        '已预订', 0);
 INSERT INTO `OrderList`
 VALUES (4, 2, 1, '汉庭酒店', '2020-06-08', '2020-06-12', 'Family', 2, 2, 0, '2020-06-02', 398, '测试一号', '12345678901',
-        '已预订');
+        '已预订', 0);
 COMMIT;
 
 /*!40000 ALTER TABLE `OrderList`
@@ -196,6 +200,7 @@ COMMIT;
 DROP TABLE IF EXISTS `User`;
 /*!40101 SET @saved_cs_client = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
+
 CREATE TABLE `User`
 (
     `id`          int(11)     NOT NULL AUTO_INCREMENT,
@@ -206,13 +211,14 @@ CREATE TABLE `User`
     `credit`      double(255, 0) DEFAULT NULL,
     `usertype`    varchar(255)   DEFAULT NULL,
     `manageho_id` varchar(11)    DEFAULT NULL,
-    `memberType`  varchar(255)   default null,
-    `birthday`    date           default null,
-    `companyName` varchar(255)   default null,
+    `membertype`  varchar(255)   DEFAULT NULL,
+    `birthday`    date           DEFAULT NULL,
+    `companyname` varchar(255)   DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 7
   DEFAULT CHARSET = utf8;
+
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -222,7 +228,6 @@ CREATE TABLE `User`
 BEGIN;
 /*!40000 ALTER TABLE `User`
     DISABLE KEYS */;
-
 INSERT INTO `User`
 VALUES (1, '1@qq.com', '508df4cb2f', '测试一号', '12345678919', 100, 'Client', NULL, NULL, NULL, NULL),
        (2, '11@qq.com', 'e10adc3949', '测试一一号', '12345678919', 100, 'Client', NULL, NULL, NULL, NULL),
@@ -232,6 +237,60 @@ VALUES (1, '1@qq.com', '508df4cb2f', '测试一号', '12345678919', 100, 'Client
 /*!40000 ALTER TABLE `User`
     ENABLE KEYS */;
 COMMIT;
+
+--
+-- Table structure for table `Comment`
+--
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+DROP TABLE IF EXISTS `Comment`;
+/*!40101 SET @saved_cs_client = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Comment`
+(
+    `id`          int(11) NOT NULL AUTO_INCREMENT,
+    `content`     varchar(255) DEFAULT NULL,
+    `hotelId`     int(11) NOT NULL,
+    `orderId`     int(11) NOT NULL,
+    `rate`        int(11)      DEFAULT NULL,
+    `roomNum`     int(11)      DEFAULT NULL,
+    `commentDate` datetime     DEFAULT NULL,
+    `roomType`    varchar(255) DEFAULT NULL,
+    `userName`    varchar(255) DEFAULT NULL,
+    `likeNum`     int(11)      DEFAULT 0,
+    `dislikeNum`  int(11)      DEFAULT 0,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 7
+  DEFAULT CHARSET = utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+BEGIN;
+/*!40000 ALTER TABLE `Comment`
+    DISABLE KEYS */;
+INSERT INTO `Comment`
+VALUES (1, '好评', 1, 1, 5, NULL, '2020-6-13', NULL, '测试一号',0,0),
+       (2, '不好评', 1, 2, 4, NULL, '2020-6-13', NULL, '测试一号',0,0);
+/*!40000 ALTER TABLE `Comment`
+    ENABLE KEYS */;
+COMMIT;
+
+
+DROP TABLE IF EXISTS `CreditHistory`;
+CREATE TABLE `CreditHistory`
+(
+    `id`      int(11)        NOT NULL AUTO_INCREMENT,
+    `user_id` int(11)        NOT NULL,
+    `time`    date DEFAULT NULL,
+    `value`   double(255, 0) NOT NULL,
+    `type`    int(11)        NOT NULL,
+    `message` varchar(255),
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8;
+
 /*!40103 SET TIME_ZONE = @OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE = @OLD_SQL_MODE */;

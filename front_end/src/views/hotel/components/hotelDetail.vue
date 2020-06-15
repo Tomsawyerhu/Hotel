@@ -50,7 +50,7 @@
                         </OrderList>
                     </a-tab-pane>
                     <a-tab-pane tab="住客评论" key="3">
-                        <CommentList></CommentList>
+                        <CommentList :hotel-comment-list="hotelCommentList"></CommentList>
                     </a-tab-pane>
                 </a-tabs>
             </div>
@@ -58,7 +58,7 @@
     </a-layout>
 </template>
 <script>
-    import { mapGetters, mapActions, mapMutations } from 'vuex'
+    import {mapGetters, mapActions, mapMutations} from 'vuex'
     import RoomList from './roomList'
     import OrderList from '@/views/order/components/userOrderList'
     import CommentList from './commentList'
@@ -72,9 +72,7 @@
             CommentList,
         },
         data() {
-            return {
-
-            }
+            return {}
         },
         computed: {
             ...mapGetters([
@@ -82,14 +80,16 @@
                 'userInfo',
                 'currentHotelId',
                 'userId',
-                'userOrdersInCertainHotel'
+                'userOrdersInCertainHotel',
+                'hotelCommentList',
             ])
         },
         mounted() {
             this.set_currentHotelId(Number(this.$route.params.hotelId))
             //console.log("hotelId in mounted "+this.currentHotelId)
             this.getHotelById()
-            this.getUserOrdersInCertainHotel({userId:this.userId,hotelId:this.currentHotelId}) //加载客户在该酒店的历史订单
+            this.getUserOrdersInCertainHotel({userId: this.userId, hotelId: this.currentHotelId}) //加载客户在该酒店的历史订单
+            this.getHotelCommentList(Number(this.$route.params.hotelId)) //加载酒店评论列表
         },
         beforeRouteUpdate(to, from, next) {
             this.set_currentHotelId(Number(to.params.hotelId))
@@ -103,7 +103,8 @@
             ]),
             ...mapActions([
                 'getHotelById',
-                'getUserOrdersInCertainHotel'
+                'getUserOrdersInCertainHotel',
+                'getHotelCommentList',
             ]),
         }
     }
@@ -112,23 +113,28 @@
     .hotelDetailCard {
         padding: 50px 50px;
     }
+
     .hotel-info {
         display: flex;
         align-items: stretch;
         justify-content: flex-start;
-        .info{
+
+        .info {
             padding: 10px 0;
             display: flex;
             flex-direction: column;
             margin-left: 20px;
+
             .items {
                 display: flex;
                 align-items: center;
                 margin-bottom: 10px;
-                .label{
+
+                .label {
                     margin-right: 10px;
                     font-size: 18px;
                 }
+
                 .value {
                     margin-right: 15px
                 }

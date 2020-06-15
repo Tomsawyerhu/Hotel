@@ -24,6 +24,7 @@ public class Order {
     private String orderState;
     private boolean hasCommented;
 
+
     public Integer getId() {
         return id;
     }
@@ -151,4 +152,6 @@ public class Order {
     public void setHasCommented(boolean hasCommented) {
         this.hasCommented = hasCommented;
     }
+
+
 }

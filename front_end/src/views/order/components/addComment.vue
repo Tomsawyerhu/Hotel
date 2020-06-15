@@ -47,6 +47,7 @@
                 'addCommentVisible',
                 'currentOrderId',
                 'currentOrderInfo',
+                'userInfo'
             ]),
 
         },
@@ -66,6 +67,9 @@
                             roomNum: this.currentOrderInfo.roomNum,
                             roomType: this.currentOrderInfo.roomType,
                             hotelId: this.currentOrderInfo.hotelId,
+                            userName: this.userInfo.userName,
+                            likeNum: 0,
+                            dislikeNum: 0
                         }
                         this.addComment(data).then(()=>{
                             message.success("评价成功")

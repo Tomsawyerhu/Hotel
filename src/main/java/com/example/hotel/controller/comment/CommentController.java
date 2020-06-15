@@ -23,4 +23,25 @@ public class CommentController {
         return ResponseVO.buildSuccess(commentService.addComment(commentVO));
     }
 
+    @PostMapping("/{commentId}/addLikeNum")
+    public ResponseVO addCommentLikeNum(@PathVariable int commentId){
+        return ResponseVO.buildSuccess(commentService.addCommentLikeNum(commentId));
+    }
+
+    @PostMapping("/{commentId}/addDislikeNum")
+    public ResponseVO addCommentDislikeNum(@PathVariable int commentId){
+        return ResponseVO.buildSuccess(commentService.addCommentDislikeNum(commentId));
+    }
+    @PostMapping("/{commentId}/subLikeNum")
+    public ResponseVO subCommentLikeNum(@PathVariable int commentId){
+        return ResponseVO.buildSuccess(commentService.subCommentLikeNum(commentId));
+    }
+    @PostMapping("/{commentId}/subDislikeNum")
+    public ResponseVO subCommentDislikeNum(@PathVariable int commentId){
+        return ResponseVO.buildSuccess(commentService.subCommentDislikeNum(commentId));
+    }
+    @GetMapping("/{commentId}/getComment")
+    public ResponseVO getCommentById(@PathVariable int commentId){
+        return ResponseVO.buildSuccess(commentService.getCommentById(commentId));
+    }
 }

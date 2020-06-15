@@ -1,12 +1,12 @@
 <template>
     <div>
-        <div v-if="isEmpty(this.hotelCommentList)" class="head-message">暂无留言内容</div>
-        <div v-else>
-            <div class="head-message">留言内容</div>
-            <a-list
-                    :datasource="hotelCommentList"
-            ></a-list>
-        </div>
+        <a-list
+                :dataSource="hotelCommentList"
+        >
+            <a-list-item slot="renderItem" slot-scope="item">
+                <comment :comment-item="item"></comment>
+            </a-list-item>
+        </a-list>
     </div>
 </template>
 
@@ -20,31 +20,22 @@
             Comment
         },
         data() {
-            return {
+            return {}
+        },
+        props: {
+            hotelCommentList: {
+                type: Array
             }
         },
         computed: {
-            ...mapGetters([
-                'hotelCommentList',
-                'currentHotelId',
-            ])
+            ...mapGetters(['currentComment'])
         },
         mounted() {
-            this.getHotelCommentList(this.currentHotelId)
+
         },
         methods: {
-            ...mapMutations([
-
-            ]),
-            ...mapActions([
-                'getHotelCommentList',
-            ]),
-            isEmpty(data){
-                console.log("in isEmpty")
-                console.log(data)
-                console.log(data[0])
-                return data.length===0
-            },
+            ...mapMutations([]),
+            ...mapActions([]),
         }
 
     }
