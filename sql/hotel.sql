@@ -78,6 +78,7 @@ CREATE TABLE `Hotel`
     `phoneNum`    int(11)      DEFAULT NULL,
     `rate`        double       DEFAULT NULL,
     `managerId`   int(11)      DEFAULT NULL,
+    `pictureUrl` varchar(255) DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 4
@@ -89,11 +90,12 @@ CREATE TABLE `Hotel`
 BEGIN;
 /*!40000 ALTER TABLE `Hotel`
     DISABLE KEYS */;
+
 INSERT INTO `Hotel`
-VALUES (1, '汉庭酒店', '欢迎您入住', NULL, 'XiDan', 'Four', 1829373819, 4.8, NULL),
-       (2, '儒家酒店', '欢迎您入住', '南京市鼓楼区珠江路268号', 'XiDan', 'Four', 1829373819, 4.8, 3),
-       (3, '桂圆酒店', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Four', 1829553719, 4.8, NULL),
-       (4, '67大酒店', '欢迎您入住', '江苏省无锡市梁溪区67大街101号', 'XiDan', 'Five', 1829373819, 5, NULL);
+VALUES (1, '汉庭酒店', '欢迎您入住', NULL, 'XiDan', 'Four', 1829373819, 4.8, NULL,NULL),
+       (2, '儒家酒店', '欢迎您入住', '南京市鼓楼区珠江路268号', 'XiDan', 'Four', 1829373819, 4.8, 3,NULL),
+       (3, '桂圆酒店', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Four', 1829553719, 4.8, NULL,NULL),
+       (4, '67大酒店', '欢迎您入住', '江苏省无锡市梁溪区67大街101号', 'XiDan', 'Five', 1829373819, 5, NULL,NULL);
 /*!40000 ALTER TABLE `Hotel`
     ENABLE KEYS */;
 COMMIT;
@@ -224,7 +226,7 @@ CREATE TABLE `User` (
 
 BEGIN;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES (1,'1@qq.com','508df4cb2f','测试一号','12345678919',100,'Client',NULL,NULL,NULL,NULL),(2,'11@qq.com','e10adc3949','测试一一号','12345678919',100,'Client',NULL,NULL,NULL,NULL),(3,'2@qq.com','e10adc3949','测试二号','12345678911',100,'HotelManager',1,NULL,NULL,NULL),(4,'3@qq.com','e10adc3949','测试三号',NULL,NULL,'Admin',NULL,NULL,NULL,NULL),(5,'4@qq.com','e10adc3949','测试四号',NULL,NULL,'MarketingStaff',NULL,NULL,NULL,NULL);
+INSERT INTO `User` VALUES (1,'1@qq.com','508df4cb2f','测试一号','12345678919',100,'Client',NULL,NULL,NULL,NULL),(2,'11@qq.com','e10adc3949','测试一一号','12345678919',100,'Client',NULL,NULL,NULL,NULL),(3,'2@qq.com','e10adc3949','测试二号','12345678911',100,'HotelManager',2,NULL,NULL,NULL),(4,'3@qq.com','e10adc3949','测试三号',NULL,NULL,'Admin',NULL,NULL,NULL,NULL),(5,'4@qq.com','e10adc3949','测试四号',NULL,NULL,'MarketingStaff',NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 COMMIT;
 

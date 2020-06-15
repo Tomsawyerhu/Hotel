@@ -3,16 +3,27 @@
         <a-layout-content>
             <div class="hotelDetailCard">
                 <h1>
-                    {{ currentHotelInfo.title }}
+                    {{ currentHotelInfo}}
                 </h1>
                 <div class="hotel-info">
-                    <a-card style="width: 240px">
+                    <a-card style="height:1px; width: 1024px" v-if="modify">
+                        <p>
+                            <a-textarea
+                                    placeholder="请填写酒店照片url"
+                                    v-model="value"></a-textarea>
+                        </p>
+                    </a-card>
+                    <a-card style="width: 240px" v-else-if="!modify">
                         <img
                                 alt="example"
-                                src="@/assets/cover.jpeg"
+                                :src="currentHotelInfo.pictureUrl"
                                 slot="cover"
                                 referrerPolicy="no-referrer"
+                                v-if="currentHotelInfo.pictureUrl!=null"
                         />
+                        <p v-else>
+                            还未设置照片
+                        </p>
                     </a-card>
                     <a-form :form="form" class="info">
                         <a-form-item label="酒店名称" class="items">
@@ -123,6 +134,7 @@
         },
         data() {
             return {
+                value:'',
                 modify:false,
                 form: this.$form.createForm(this, {name: 'coordinated'}),
             }
@@ -130,7 +142,6 @@
         computed: {
             ...mapGetters([
                 'currentHotelInfo',
-                'descEditVisible',
                 'userInfo'
             ])
         },
@@ -161,9 +172,6 @@
                 this.getHotelCoupon()
                 this.set_couponVisible(true)
             },
-            edit(){
-                this.set_descEditVisible(true)
-            },
             modifyBegin() {
                 setTimeout(() => {
                     this.form.setFieldsValue({
@@ -173,6 +181,7 @@
                     })
                 }, 0)
                 this.modify = true
+                this.value=this.currentHotelInfo.pictureUrl
             },
             modifyFinish() {
                 this.form.validateFields((err, values) => {
@@ -187,8 +196,10 @@
                             description:this.form.getFieldValue('hotelDescription'),
                             phoneNumber:this.currentHotelInfo.phoneNumber,
                             managerId:this.currentHotelInfo.managerId,
+                            pictureUrl:this.value,
                             rooms:this.currentHotelInfo.rooms
                         }
+                        console.log(data.pictureUrl)
                         this.$store.dispatch('updateHotelInfo',data)
                         this.modify=false
                     }

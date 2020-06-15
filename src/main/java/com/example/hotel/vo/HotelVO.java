@@ -17,6 +17,7 @@ public class HotelVO {
     private String description;
     private String phoneNum;
     private Integer managerId;
+    private String pictureUrl;
 
     private List<RoomVO> rooms;
 
@@ -98,5 +99,13 @@ public class HotelVO {
 
     public void setManagerId(Integer managerId) {
         this.managerId = managerId;
+    }
+
+    public String getPictureUrl() {
+        return pictureUrl;
+    }
+
+    public void setPictureUrl(String PictureUrl) {
+        this.pictureUrl = PictureUrl;
     }
 }

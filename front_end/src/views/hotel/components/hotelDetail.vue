@@ -3,16 +3,20 @@
         <a-layout-content>
             <div class="hotelDetailCard">
                 <h1>
-                    {{ currentHotelInfo.title }}
+                    {{ currentHotelInfo }}
                 </h1>
                 <div class="hotel-info">
                     <a-card style=" width: 240px">
                         <img
                                 alt="example"
-                                src="@/assets/cover.jpeg"
+                                :src="currentHotelInfo.pictureUrl"
                                 slot="cover"
                                 referrerPolicy="no-referrer"
+                                v-if="currentHotelInfo.pictureUrl!=null"
                         />
+                        <p v-else>
+                        该酒店未上传照片
+                        </p>
                     </a-card>
                     <div class="info">
                         <div class="items" v-if="currentHotelInfo.name">
@@ -73,7 +77,7 @@
         },
         data() {
             return {
-
+                pictureUrl: ""
             }
         },
         computed: {
