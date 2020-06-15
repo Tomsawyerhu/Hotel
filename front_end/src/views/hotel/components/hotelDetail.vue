@@ -9,9 +9,17 @@
                     <a-card style=" width: 240px">
                         <img
                                 alt="example"
+                                :src="currentHotelInfo.pictureUrl"
+                                slot="cover"
+                                referrerPolicy="no-referrer"
+                                v-if="currentHotelInfo.pictureUrl!=null"
+                        />
+                        <img
+                                alt="example"
                                 src="@/assets/cover.jpeg"
                                 slot="cover"
                                 referrerPolicy="no-referrer"
+                                v-else
                         />
                     </a-card>
                     <div class="info">
@@ -72,7 +80,9 @@
             CommentList,
         },
         data() {
-            return {}
+            return {
+                pictureUrl: ""
+            }
         },
         computed: {
             ...mapGetters([

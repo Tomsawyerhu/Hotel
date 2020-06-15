@@ -1,26 +1,16 @@
-package com.example.hotel.po;
+package com.example.hotel.vo;
 
 import java.util.Date;
 
-public class CreditHistory {
-    private int id;
+public class CreditHistoryOutVO {
     private int userId;
-    private String time;
     private double value;
     private int  type;
     private String message;
+    private String time;
 
-    public CreditHistory() {
+    public CreditHistoryOutVO() {
     }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public int getUserId() {
         return userId;
     }
@@ -29,13 +19,6 @@ public class CreditHistory {
         this.userId = userId;
     }
 
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
 
     public double getValue() {
         return value;
@@ -59,5 +42,13 @@ public class CreditHistory {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 }

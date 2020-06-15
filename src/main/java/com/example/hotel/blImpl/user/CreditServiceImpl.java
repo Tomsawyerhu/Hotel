@@ -6,11 +6,13 @@ import com.example.hotel.data.user.CreditHistoryMapper;
 import com.example.hotel.po.CreditHistory;
 import com.example.hotel.po.User;
 import com.example.hotel.vo.CreditHistoryVO;
+import com.example.hotel.vo.CreditHistoryOutVO;
 import com.example.hotel.vo.ResponseVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,9 +27,9 @@ public class CreditServiceImpl implements CreditService {
     @Override
     public ResponseVO getCreditHistoriesByUserId(int userId) {
         List<CreditHistory> list=creditHistoryMapper.getCreditHistoriesByUserId(userId);
-        List<CreditHistoryVO> voList=new ArrayList<>();
+        List<CreditHistoryOutVO> voList=new ArrayList<>();
         for(CreditHistory creditHistory:list){
-            CreditHistoryVO vo=new CreditHistoryVO();
+            CreditHistoryOutVO vo=new CreditHistoryOutVO();
             BeanUtils.copyProperties(creditHistory,vo);
             voList.add(vo);
         }
@@ -41,7 +43,11 @@ public class CreditServiceImpl implements CreditService {
         creditHistory.setType(type);
         creditHistory.setValue(value);
         creditHistory.setMessage(message);
-        creditHistory.setTime(new Date());
+        Date currentTime = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateString = formatter.format(currentTime);
+        //System.out.println(dateString);
+        creditHistory.setTime(dateString);
 
         creditHistoryMapper.insertCreditHistory(creditHistory);
         return ResponseVO.buildSuccess();

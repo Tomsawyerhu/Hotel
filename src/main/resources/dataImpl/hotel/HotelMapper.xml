@@ -15,7 +15,7 @@
         select * from Hotel where id=#{id}
     </select>
     <update id="updateHotelInfo">
-        update Hotel set description =#{describe},hotelName=#{name},address=#{address} where id=#{hotelId}
+        update Hotel set description =#{describe},hotelName=#{name},address=#{address},pictureUrl=#{pictureUrl} where id=#{hotelId}
     </update>
 
     <update id="updateHotelManager">
@@ -45,7 +45,7 @@
         <result column="phoneNum" property="phoneNum"></result>
         <result column="rate" property="rate"></result>
         <result column="managerId" property="managerId"></result>
-
+        <result column="pictureUrl" property="pictureUrl"></result>
     </resultMap>
 
 

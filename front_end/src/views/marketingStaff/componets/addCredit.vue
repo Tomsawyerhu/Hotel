@@ -64,14 +64,14 @@
                         this.addCredit(data).then(()=>{
                             this.form.resetFields()
                         })
-                        this.$store.dispatch('getUserInfoByEmail',data.userEmail)
+                        this.getUserInfoByEmail(data.userEmail).then(()=>
+                            this.addCreditHistory({
+                                userId: this.currentAccountId,
+                                value: data.amount,
+                                type: 1,
+                                message: "网站营销人员帮您充值了信用值"
+                            }))
                         console.log(this.currentAccountId)
-                        this.addCreditHistory({
-                            userId: this.currentAccountId,
-                            value: data.amount,
-                            type: 1,
-                            message: "网站营销人员帮您充值了信用值"
-                        })
                     }
                 })
             },

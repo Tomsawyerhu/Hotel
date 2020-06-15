@@ -3,15 +3,23 @@
         <a-layout-content>
             <div class="hotelDetailCard">
                 <h1>
-                    {{ currentHotelInfo.title }}
+                    {{ currentHotelInfo.title}}
                 </h1>
                 <div class="hotel-info">
-                    <a-card style="width: 240px">
+                    <a-card style="width: 240px" v-if="!modify">
                         <img
                                 alt="example"
-                                src="@/assets/cover.jpeg"
+                                :src="currentHotelInfo.pictureUrl"
                                 slot="cover"
                                 referrerPolicy="no-referrer"
+                                v-if="currentHotelInfo.pictureUrl!=null"
+                        />
+                        <img
+                        alt="example"
+                        src="@/assets/cover.jpeg"
+                        slot="cover"
+                        referrerPolicy="no-referrer"
+                        v-else
                         />
                     </a-card>
                     <a-form :form="form" class="info">
@@ -42,6 +50,13 @@
                             <a-input
                                     placeholder="请填写酒店简介"
                                     v-decorator="['hotelDescription', { rules: [{ required: true, message: '请输入酒店简介' }] }]"
+                                    v-if="modify" >
+                            </a-input>
+                        </a-form-item>
+                        <a-form-item label="酒店照片" class="items">
+                            <a-input
+                                    placeholder="请填写酒店照片url"
+                                    v-model="value"
                                     v-if="modify" >
                             </a-input>
                         </a-form-item>
@@ -205,6 +220,7 @@
         },
         data() {
             return {
+                value:'',
                 modify:false,
                 form: this.$form.createForm(this, {name: 'coordinated'}),
                 columns2,
@@ -271,9 +287,6 @@
                 this.getHotelCoupon()
                 this.set_couponVisible(true)
             },
-            edit(){
-                this.set_descEditVisible(true)
-            },
             modifyBegin() {
                 setTimeout(() => {
                     this.form.setFieldsValue({
@@ -283,6 +296,7 @@
                     })
                 }, 0)
                 this.modify = true
+                this.value=this.currentHotelInfo.pictureUrl
             },
             modifyFinish() {
                 this.form.validateFields((err, values) => {
@@ -297,8 +311,10 @@
                             description:this.form.getFieldValue('hotelDescription'),
                             phoneNumber:this.currentHotelInfo.phoneNumber,
                             managerId:this.currentHotelInfo.managerId,
+                            pictureUrl:this.value,
                             rooms:this.currentHotelInfo.rooms
                         }
+                        console.log(data.pictureUrl)
                         this.$store.dispatch('updateHotelInfo',data)
                         this.modify=false
                     }

@@ -17,6 +17,7 @@ const hotelManager = {
             description:'',
             phoneNum:'',
             managerId:'',
+            pictureUrl:''
         },
         addHotelModalVisible: false,
         addRoomParams: {
@@ -104,6 +105,7 @@ const hotelManager = {
                     description:'',
                     phoneNum:'',
                     managerId:'',
+                    pictureUrl:''
                 })
                 commit('set_addHotelModalVisible', false)
                 message.success('添加成功')

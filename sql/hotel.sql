@@ -78,6 +78,7 @@ CREATE TABLE `Hotel`
     `phoneNum`    int(11)      DEFAULT NULL,
     `rate`        double       DEFAULT NULL,
     `managerId`   int(11)      DEFAULT NULL,
+    `pictureUrl` varchar(255) DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 4
@@ -89,11 +90,12 @@ CREATE TABLE `Hotel`
 BEGIN;
 /*!40000 ALTER TABLE `Hotel`
     DISABLE KEYS */;
+
 INSERT INTO `Hotel`
-VALUES (1, '汉庭酒店', '欢迎您入住', NULL, 'XiDan', 'Four', 1829373819, 4.8, NULL),
-       (2, '儒家酒店', '欢迎您入住', '南京市鼓楼区珠江路268号', 'XiDan', 'Four', 1829373819, 4.8, 3),
-       (3, '桂圆酒店', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Four', 1829553719, 4.8, NULL),
-       (4, '67大酒店', '欢迎您入住', '江苏省无锡市梁溪区67大街101号', 'XiDan', 'Five', 1829373819, 5, NULL);
+VALUES (1, '汉庭酒店', '欢迎您入住', NULL, 'XiDan', 'Four', 1829373819, 4.8, NULL,NULL),
+       (2, '儒家酒店', '欢迎您入住', '南京市鼓楼区珠江路268号', 'XiDan', 'Four', 1829373819, 4.8, 3,NULL),
+       (3, '桂圆酒店', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Four', 1829553719, 4.8, NULL,NULL),
+       (4, '67大酒店', '欢迎您入住', '江苏省无锡市梁溪区67大街101号', 'XiDan', 'Five', 1829373819, 5, NULL,NULL);
 /*!40000 ALTER TABLE `Hotel`
     ENABLE KEYS */;
 COMMIT;
@@ -226,6 +228,7 @@ CREATE TABLE `User`
 --
 
 BEGIN;
+<<<<<<< HEAD
 /*!40000 ALTER TABLE `User`
     DISABLE KEYS */;
 INSERT INTO `User`
@@ -278,13 +281,12 @@ COMMIT;
 
 
 DROP TABLE IF EXISTS `CreditHistory`;
-CREATE TABLE `CreditHistory`
-(
-    `id`      int(11)        NOT NULL AUTO_INCREMENT,
-    `user_id` int(11)        NOT NULL,
-    `time`    date DEFAULT NULL,
-    `value`   double(255, 0) NOT NULL,
-    `type`    int(11)        NOT NULL,
+CREATE TABLE `CreditHistory`(
+    `id`   int(11) NOT NULL AUTO_INCREMENT,
+    `user_id`   int(11) NOT NULL ,
+    `time` varchar(255) DEFAULT NULL,
+    `value` double(255,0) NOT NULL ,
+    `type` int(11) NOT NULL ,
     `message` varchar(255),
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB

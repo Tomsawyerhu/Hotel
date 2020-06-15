@@ -1,12 +1,20 @@
 <template>
     <div class="info">
-        <a-table
-                :columns="columns"
-                :dataSource="creditList"
-                bordered
-        >
+        <!--{{creditList}}-->
+        <a-timeline pending="Recording..." >
+            <a-timeline-item v-for="(item,i) in creditList" :key="i">
+                <p>
+                    <a-icon type="plus" spin="true" v-if="item.type==1"/>
+                    <a-icon type="minus" spin="true" v-else/>
+                    <span>{{item.message}}</span>
 
-        </a-table>
+                </p>
+
+                <p>时间:{{item.time}}</p>
+                <p>修改大小:{{item.value}}</p>
+            </a-timeline-item>
+
+        </a-timeline>
     </div>
 </template>
 
@@ -15,26 +23,12 @@
 <script>
     import {mapActions, mapGetters, mapMutations} from 'vuex'
 
-    const columns=[
-        {
-            title:'类型',
-            dataIndex:'type'
-        },
-        {
-            title: '修改的信用值大小',
-            dataIndex: 'value',
-        },
-        {
-            title: '信息',
-            dataIndex: 'message',
-        },
-    ]
+
 
     export default {
         name: "creditInfo",
         data(){
             return {
-                columns
             }
         },
         props:{
